@@ -1,17 +1,16 @@
 // This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8762/dvdtheque',
-  websocketApiUrl: 'ws://localhost:8762/dvdtheque/websocket',
-  authApi: 'http://localhost:8080/api/auth/',
-  configFile: 'assets/config/config.dev.json'
+  environmentName: 'dev',
+  authApi: 'http://192.168.1.105:8080/api/auth/',
   // apiUrl: 'http://localhost:8083/dvdtheque',
   // websocketApiUrl: 'ws://localhost:8083/dvdtheque/websocket',
-  // apiUrl: 'http://192.168.1.101:8762/dvdtheque',
-  // websocketApiUrl: 'ws://192.168.1.101:8762/dvdtheque/websocket'
+  configFile: 'assets/config/config.dev.json',
+  apiUrl: 'http://192.168.1.105:8762/dvdtheque-service',
+  websocketApiUrl: 'ws://192.168.1.105:8762/dvdtheque-ws/websocket'
 };
 
 /*
@@ -21,4 +20,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
