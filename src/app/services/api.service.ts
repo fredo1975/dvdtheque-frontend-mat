@@ -1,6 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { FilmListParam } from '../model/film-list-param';
+import { Personne } from '../model/personne';
+import { Film } from '../model/film';
+import { Genre } from '../model/genre';
+import { Origine } from '../model/origine';
+import { FicheFilm } from '../model/fiche-film';
+import * as FileSaver from 'file-saver';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
+const encodedAuth = window.localStorage.getItem('encodedAuth');
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Injectable({
   providedIn: 'root'
@@ -139,3 +155,7 @@ export class ApiService {
     FileSaver.saveAs(blob, fileName);
   }
 }
+function tap(arg0: (_: any) => void): import("rxjs").OperatorFunction<Object, any> {
+  throw new Error('Function not implemented.');
+}
+
