@@ -1,0 +1,5 @@
+{
+    "KEYCLOAK_URL": "http://192.168.1.105:8080",
+    "KEYCLOAK_REALM": "dvdtheque-dev",
+    "KEYCLOAK_CLIENT_ID": "dvdtheque-web"
+}
