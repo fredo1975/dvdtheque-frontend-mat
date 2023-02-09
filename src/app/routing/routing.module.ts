@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { FilmListComponent } from '../film-list/film-list.component';
+import { AuthGuard } from '../guard/auth.guard';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/filmList', pathMatch: 'full' },
-  { path: 'filmList', component: FilmListComponent/*, canActivate: [AuthGuard]*/ },/*
+  { path: 'filmList', component: FilmListComponent, canActivate: [AuthGuard]},/*
   { path: 'filmSearchDisplay', component: FilmSearchDisplayComponent, canActivate: [AuthGuard] },
   { path: 'filmDetail/:id', component: FilmDetailComponent, canActivate: [AuthGuard] },
   { path: 'filmAdd', component: FilmAddComponent, canActivate: [AuthGuard] },
