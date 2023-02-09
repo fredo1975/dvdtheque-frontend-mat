@@ -1,3 +1,5 @@
+import { CritiquePresse } from "./critique-presse";
+
 export interface FicheFilm {
     id: number;
     allocineFilmId: number;

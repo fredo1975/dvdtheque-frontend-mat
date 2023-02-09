@@ -18,7 +18,8 @@ export function initializeKeycloak(keycloak: KeycloakService, configService: Con
             },
             initOptions: {
               onLoad: 'check-sso',
-              checkLoginIframe: false
+              silentCheckSsoRedirectUri:
+                window.location.origin + '/assets/silent-check-sso.html'
             }
           }))
         })

@@ -15,7 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeFrExtra from '@angular/common/locales/extra/fr';
-
+import { initializeKeycloak } from './init/keycloak-init.factory';
+/*
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
@@ -30,7 +31,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
           window.location.origin + '/assets/silent-check-sso.html'
       }
     });
-}
+}*/
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -52,7 +53,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     provide: APP_INITIALIZER,
     useFactory: initializeKeycloak,
     multi: true,
-    deps: [KeycloakService],
+    deps: [KeycloakService, ConfigInitService],
   }],
   bootstrap: [AppComponent]
 })
