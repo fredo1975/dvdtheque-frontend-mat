@@ -1,1 +1,23 @@
-<p>film-list works!</p>
+<div class="alert alert-danger" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+  </div>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+<div>
+    <table class="mat-table">
+        <thead>
+            <tr class="mat-header-row">
+                <th class='mat-header-cell'>Id</th>
+                <th class='mat-header-cell'>Titre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="mat-row" *ngFor="let film of films">
+                <td class="mat-cell">{{film.id}}</td>
+                <td class="mat-cell">{{film.titre}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator #paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
+ 
+    </mat-paginator>
+</div>

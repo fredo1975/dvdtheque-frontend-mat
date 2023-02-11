@@ -16,22 +16,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import localeFrExtra from '@angular/common/locales/extra/fr';
 import { initializeKeycloak } from './init/keycloak-init.factory';
-/*
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak.init({
-      config: {
-        url: 'http://localhost:8080/auth',
-        realm: 'dvdtheque',
-        clientId: 'dvdtheque-web'
-      },
-      initOptions: {
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri:
-          window.location.origin + '/assets/silent-check-sso.html'
-      }
-    });
-}*/
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -48,6 +33,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatButtonModule,
     KeycloakAngularModule,
     HttpClientModule,
+    MatPaginatorModule,
+    Matspin
   ],
   providers: [{
     provide: APP_INITIALIZER,

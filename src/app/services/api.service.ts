@@ -8,6 +8,7 @@ import { Genre } from '../model/genre';
 import { Origine } from '../model/origine';
 import { FicheFilm } from '../model/fiche-film';
 import * as FileSaver from 'file-saver';
+import { Page } from '../model/page';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -149,7 +150,11 @@ export class ApiService {
     params = params.append('query', query).append('offset', offset.toString()).append('limit', limit.toString()).append('sort', sort);
     return this.http.get<Film[]>(this.backendUrl + '/films/search', { params: params });
   }
-
+  paginatedSarch(query: string,offset: number, limit: number,sort: string): Observable<Page>{
+    let params = new HttpParams();
+    params = params.append('query', query).append('offset', offset.toString()).append('limit', limit.toString()).append('sort', sort);
+    return this.http.get<Page>(this.backendUrl + '/films/paginatedSarch', { params: params });
+  }
   saveAsExcelFile(data: any, fileName: string): void {
     const blob: Blob = new Blob([data], { type: EXCEL_TYPE });
     FileSaver.saveAs(blob, fileName);

@@ -5,6 +5,7 @@ import { Film } from '../model/film';
 import { FilmListParam } from '../model/film-list-param';
 import { Genre } from '../model/genre';
 import { Origine } from '../model/origine';
+import { Page } from '../model/page';
 import { Personne } from '../model/personne';
 import { ApiService } from './api.service';
 
@@ -132,7 +133,9 @@ export class FilmService {
   search(query: string, offset: number, limit: number,sort: string): Observable<Film[]>{
     return this.apiService.search(query,offset,limit, sort);
   }
-
+  paginatedSarch(query: string, offset: number, limit: number,sort: string): Observable<Page>{
+    return this.apiService.paginatedSarch(query,offset,limit, sort);
+  }
   saveAsExcelFile(data: any, fileName: string): void {
     this.apiService.saveAsExcelFile(data,fileName);
   }
