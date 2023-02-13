@@ -4,28 +4,27 @@ import { Genre } from "./genre";
 import { Origine } from "./origine";
 import { Personne } from "./personne";
 
-export class Film {
-    constructor(public id: number,
-        public titre: string,
-        public titreO: string,
-        public annee: number,
-        public dateSortie: Date,
-        public dateInsertion: Date,
-        public vu: boolean,
-        public realisateur: Personne[],
-        public acteur: Personne[],
-        public critiquePresse: CritiquePresse[],
-        public genre: Genre[],
-        public dvd: Dvd,
-        public posterPath: string,
-        public alreadyInDvdtheque: boolean,
-        public tmdbId: number,
-        public overview: string,
-        public runtime: number,
-        public homepage: string,
-        public origine: Origine,
-        public dateMaj: Date,
-        public dateVue: Date,
-        public allocineFicheFilmId: number) {
-    }
+export interface Film {
+    id: number,
+    titre: string,
+    titreO: string,
+    annee: number,
+    dateSortie: Date,
+    dateInsertion: Date,
+    vu: boolean,
+    realisateur: Personne[],
+    acteur: Personne[],
+    critiquePresse: CritiquePresse[],
+    genre: Genre[],
+    dvd: Dvd,
+    posterPath: string,
+    alreadyInDvdtheque: boolean,
+    tmdbId: number,
+    overview: string,
+    runtime: number,
+    homepage: string,
+    origine: Origine,
+    dateMaj: Date,
+    dateVue: Date,
+    allocineFicheFilmId: number
 }

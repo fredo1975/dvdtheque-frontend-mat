@@ -1,3 +1,7 @@
 export enum Origine {
-    DVD, EN_SALLE, TV, GOOGLE_PLAY, TOUS
+    DVD = 'DVD', 
+    EN_SALLE = 'EN_SALLE', 
+    TV = 'TV', 
+    GOOGLE_PLAY = 'GOOGLE_PLAY', 
+    TOUS = 'TOUS'
 }

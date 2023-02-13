@@ -1,23 +1,38 @@
-<div class="alert alert-danger" *ngIf="errorOccured">
+<div class="errorDiv" *ngIf="errorOccured">
     <strong>une erreur est survenue</strong>
-  </div>
-  <mat-spinner *ngIf="loading"></mat-spinner>
-<div>
-    <table class="mat-table">
-        <thead>
-            <tr class="mat-header-row">
-                <th class='mat-header-cell'>Id</th>
-                <th class='mat-header-cell'>Titre</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="mat-row" *ngFor="let film of films">
-                <td class="mat-cell">{{film.id}}</td>
-                <td class="mat-cell">{{film.titre}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <mat-paginator #paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="10" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="myDiv">
+    <mat-grid-list cols="10" rowHeight="95px">
+        <mat-grid-tile 
+            class="grid-tile"
+            *ngFor="let film of films"
+            [colspan]="1"
+            [rowspan]="4">
+        
+            <mat-card class="film-card">
+                <a routerLink="/filmDetail/{{film.id}}" title="{{film.titre}}">
+                    <img mat-card-image src="{{film.posterPath}}" width="200px" height="305px" class="film-header-image" alt="{{film.titre}}">
+                </a>
+                <mat-card-footer>
+                    Durée : {{film.runtime}}
+                    
+                    <div *ngIf="film.origine === dvdOrigineEnum && film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
+                        src="assets/img/ok.png" class="img ripped"><br />
+                    </div>
+                    <div *ngIf="film.origine === dvdOrigineEnum && !film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
+                        src="assets/img/ko.png" class="img ripped"><br />
+                    </div>
+                    <div *ngIf="film.origine != dvdOrigineEnum">{{film.origine}}</div>
+                    <div *ngIf="film.vu">Vu : &nbsp;<img src="assets/img/ok.png" class="img ripped"></div>
+                    <div *ngIf="!film.vu">Vu : &nbsp;<img src="assets/img/ko.png" class="img ripped"></div>
+                </mat-card-footer>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+<div class="myDiv">
+    <mat-paginator #paginator [pageSizeOptions]="[12, 25, 100]" [pageSize]="12" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
  
     </mat-paginator>
 </div>

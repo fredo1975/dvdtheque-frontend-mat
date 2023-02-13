@@ -3,6 +3,7 @@ import { Film } from '../model/film';
 import { Page } from '../model/page';
 import { FilmService } from '../services/film.service';
 import {PageEvent} from '@angular/material/paginator';
+import { Origine } from '../model/origine';
 
 @Component({
   selector: 'app-film-list',
@@ -13,14 +14,17 @@ export class FilmListComponent implements OnInit{
   films: Film[] = [];
   loading: boolean;
   errorOccured: boolean;
-  pageEvent: PageEvent;
   totalElements: number = 0;
+  displayedColumns: string[] = ['id', 'titre'];
+  Origine = Origine;
+  readonly dvdOrigineEnum = Origine.DVD
+
   constructor(protected filmService: FilmService) { 
     //this.films = [];
   }
   ngOnInit(): void {
     console.log('FilmListComponent::ngOnInit');
-    this.getFilms({query:'', pageIndex:1, pageSize:10, sort:''});
+    this.getFilms({query:'', pageIndex:1, pageSize:12, sort:''});
   }
 
   private getFilms(request: any) {
@@ -41,8 +45,7 @@ export class FilmListComponent implements OnInit{
       });
   }
   handlePageEvent(e: PageEvent) {
-    console.log(e);
-    this.pageEvent = e;
+    //console.log(e);
     this.getFilms({query:'', pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:''});
   }
 }

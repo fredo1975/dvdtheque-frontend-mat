@@ -5,3 +5,7 @@
 .bg-dark {
     background-color: #343a40!important;
 }
+
+spacer {
+flex: 1 1 auto;
+}

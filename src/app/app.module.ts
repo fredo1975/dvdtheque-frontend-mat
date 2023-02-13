@@ -10,20 +10,27 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ConfigInitService } from './init/config-init.service';
-
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import localeFrExtra from '@angular/common/locales/extra/fr';
 import { initializeKeycloak } from './init/keycloak-init.factory';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTableModule} from '@angular/material/table';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCardModule} from '@angular/material/card';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import localeFr from '@angular/common/locales/fr';
+import localeFrExtra from '@angular/common/locales/extra/fr';
+import { FilmDetailComponent } from './film-detail/film-detail.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
   declarations: [
     AppComponent,
     FilmListComponent,
-    NavbarComponent
+    NavbarComponent,
+    FilmDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,13 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     KeycloakAngularModule,
     HttpClientModule,
     MatPaginatorModule,
-    Matspin
+    MatProgressSpinnerModule,
+    MatTableModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatGridListModule,
+    MatCardModule,
+    MatFormFieldModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

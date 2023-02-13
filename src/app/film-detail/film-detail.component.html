@@ -1,0 +1,14 @@
+<div class="myDiv">
+    <div class="grid-container">
+        <div class="poster"><img src="{{film.posterPath}}" alt="" /></div>
+        <div class="grid-item">
+            <mat-form-field appearance="fill">
+                <label>Titre : </label>
+                <label>{{film.titre | uppercase}}</label>
+            <br/>
+                <label>Titre Original : </label>
+                <label>{{film.titreO | uppercase}}</label>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
