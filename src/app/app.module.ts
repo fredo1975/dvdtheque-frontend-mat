@@ -23,6 +23,9 @@ import localeFr from '@angular/common/locales/fr';
 import localeFrExtra from '@angular/common/locales/extra/fr';
 import { FilmDetailComponent } from './film-detail/film-detail.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { GenresPipe } from './pipes/genres.pipe';
+import { RealisateursPipe } from './pipes/realisateurs.pipe';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -30,7 +33,9 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     AppComponent,
     FilmListComponent,
     NavbarComponent,
-    FilmDetailComponent
+    FilmDetailComponent,
+    GenresPipe,
+    RealisateursPipe
   ],
   imports: [
     BrowserModule,
@@ -47,7 +52,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FormsModule,
     MatGridListModule,
     MatCardModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatDatepickerModule
   ],
   providers: [{
     provide: APP_INITIALIZER,

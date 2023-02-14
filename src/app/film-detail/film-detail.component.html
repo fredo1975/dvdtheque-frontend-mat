@@ -1,14 +1,14 @@
-<div class="myDiv">
-    <div class="grid-container">
-        <div class="poster"><img src="{{film.posterPath}}" alt="" /></div>
-        <div class="grid-item">
-            <mat-form-field appearance="fill">
-                <label>Titre : </label>
-                <label>{{film.titre | uppercase}}</label>
-            <br/>
-                <label>Titre Original : </label>
-                <label>{{film.titreO | uppercase}}</label>
-            </mat-form-field>
-        </div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="grid-container" *ngIf="!loading">
+    <div class="poster"><img src="{{film.posterPath}}" alt=""/></div>
+    <div class="grid-item">
+        <label class="label-pre">Titre : </label> <label class="label-val">{{film.titre | uppercase}}</label>
+        <label class="label-pre">Titre Original : </label> <label class="label-val">{{film.titreO | uppercase}}</label>
+        <label class="label-pre">Date de sortie :  </label> <label class="label-val">{{film.dateSortie | date: 'dd/MM/yyyy'}}</label>
+        <label class="label-pre">Réalisateur : </label> <label class="label-val">{{film.realisateur | realisateurs}}</label>
+        <label class="label-pre">Genres : </label> <label class="label-val">{{film.genre | genres}}</label>
+        <label class="label-pre">Durée : </label> <label class="label-val">{{film.runtime}} minutes</label>
+        <label *ngIf="film.origine === dvdOrigineEnum" class="label-pre">Sortie DVD : </label> <label *ngIf="film.origine === dvdOrigineEnum" class="label-val">{{film.dvd.dateSortie | date: 'dd/MM/yyyy'}}</label> 
+        <label class="label-pre">Résumé : </label> <label class="label-val">{{film.overview}}</label>
     </div>
 </div>

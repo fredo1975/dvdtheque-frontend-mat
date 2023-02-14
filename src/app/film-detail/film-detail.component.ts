@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DvdFormat } from '../model/dvd-format';
 import { Film } from '../model/film';
+import { Origine } from '../model/origine';
 import { FilmService } from '../services/film.service';
 
 @Component({
@@ -18,6 +19,9 @@ export class FilmDetailComponent implements OnInit{
   private annees: number[];
   private zonesList: number[];
   private dvdFormats: string[];
+  Origine = Origine;
+  readonly dvdOrigineEnum = Origine.DVD
+  
   constructor(private filmService: FilmService, private route: ActivatedRoute, private router: Router) {
   }
 
