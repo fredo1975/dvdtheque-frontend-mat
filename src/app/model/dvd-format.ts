@@ -1,3 +1,3 @@
 export enum DvdFormat {
-    DVD, BLUERAY
+    DVD = 'DVD', BLUERAY = 'BLUERAY'
 }

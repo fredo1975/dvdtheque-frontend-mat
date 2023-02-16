@@ -1,6 +1,12 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
+<div class="updatedDiv" *ngIf="updated">
+    <strong>Film modifié</strong>
+</div>
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
 <div class="grid-container" *ngIf="!loading">
-    <div class="poster"><img src="{{film.posterPath}}" alt=""/></div>
+    <div class="grid-poster"><img src="{{film.posterPath}}" alt=""/></div>
     <div class="grid-item">
         <label class="label-pre">Titre : </label> <label class="label-val">{{film.titre | uppercase}}</label>
         <label class="label-pre">Titre Original : </label> <label class="label-val">{{film.titreO | uppercase}}</label>
@@ -8,7 +14,72 @@
         <label class="label-pre">Réalisateur : </label> <label class="label-val">{{film.realisateur | realisateurs}}</label>
         <label class="label-pre">Genres : </label> <label class="label-val">{{film.genre | genres}}</label>
         <label class="label-pre">Durée : </label> <label class="label-val">{{film.runtime}} minutes</label>
-        <label *ngIf="film.origine === dvdOrigineEnum" class="label-pre">Sortie DVD : </label> <label *ngIf="film.origine === dvdOrigineEnum" class="label-val">{{film.dvd.dateSortie | date: 'dd/MM/yyyy'}}</label> 
+        
         <label class="label-pre">Résumé : </label> <label class="label-val">{{film.overview}}</label>
+        <label class="label-pre">Acteurs : </label> <label class="label-val">
+            <mat-grid-list cols="10" rowHeight="65px">
+                <mat-grid-tile 
+                    class="grid-tile"
+                    *ngFor="let act of film.acteur"
+                    [colspan]="1"
+                    [rowspan]="4">
+                
+                    <mat-card style="background-color: #f1f1f1;">
+                        <mat-card-header>
+                            <mat-card-title>{{act.prenom | uppercase}} {{act.nom | uppercase}}</mat-card-title>
+                        </mat-card-header>
+                        <img class="acteurs" mat-card-image *ngIf="act.profilePath && act.profilePath != 'http://image.tmdb.org/t/p/w500null'" src="{{act.profilePath}}">
+                        
+                    </mat-card>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </label>
+        <label class="label-pre" *ngIf="film.homepage">Home Page : </label> <label class="label-val"><a href="{{film.homepage}}">{{film.homepage}}</a></label>
+        <label class="label-pre">TMDB D : </label><label class="label-val">{{film.tmdbId}}</label>
+        <label *ngIf="film.origine === dvdOrigineEnum" class="label-pre">Sortie DVD : </label> 
+        <label *ngIf="film.origine === dvdOrigineEnum" class="label-val">
+            <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dvd.dateSortie">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </label> 
+        <label class="label-pre" *ngIf="film.dvd">Zone DVD : </label><label class="label-val" *ngIf="film.dvd">
+            <mat-form-field appearance="fill">
+                <mat-select [(ngModel)]="film.dvd.zone" name="zone">
+                <mat-option *ngFor="let zone of zonesList" [value]="zone">
+                    {{zone}}
+                </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </label>
+        <label class="label-pre" *ngIf="film.dvd">Format DVD : </label><label class="label-val" *ngIf="film.dvd">
+            <mat-form-field appearance="fill">
+                <mat-select [(ngModel)]="film.dvd.format" name="format">
+                  <mat-option *ngFor="let dvdFormat of dvdFormats" [value]="dvdFormat">
+                    {{dvdFormat}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </label>
+        <label class="label-pre" *ngIf="film.dvd"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label> <label class="label-val" *ngIf="film.dvd && film.dvd.dateRip">
+            le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
+        </label>
+        <label class="label-pre">Ajouté le : </label> 
+        <label class="label-val">
+            <mat-form-field appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dateInsertion">
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </label> 
+         <label class="label-pre"></label> 
+         <label class="label-val"><button type="button" class="btn btn-primary" (click)="updateFilm()">Sauver les
+            modifications</button></label>
+         
     </div>
 </div>

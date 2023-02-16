@@ -78,18 +78,14 @@ export class ApiService {
   saveFilm(tmdbId: number, filmOrigine: Origine): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.put(this.backendUrl + '/films/save/' + tmdbId, filmOrigine, httpOptions).pipe(
-      tap(_ => console.log(`added film id=${tmdbId}`))
-    );
+    return this.http.put(this.backendUrl + '/films/save/' + tmdbId, filmOrigine, httpOptions);
   }
 
   updateFilm(film: Film): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    //console.log('apiUr=' + this.backendUrl + '/films/update/' + film.id);
-    return this.http.put(this.backendUrl + '/films/update/' + film.id, film, httpOptions).pipe(
-      tap(_ => console.log(`updated film id=${film.id}`))
-    );
+    console.log(film);
+    return this.http.put(this.backendUrl + '/films/update/' + film.id, film, httpOptions);
   }
 
   replaceFilm(film: Film, tmdbId: number): Observable<Film> {
