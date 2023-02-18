@@ -6,6 +6,7 @@ import { AuthGuard } from '../guard/auth.guard';
 import { FilmDetailComponent } from '../film-detail/film-detail.component';
 import { FilmAddComponent } from '../film-add/film-add.component';
 import { FilmExportComponent } from '../film-export/film-export.component';
+import { FilmImportComponent } from '../film-import/film-import.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'filmDetail/:id', component: FilmDetailComponent, canActivate: [AuthGuard] },
   { path: 'filmAdd', component: FilmAddComponent, canActivate: [AuthGuard] },
   { path: 'filmExport', component: FilmExportComponent, canActivate: [AuthGuard] },
+  { path: 'filmImport', component: FilmImportComponent, canActivate: [AuthGuard] },
   /*
   { path: 'filmSearchDisplay', component: FilmSearchDisplayComponent, canActivate: [AuthGuard] },
   

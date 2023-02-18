@@ -10,6 +10,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
+            <mat-label>Origine</mat-label>
             <mat-select name="origine" [(ngModel)]="origine">
                 <mat-option *ngFor="let origine of origines" [value]="origine" >
                 {{origine}}

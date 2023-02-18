@@ -48,7 +48,6 @@ export class FilmDetailComponent implements OnInit{
       , () => {
         this.checkIfCritiquePresseExist();
         this.loading = false;
-        
         //console.log(this.film)
       });
     
@@ -91,75 +90,5 @@ export class FilmDetailComponent implements OnInit{
         this.checkIfCritiquePresseExist();
       });
   }
-/*
-  buildFilmWithDvd(film: Film): Film {
-    let dateSortieDvd: any = null;
-    // console.log('this.film.dvd', JSON.stringify(this.film.dvd));
-    if (this.film.dvd && this.film.dvd.dateSortie) {
-      dateSortieDvd = this.film.dvd.dateSortie;
-    } else {
-      dateSortieDvd = null;
-    }
-    // tslint:disable-next-line:max-line-length
-    const dvd: Dvd = { id: null, annee: this.film.annee, zone: '2', edition: '', ripped: false, dateRip: null, dateSortie: dateSortieDvd, format: DvdFormat.DVD }
-    // console.log('buildFilmWithDvd', JSON.stringify(dvd));
-    // tslint:disable-next-line:max-line-length
-    return new Film(film.id, film.titre, film.titreO, film.annee, film.dateSortie, new Date(), film.vu, film.realisateur, film.acteur, film.critiquePresse, film.genre,
-      // tslint:disable-next-line:max-line-length
-      dvd, film.posterPath, film.alreadyInDvdtheque, film.tmdbId, film.overview, film.runtime, film.homepage, Origine.DVD, film.dateMaj, film.dateVue,film.allocineFicheFilmId);
-  }
 
-  transformFilmEnSalleIntoDvd() {
-    this.loading = true;
-    this.buttonDisabled = true;
-    this.errorOccured = false;
-    const film: Film = this.buildFilmWithDvd(this.film);
-    // console.log('transformFilmEnSalleIntoDvd', film);
-    return this.filmService.updateFilm(film).subscribe(f => {
-      this.film = f;
-    }
-      , (error) => {
-        this.errorOccured = true;
-        console.log(error);
-      }
-      , () => {
-        this.loading = false;
-        this.buttonDisabled = false;
-        this.updated = true;
-      });
-  }
-
-  buildFilmWithGooglePlay(film: Film): Film {
-    let dateSortieDvd: any = null;
-    // console.log('this.film.dvd', JSON.stringify(this.film.dvd));
-    if (this.film.dvd && this.film.dvd.dateSortie) {
-      dateSortieDvd = this.film.dvd.dateSortie;
-    } else {
-      dateSortieDvd = null;
-    }
-    // console.log('buildFilmWithGooglePlay', JSON.stringify(dvd));
-    // tslint:disable-next-line:max-line-length
-    return new Film(film.id, film.titre, film.titreO, film.annee, film.dateSortie, new Date(), film.vu, film.realisateur, film.acteur, film.critiquePresse, film.genre,
-      // tslint:disable-next-line:max-line-length
-      null, film.posterPath, film.alreadyInDvdtheque, film.tmdbId, film.overview, film.runtime, film.homepage, Origine.GOOGLE_PLAY, film.dateMaj, film.dateVue,film.allocineFicheFilmId);
-  }
-  transformFilmEnSalleIntoGooglePlay() {
-    this.loading = true;
-    this.buttonDisabled = true;
-    this.errorOccured = false;
-    const film: Film = this.buildFilmWithGooglePlay(this.film);
-    // console.log('transformFilmEnSalleIntoDvd', film);
-    return this.filmService.updateFilm(film).subscribe(f => {
-      this.film = f;
-    }
-      , (error) => {
-        this.errorOccured = true;
-        console.log(error);
-      }
-      , () => {
-        this.loading = false;
-        this.buttonDisabled = false;
-        this.updated = true;
-      });
-  }*/
 }

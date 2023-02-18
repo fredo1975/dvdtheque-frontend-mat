@@ -31,6 +31,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { FilmAddComponent } from './film-add/film-add.component';
 import { FilmFilterSortComponent } from './film-filter-sort/film-filter-sort.component';
 import { FilmExportComponent } from './film-export/film-export.component';
+import { FilmImportComponent } from './film-import/film-import.component';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -43,7 +44,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     RealisateursPipe,
     FilmAddComponent,
     FilmFilterSortComponent,
-    FilmExportComponent
+    FilmExportComponent,
+    FilmImportComponent
   ],
   imports: [
     BrowserModule,

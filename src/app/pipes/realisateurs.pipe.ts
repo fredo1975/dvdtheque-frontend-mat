@@ -8,7 +8,7 @@ export class RealisateursPipe implements PipeTransform {
 
   transform(realisateurs: Personne[], args?: any): any {
     let str = '';
-    console.log(realisateurs);
+    //console.log(realisateurs);
     realisateurs.forEach(element => {
       str = str.concat(element.nom, ', ');
     });

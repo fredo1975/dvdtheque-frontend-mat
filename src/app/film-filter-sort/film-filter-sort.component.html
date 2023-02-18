@@ -13,6 +13,7 @@
             <input matInput placeholder="acteur" [(ngModel)]="filmFilterSort.acteur">
         </mat-form-field>
         <mat-form-field appearance="fill">
+          <mat-label>Origine</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.origine" name="origine">
               <mat-option *ngFor="let origine of origines" [value]="origine">
                 {{origine}}
@@ -29,6 +30,7 @@
         </mat-form-field>
         -->
         <mat-form-field appearance="fill">
+          <mat-label>Catégorie</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.categorie" name="categorie">
               <mat-option *ngFor="let categorie of categories" [value]="categorie.name">
                 {{categorie.name}}
@@ -36,6 +38,7 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
+          <mat-label>Déjà vu</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.vu" name="vu">
               <mat-option *ngFor="let vu of vuOptions" [value]="vu">
                 {{vu}}
@@ -43,6 +46,7 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
+          <mat-label>Rippé</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.ripped" name="ripped">
               <mat-option *ngFor="let ripped of rippedOptions" [value]="ripped">
                 {{ripped}}
