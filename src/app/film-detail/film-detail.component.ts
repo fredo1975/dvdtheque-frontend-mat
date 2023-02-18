@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Dvd } from '../model/dvd';
 import { DvdFormat } from '../model/dvd-format';
 import { Film } from '../model/film';
 import { Origine } from '../model/origine';
@@ -17,11 +18,13 @@ export class FilmDetailComponent implements OnInit{
   errorOccured = false;
   private critiquePresseExist = true;
   private annees: number[];
-  zonesList: number[];
-  dvdFormats: DvdFormat[];
+  zonesList: number[] = [1,2,3];
+  dvdFormats: DvdFormat[] = [DvdFormat.BLUERAY, DvdFormat.DVD];
+  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV];
   Origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
   updated = false;
+  initOrigine: Origine
   constructor(private filmService: FilmService, private route: ActivatedRoute, private router: Router) {
   }
 
@@ -30,6 +33,12 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = true;
     this.filmService.getFilm(this.route.snapshot.params['id']).subscribe(_film => {
       this.film = _film;
+      // init of dvd in case change to dvd origine
+      if(!this.film.dvd){
+        this.film.dvd = {id:0,annee:0,zone: 2,edition: '',ripped: false,dateRip: new Date(),dateSortie: new Date(),format: DvdFormat.DVD}
+      }
+      
+      this.initOrigine = this.film.origine
       console.log(this.film)
     }
       , (error) => {
@@ -39,21 +48,14 @@ export class FilmDetailComponent implements OnInit{
       , () => {
         this.checkIfCritiquePresseExist();
         this.loading = false;
+        
         //console.log(this.film)
       });
     
     this.buttonDisabled = false;
     this.annees = this.filmService.getAnneesSelect();
-    this.zonesList = this.getZonesList();
-    this.dvdFormats = [DvdFormat.BLUERAY, DvdFormat.DVD];
   }
-  getZonesList = () => {
-    const zonesList = [];
-    for (let i = 1; i < 4; i++) {
-      zonesList.push(i);
-    }
-    return zonesList;
-  }
+  
   private checkIfCritiquePresseExist(){
     if (this.film.critiquePresse && this.film.critiquePresse.length > 0) {
       // console.log('ngOnInit this.film.critiquesPresse');
@@ -64,49 +66,20 @@ export class FilmDetailComponent implements OnInit{
   }
   
   updateFilm() {
-    /*
-    if (this.film.dvd && isNaN(this.film.dvd.annee)) {
-      // console.log('this.film.dvd.annee is nan');
-      this.film.dvd.annee = 0;
-    }
-    if (this.film.dvd) {
-      // console.log('this.film.dvd.annee is nan');
-      this.film.dvd.annee = 0;
-    }*/
-    /*
-    if (this.dateSortie) {
-      // console.log('this.dateSortie', this.dateSortie);
-      const day = this.dateSortie.day;
-      const month = this.dateSortie.month - 1;
-      const year = this.dateSortie.year;
-      // const dvd = new Dvd(year, '1', 'edition', false, null, new Date(year, month, day), DvdFormat.DVD);
-      // tslint:disable-next-line:max-line-length
-      const dvd = { id: null, annee: year, zone: '2', edition: 'edition', ripped: false, dateRip: null, dateSortie: new Date(year, month, day), format: DvdFormat.DVD };
-      this.film.dvd = dvd;
-      // console.log('this.film.dvd.dateSortie', this.film.dvd.dateSortie);
-    }
-    if (this.dateInsertion) {
-      const day = this.dateInsertion.day;
-      const month = this.dateInsertion.month - 1;
-      const year = this.dateInsertion.year;
-      // tslint:disable-next-line:max-line-length
-      this.film.dateInsertion = new Date(year, month, day);
-      // console.log('this.film.dateInsertion', this.film.dateInsertion);
-    }*/
-    if(this.film.dvd && this.film.dvd.dateSortie){
-      
-      this.film.dvd.dateSortie = new Date(this.film.dvd.dateSortie)
-      console.log(this.film.dvd.dateSortie);
-      //new Date(this.film.dvd.dateSortie.getFullYear, this.film.dvd.dateSortie.getMonth, this.film.dvd.dateSortie.getDay)
-    }
     if(this.film.dvd && this.film.dvd.ripped){
       this.film.dvd.dateRip = new Date();
+    }
+    if(this.film.vu){
+      this.film.dateVue = new Date();
     }
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
+    if(this.initOrigine != this.film.origine && this.initOrigine == Origine.DVD){
+      console.log('changement dorigine');
+    }
     return this.filmService.updateFilm(this.film).subscribe(f => {
-      console.log('film with id : ' + f.id + ' updated');
+      //console.log('film with id : ' + f.id + ' updated');
       this.film = f;
     }
       , (error) => {
@@ -120,7 +93,76 @@ export class FilmDetailComponent implements OnInit{
         this.updated = true;
         this.checkIfCritiquePresseExist();
       });
-      
-     console.log(this.film);
   }
+/*
+  buildFilmWithDvd(film: Film): Film {
+    let dateSortieDvd: any = null;
+    // console.log('this.film.dvd', JSON.stringify(this.film.dvd));
+    if (this.film.dvd && this.film.dvd.dateSortie) {
+      dateSortieDvd = this.film.dvd.dateSortie;
+    } else {
+      dateSortieDvd = null;
+    }
+    // tslint:disable-next-line:max-line-length
+    const dvd: Dvd = { id: null, annee: this.film.annee, zone: '2', edition: '', ripped: false, dateRip: null, dateSortie: dateSortieDvd, format: DvdFormat.DVD }
+    // console.log('buildFilmWithDvd', JSON.stringify(dvd));
+    // tslint:disable-next-line:max-line-length
+    return new Film(film.id, film.titre, film.titreO, film.annee, film.dateSortie, new Date(), film.vu, film.realisateur, film.acteur, film.critiquePresse, film.genre,
+      // tslint:disable-next-line:max-line-length
+      dvd, film.posterPath, film.alreadyInDvdtheque, film.tmdbId, film.overview, film.runtime, film.homepage, Origine.DVD, film.dateMaj, film.dateVue,film.allocineFicheFilmId);
+  }
+
+  transformFilmEnSalleIntoDvd() {
+    this.loading = true;
+    this.buttonDisabled = true;
+    this.errorOccured = false;
+    const film: Film = this.buildFilmWithDvd(this.film);
+    // console.log('transformFilmEnSalleIntoDvd', film);
+    return this.filmService.updateFilm(film).subscribe(f => {
+      this.film = f;
+    }
+      , (error) => {
+        this.errorOccured = true;
+        console.log(error);
+      }
+      , () => {
+        this.loading = false;
+        this.buttonDisabled = false;
+        this.updated = true;
+      });
+  }
+
+  buildFilmWithGooglePlay(film: Film): Film {
+    let dateSortieDvd: any = null;
+    // console.log('this.film.dvd', JSON.stringify(this.film.dvd));
+    if (this.film.dvd && this.film.dvd.dateSortie) {
+      dateSortieDvd = this.film.dvd.dateSortie;
+    } else {
+      dateSortieDvd = null;
+    }
+    // console.log('buildFilmWithGooglePlay', JSON.stringify(dvd));
+    // tslint:disable-next-line:max-line-length
+    return new Film(film.id, film.titre, film.titreO, film.annee, film.dateSortie, new Date(), film.vu, film.realisateur, film.acteur, film.critiquePresse, film.genre,
+      // tslint:disable-next-line:max-line-length
+      null, film.posterPath, film.alreadyInDvdtheque, film.tmdbId, film.overview, film.runtime, film.homepage, Origine.GOOGLE_PLAY, film.dateMaj, film.dateVue,film.allocineFicheFilmId);
+  }
+  transformFilmEnSalleIntoGooglePlay() {
+    this.loading = true;
+    this.buttonDisabled = true;
+    this.errorOccured = false;
+    const film: Film = this.buildFilmWithGooglePlay(this.film);
+    // console.log('transformFilmEnSalleIntoDvd', film);
+    return this.filmService.updateFilm(film).subscribe(f => {
+      this.film = f;
+    }
+      , (error) => {
+        this.errorOccured = true;
+        console.log(error);
+      }
+      , () => {
+        this.loading = false;
+        this.buttonDisabled = false;
+        this.updated = true;
+      });
+  }*/
 }

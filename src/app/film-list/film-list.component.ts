@@ -18,13 +18,13 @@ export class FilmListComponent implements OnInit{
   displayedColumns: string[] = ['id', 'titre'];
   Origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
-
+  readonly defaultPageSize: number = 50;
   constructor(protected filmService: FilmService) { 
     //this.films = [];
   }
   ngOnInit(): void {
-    console.log('FilmListComponent::ngOnInit');
-    this.getFilms({query:'', pageIndex:1, pageSize:12, sort:''});
+    //console.log('FilmListComponent::ngOnInit');
+    this.getFilms({query:'', pageIndex:1, pageSize:this.defaultPageSize, sort:'-dateInsertion,-titre'});
   }
 
   private getFilms(request: any) {
@@ -32,8 +32,6 @@ export class FilmListComponent implements OnInit{
     this.filmService.paginatedSarch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe((data: Page) => {
       this.films = data.content;
       this.totalElements = data.totalElements;
-      // tslint:disable-next-line:max-line-length
-      //this.filmListParam = { realisateurs: data.realisateurs, acteurs: data.acteurs, films: data.films, genres: data.genres, realisateursLength: data.realisateursLength, acteursLength: data.acteursLength };
     }
       , (error) => {
         this.errorOccured = true;

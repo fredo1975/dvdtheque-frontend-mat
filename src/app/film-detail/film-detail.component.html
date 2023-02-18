@@ -1,13 +1,15 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<div class="updatedDiv" *ngIf="updated">
-    <strong>Film modifié</strong>
-</div>
-<div class="errorDiv" *ngIf="errorOccured">
-    <strong>une erreur est survenue</strong>
-</div>
+
+
 <div class="grid-container" *ngIf="!loading">
     <div class="grid-poster"><img src="{{film.posterPath}}" alt=""/></div>
     <div class="grid-item">
+        <label class="label-pre"></label><label class="label-val"><div class="updatedDiv" *ngIf="updated">
+            <strong>Film modifié</strong>
+        </div></label>
+        <label class="label-pre"></label><label class="label-val"><div class="errorDiv" *ngIf="errorOccured">
+            <strong>une erreur est survenue</strong>
+        </div></label>
         <label class="label-pre">Titre : </label> <label class="label-val">{{film.titre | uppercase}}</label>
         <label class="label-pre">Titre Original : </label> <label class="label-val">{{film.titreO | uppercase}}</label>
         <label class="label-pre">Date de sortie :  </label> <label class="label-val">{{film.dateSortie | date: 'dd/MM/yyyy'}}</label>
@@ -34,8 +36,19 @@
                 </mat-grid-tile>
             </mat-grid-list>
         </label>
-        <label class="label-pre" *ngIf="film.homepage">Home Page : </label> <label class="label-val"><a href="{{film.homepage}}">{{film.homepage}}</a></label>
+        <label class="label-pre" >Home Page : </label> <label class="label-val"><a *ngIf="film.homepage" href="{{film.homepage}}">{{film.homepage}}</a></label>
         <label class="label-pre">TMDB D : </label><label class="label-val">{{film.tmdbId}}</label>
+        <label class="label-pre">Origine : </label> 
+        <label class="label-val">
+            <mat-form-field appearance="fill">
+                <mat-select [(ngModel)]="film.origine" name="origine">
+                  <mat-option *ngFor="let origine of origines" [value]="origine">
+                    {{origine}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </label> 
+
         <label *ngIf="film.origine === dvdOrigineEnum" class="label-pre">Sortie DVD : </label> 
         <label *ngIf="film.origine === dvdOrigineEnum" class="label-val">
             <mat-form-field appearance="fill">
@@ -46,7 +59,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </label> 
-        <label class="label-pre" *ngIf="film.dvd">Zone DVD : </label><label class="label-val" *ngIf="film.dvd">
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label><label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
                 <mat-select [(ngModel)]="film.dvd.zone" name="zone">
                 <mat-option *ngFor="let zone of zonesList" [value]="zone">
@@ -55,7 +68,7 @@
                 </mat-select>
             </mat-form-field>
         </label>
-        <label class="label-pre" *ngIf="film.dvd">Format DVD : </label><label class="label-val" *ngIf="film.dvd">
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Format DVD : </label><label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
                 <mat-select [(ngModel)]="film.dvd.format" name="format">
                   <mat-option *ngFor="let dvdFormat of dvdFormats" [value]="dvdFormat">
@@ -64,8 +77,12 @@
                 </mat-select>
             </mat-form-field>
         </label>
-        <label class="label-pre" *ngIf="film.dvd"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label> <label class="label-val" *ngIf="film.dvd && film.dvd.dateRip">
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label> <label class="label-val" 
+            *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped && film.dvd.dateRip">
             le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
+        </label>
+        <label class="label-pre"><input type="checkbox" [(ngModel)]="film.vu" [checked]="film.vu"/>Vu</label> <label class="label-val" *ngIf="film.vu">
+            le : {{film.dateVue | date: 'dd/MM/yyyy'}}
         </label>
         <label class="label-pre">Ajouté le : </label> 
         <label class="label-val">

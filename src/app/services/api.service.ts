@@ -84,7 +84,7 @@ export class ApiService {
   updateFilm(film: Film): Observable<any> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log(film);
+    //console.log(film);
     return this.http.put(this.backendUrl + '/films/update/' + film.id, film, httpOptions);
   }
 

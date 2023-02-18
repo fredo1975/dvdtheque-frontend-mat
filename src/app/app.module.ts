@@ -28,6 +28,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import { FilmAddComponent } from './film-add/film-add.component';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -37,7 +38,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     NavbarComponent,
     FilmDetailComponent,
     GenresPipe,
-    RealisateursPipe
+    RealisateursPipe,
+    FilmAddComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,75 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<div class="grid-container" >
+    <div class="grid-item" >
+        <mat-form-field class="full-width">
+            <mat-label>Titre</mat-label>
+            <input matInput placeholder="Titre" [(ngModel)]="titre">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-select name="origine" [(ngModel)]="origine">
+                <mat-option *ngFor="let origine of origines" [value]="origine" >
+                {{origine}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button type="button" class="btn btn-primary" (click)="serachTmdbFilm()" [disabled]="buttonDisabled">Chercher</button>&nbsp;
+        <button type="button" class="btn btn-primary" (click)="resetTmdbFilm()" [disabled]="buttonDisabled">Effecer la
+            recherche</button>
+    </div>
+    <div class="grid-item" *ngIf="tmdbFilms && tmdbFilms.length >0">
+        <p>Nombre de films : {{tmdbFilms.length}}</p>
+    </div>
+    <div class="grid-item" *ngIf="tmdbFilms && tmdbFilms.length >0">
+        <table mat-table [dataSource]="tmdbFilms" class="mat-elevation-z8">
+            <ng-container matColumnDef="poster">
+                <th mat-header-cell *matHeaderCellDef> Poster </th>
+                <td mat-cell *matCellDef="let film"><img src="{{film.posterPath}}" alt="" width="200" /></td>
+            </ng-container>
+            <ng-container matColumnDef="titre">
+                <th mat-header-cell *matHeaderCellDef>Titre</th>
+                <td mat-cell *matCellDef="let film">{{film.titre}}</td>
+            </ng-container>
+            <ng-container matColumnDef="titreO">
+                <th mat-header-cell *matHeaderCellDef>Titre original</th>
+                <td mat-cell *matCellDef="let film">{{film.titreO}}</td>
+            </ng-container>
+            <ng-container matColumnDef="realisateurs">
+                <th mat-header-cell *matHeaderCellDef>Réalisateurs</th>
+                <td mat-cell *matCellDef="let film">
+                    <div *ngFor="let realisateur of film.realisateur">
+                        {{realisateur.nom | uppercase}}
+                      </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="acteurs">
+                <th mat-header-cell *matHeaderCellDef>Acteurs</th>
+                <td mat-cell *matCellDef="let film">
+                    <div *ngFor="let acteur of film.acteur">
+                        {{acteur.nom}}
+                      </div>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="annee">
+                <th mat-header-cell *matHeaderCellDef>Année</th>
+                <td mat-cell *matCellDef="let film">{{film.annee}}</td>
+            </ng-container>
+            <ng-container matColumnDef="alreadyInDvdtheque">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let film">
+                    <button *ngIf="!film.alreadyInDvdtheque" class="btn btn-primary" (click)="saveFilm(film.id)"
+                    [disabled]="buttonDisabled">Ajouter</button>
+                    <div *ngIf="film.alreadyInDvdtheque">déjà enregistré</div>
+                </td>
+            </ng-container>
+            
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>

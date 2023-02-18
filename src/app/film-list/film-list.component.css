@@ -1,11 +1,6 @@
 * {
   box-sizing: border-box;
 }
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .paginator {
   width: 600px;
 }
@@ -18,12 +13,6 @@ table {
 }
 .myDiv {
   padding: 0;
-}
-.errorDiv {
-  padding: 0 7em 2em 0;
-  font-size: 16px;
-  color: red;
-  text-align: center;
 }
 .film-card {
   width: 100%;

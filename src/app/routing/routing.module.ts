@@ -4,12 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { FilmListComponent } from '../film-list/film-list.component';
 import { AuthGuard } from '../guard/auth.guard';
 import { FilmDetailComponent } from '../film-detail/film-detail.component';
+import { FilmAddComponent } from '../film-add/film-add.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/filmList', pathMatch: 'full' },
   { path: 'filmList', component: FilmListComponent, canActivate: [AuthGuard]},
-  { path: 'filmDetail/:id', component: FilmDetailComponent, canActivate: [AuthGuard] },/*
+  { path: 'filmDetail/:id', component: FilmDetailComponent, canActivate: [AuthGuard] },
+  { path: 'filmAdd', component: FilmAddComponent, canActivate: [AuthGuard] },
+  /*
   { path: 'filmSearchDisplay', component: FilmSearchDisplayComponent, canActivate: [AuthGuard] },
   
   { path: 'filmAdd', component: FilmAddComponent, canActivate: [AuthGuard] },
