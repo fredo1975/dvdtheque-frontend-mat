@@ -1,0 +1,17 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<div class="grid-container" >
+    <div class="grid-item" >
+        <mat-form-field appearance="fill">
+            <mat-select name="origine" [(ngModel)]="origine">
+                <mat-option *ngFor="let origine of origines" [value]="origine" >
+                {{origine}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button class="btn btn-primary" (click)="exportFilmList()" [disabled]="buttonDisabled">Exporter au format
+            Excel</button>
+    </div>

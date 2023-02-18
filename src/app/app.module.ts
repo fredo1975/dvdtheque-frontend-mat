@@ -29,6 +29,8 @@ import {MatInputModule} from '@angular/material/input';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import { FilmAddComponent } from './film-add/film-add.component';
+import { FilmFilterSortComponent } from './film-filter-sort/film-filter-sort.component';
+import { FilmExportComponent } from './film-export/film-export.component';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -39,7 +41,9 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FilmDetailComponent,
     GenresPipe,
     RealisateursPipe,
-    FilmAddComponent
+    FilmAddComponent,
+    FilmFilterSortComponent,
+    FilmExportComponent
   ],
   imports: [
     BrowserModule,

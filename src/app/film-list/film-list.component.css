@@ -1,6 +1,7 @@
 * {
   box-sizing: border-box;
 }
+
 .paginator {
   width: 600px;
 }
@@ -24,8 +25,16 @@ table {
 }
 .film-header-image {
   background-size: cover;
+  width: 200px;
+  height: 305px;
 }
 img.ripped {
   width: 15px;
   height: auto;
+}
+.errorDiv {
+  padding: 0 7em 2em 0;
+  font-size: 16px;
+  color: red;
+  text-align: center;
 }

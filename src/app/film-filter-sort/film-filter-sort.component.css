@@ -1,0 +1,14 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+  
+.grid-item {
+    display: inline-flex;
+    align-items: center;
+    grid-gap: 1px;
+    
+    padding: 10px;
+    padding-top: 15px;
+    font-size: 0.9rem;
+}

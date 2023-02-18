@@ -39,7 +39,7 @@ export class FilmDetailComponent implements OnInit{
       }
       
       this.initOrigine = this.film.origine
-      console.log(this.film)
+      //console.log(this.film)
     }
       , (error) => {
         console.log('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
@@ -75,9 +75,6 @@ export class FilmDetailComponent implements OnInit{
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
-    if(this.initOrigine != this.film.origine && this.initOrigine == Origine.DVD){
-      console.log('changement dorigine');
-    }
     return this.filmService.updateFilm(this.film).subscribe(f => {
       //console.log('film with id : ' + f.id + ' updated');
       this.film = f;

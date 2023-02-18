@@ -2,6 +2,9 @@
     <strong>une erreur est survenue</strong>
 </div>
 <mat-spinner *ngIf="loading"></mat-spinner>
+<app-film-filter-sort (filmFilterSortChange)="filterOnFilmFilterSort()">
+    
+</app-film-filter-sort>
 <div class="myDiv">
     <mat-grid-list cols="10" rowHeight="95px">
         <mat-grid-tile 
@@ -12,9 +15,9 @@
         
             <mat-card class="film-card">
                 <a routerLink="/filmDetail/{{film.id}}" title="{{film.titre}}">
-                    <img mat-card-image src="{{film.posterPath}}" width="200px" height="305px" class="film-header-image" alt="{{film.titre}}">
+                    <img mat-card-image src="{{film.posterPath}}" class="film-header-image" alt="{{film.titre}}">
                 </a>
-                <mat-card-footer>
+                <mat-card-content>
                     Durée : {{film.runtime}}
                     
                     <div *ngIf="film.origine === dvdOrigineEnum && film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
@@ -26,7 +29,7 @@
                     <div *ngIf="film.origine != dvdOrigineEnum">{{film.origine}}</div>
                     <div *ngIf="film.vu">Vu : &nbsp;<img src="assets/img/ok.png" class="img ripped"></div>
                     <div *ngIf="!film.vu">Vu : &nbsp;<img src="assets/img/ko.png" class="img ripped"></div>
-                </mat-card-footer>
+                </mat-card-content>
             </mat-card>
         </mat-grid-tile>
     </mat-grid-list>

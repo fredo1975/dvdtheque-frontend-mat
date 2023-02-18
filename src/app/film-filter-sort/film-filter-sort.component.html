@@ -1,0 +1,55 @@
+<div class="grid-container" >
+    <div class="grid-item" >
+        <mat-form-field class="full-width">
+            <mat-label>Titre</mat-label>
+            <input matInput placeholder="Titre" [(ngModel)]="filmFilterSort.titre">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Réalisateur</mat-label>
+            <input matInput placeholder="realisateur" [(ngModel)]="filmFilterSort.realisateur">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Acteur</mat-label>
+            <input matInput placeholder="acteur" [(ngModel)]="filmFilterSort.acteur">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="filmFilterSort.origine" name="origine">
+              <mat-option *ngFor="let origine of origines" [value]="origine">
+                {{origine}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <!--
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="filmFilterSort.annee" name="annee">
+              <mat-option *ngFor="let annee of annees" [value]="annee">
+                {{annee}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        -->
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="filmFilterSort.categorie" name="categorie">
+              <mat-option *ngFor="let categorie of categories" [value]="categorie.name">
+                {{categorie.name}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="filmFilterSort.vu" name="vu">
+              <mat-option *ngFor="let vu of vuOptions" [value]="vu">
+                {{vu}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="filmFilterSort.ripped" name="ripped">
+              <mat-option *ngFor="let ripped of rippedOptions" [value]="ripped">
+                {{ripped}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
+        <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
+    </div>
+</div>
