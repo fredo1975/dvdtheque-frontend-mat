@@ -17,8 +17,7 @@
 </div>
 <div class="grid-container" *ngIf="loadingStatus">
     <div class="grid-item">
-        <p>Status de l'import {{completedStatus}}
-            &nbsp;<span *ngIf="completedStatus"> en {{time / 1000}} s</span></p>&nbsp;&nbsp;
+        <p>Status de l'import {{completedStatus}} <span *ngIf="completedStatus"> en {{time / 1000}}s</span></p>&nbsp;&nbsp;
         <p>Nombre de films importés {{completedNumber}}</p>
     </div>
     <div class="grid-item">

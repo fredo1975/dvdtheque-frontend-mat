@@ -3,7 +3,6 @@ import { ConfigInitService } from "./config-init.service";
 import { RxStompService } from "./rx-stomp.service";
 
 export function initializeRxStompService(configService: ConfigInitService) {
-    console.log('iciiiii')
     const rxStomp = new RxStompService();
     
     //let rxStompConfig: any
@@ -92,11 +91,3 @@ export function initializeRxStompService(configService: ConfigInitService) {
     rxStomp
    }*/
 }
-function switchMap<T, U>(arg0: (config: { [x: string]: any; }) => any): import("rxjs").OperatorFunction<any, unknown> {
-    throw new Error("Function not implemented.");
-}
-
-function from(arg0: any) {
-    throw new Error("Function not implemented.");
-}
-

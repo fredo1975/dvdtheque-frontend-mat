@@ -1,0 +1,34 @@
+.updatedDiv {
+    padding: 0 7em 2em 0;
+    font-size: 16px;
+    color: green;
+    text-align: center;
+}
+.errorDiv {
+    padding: 0 7em 2em 0;
+    font-size: 16px;
+    color: red;
+    text-align: center;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.grid-item {
+    display: grid;
+    align-items: center;
+    grid-gap: 1px;
+    padding: 10px;
+    padding-top: 15px;
+    font-size: 0.9rem;
+}
+table {
+    width: 100%;
+}
+td {
+    text-align: center;
+}
+table, th, td {
+    border: 1px solid;
+}

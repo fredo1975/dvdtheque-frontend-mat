@@ -8,6 +8,7 @@ import { FilmAddComponent } from '../film-add/film-add.component';
 import { FilmExportComponent } from '../film-export/film-export.component';
 import { FilmImportComponent } from '../film-import/film-import.component';
 import { FilmAdminComponent } from '../film-admin/film-admin.component';
+import { FilmUpdateCritiquepresseComponent } from '../film-update-critiquepresse/film-update-critiquepresse.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'filmExport', component: FilmExportComponent, canActivate: [AuthGuard] },
   { path: 'filmImport', component: FilmImportComponent, canActivate: [AuthGuard] },
   { path: 'filmAdmin', component: FilmAdminComponent, canActivate: [AuthGuard] },
+  { path: 'filmUpdateCritiquepresse/:id', component: FilmUpdateCritiquepresseComponent, canActivate: [AuthGuard] },
   /*
   { path: 'filmSearchDisplay', component: FilmSearchDisplayComponent, canActivate: [AuthGuard] },
   

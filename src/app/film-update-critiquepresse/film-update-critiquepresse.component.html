@@ -1,0 +1,77 @@
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<div class="errorDiv" *ngIf="ficheFilmTab && !loading && !ficheFilmTab.length">
+    <strong>pas de critique presse disponible</strong>
+</div>
+
+<div class="grid-item" *ngIf="ficheFilmTab && !loading && ficheFilmTab.length>0">
+    <span class="row"><span class="col">critique presse sélectionnée : </span><span
+    class="col"><b>{{film.allocineFicheFilmId}}</b></span></span>
+<span class="row"><span class="col">nombre de critiques presse disponible : </span><span
+    class="col"><b>{{ficheFilmTab.length}}</b></span></span>
+
+</div>
+<div class="grid-item" *ngIf="ficheFilmTab && !loading && ficheFilmTab.length>0">
+<table >
+    <thead>
+        <tr>
+          <th>Titre</th>
+          <th>url</th>
+          <th>Allocine Film Id</th>
+          <th>Dvdtheque Allocine Film Id</th>
+          <th>critiques presse</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ficheFilm of ficheFilmTab">
+            <td>
+                {{ficheFilm.title}}
+            </td>
+            <td>
+                {{ficheFilm.url}}
+            </td>
+            <td>
+                {{ficheFilm.allocineFilmId}}
+            </td>
+            <td>
+                {{ficheFilm.id}}
+            </td>
+            <td>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                          <th>newsSource</th>
+                          <th>rating</th>
+                          <th>author</th>
+                          <th>body</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let critiquePresse of ficheFilm.critiquePresse">
+                            <td>
+                                {{critiquePresse.newsSource}}
+                            </td>
+                            <td>
+                                {{critiquePresse.rating}}
+                            </td>
+                            <td>
+                                {{critiquePresse.author}}
+                            </td>
+                            <td>
+                                {{critiquePresse.body}}
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </td>
+            <td>
+                <button class="btn btn-primary" (click)="choose(ficheFilm.id)" [disabled]="buttonDisabled">Sélectionner</button><br /><br/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

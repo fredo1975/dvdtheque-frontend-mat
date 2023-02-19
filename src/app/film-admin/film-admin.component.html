@@ -50,7 +50,8 @@
                 <button (click)="removeFilm(film.id)"
               [disabled]="buttonDisabled">Supprimer</button><br /><br />
             <button class="btn btn-primary" (click)="retrieveFilmImage(film.id)" [disabled]="buttonDisabled">Trouver
-              le poster</button><br>
+              le poster</button><br><br>
+              <a routerLink="/filmUpdateCritiquepresse/{{film.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">Choose critiques presse</a>
             </td>
         </ng-container>
         
