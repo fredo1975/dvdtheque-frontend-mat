@@ -1,5 +1,6 @@
 {
     "KEYCLOAK_URL": "http://localhost:8080",
     "KEYCLOAK_REALM": "dvdtheque",
-    "KEYCLOAK_CLIENT_ID": "dvdtheque-web"
+    "KEYCLOAK_CLIENT_ID": "dvdtheque-web",
+    "WS_BROKER_URL": "ws://localhost:8762/dvdtheque-ws/websocket"
 }

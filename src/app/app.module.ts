@@ -32,6 +32,8 @@ import { FilmAddComponent } from './film-add/film-add.component';
 import { FilmFilterSortComponent } from './film-filter-sort/film-filter-sort.component';
 import { FilmExportComponent } from './film-export/film-export.component';
 import { FilmImportComponent } from './film-import/film-import.component';
+import { RxStompService } from './init/rx-stomp.service';
+import { initializeRxStompService } from './init/rx-stomp-init.factory';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -74,7 +76,11 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     multi: true,
     deps: [KeycloakService, ConfigInitService],
   },
-  { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }],
+  { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+  {
+    provide: RxStompService,
+    useFactory: initializeRxStompService,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

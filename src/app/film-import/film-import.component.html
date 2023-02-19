@@ -1,1 +1,4 @@
-<p>film-import works!</p>
+<form (ngSubmit)="importFilmList()" #form="ngForm">
+    <input type="file" ng-model="file_upload" name="file" type="file" (change)="loadFile()" #fileInput>&nbsp;
+    <button class="btn btn-primary" [disabled]="buttonDisabled" type="submit">Importer</button>
+</form>

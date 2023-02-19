@@ -5,11 +5,9 @@ import { ConfigInitService } from "./config-init.service";
 
 export function initializeKeycloak(keycloak: KeycloakService, configService: ConfigInitService) {
   return () =>
-
     configService.getConfig()
       .pipe(
         switchMap<any, any>((config) => {
-
           return from(keycloak.init({
             config: {
               url: config['KEYCLOAK_URL'] + '/auth',
@@ -23,5 +21,5 @@ export function initializeKeycloak(keycloak: KeycloakService, configService: Con
             }
           }))
         })
-      ).toPromise()
+      )
 }

@@ -4,7 +4,6 @@ import { Page } from '../model/page';
 import { FilmService } from '../services/film.service';
 import {PageEvent} from '@angular/material/paginator';
 import { Origine } from '../model/origine';
-import { FilmFilterSort } from '../model/film-filter-sort';
 import { FilmFilterSortComponent } from '../film-filter-sort/film-filter-sort.component';
 
 @Component({
@@ -32,18 +31,22 @@ export class FilmListComponent implements OnInit{
 
   private getFilms(request: any) {
     this.loading = true;
-    this.filmService.paginatedSarch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe((data: Page) => {
-      this.films = data.content;
-      this.totalElements = data.totalElements;
-    }
-      , (error) => {
+
+    this.filmService.paginatedSarch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe({
+      next: (data: Page) => {
+        this.films = data.content;
+        this.totalElements = data.totalElements;
+      },
+      error: (e) => {
         this.errorOccured = true;
         this.loading = false;
-        console.log(error);
-      }
-      , () => {
+        console.log(e);
+      },
+      complete: () => {
         this.loading = false;
-      });
+      }
+    }
+    )
   }
 
   handlePageEvent(e: PageEvent) {

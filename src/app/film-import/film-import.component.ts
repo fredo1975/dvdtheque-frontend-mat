@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { RxStompService } from '../init/rx-stomp.service';
 import { JmsStatus } from '../model/jms-status';
 import { JmsStatusMessage } from '../model/jms-status-message';
 import { FilmService } from '../services/film.service';
-
+import { Message } from '@stomp/stompjs';
+import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-film-import',
   templateUrl: './film-import.component.html',
@@ -17,24 +19,55 @@ export class FilmImportComponent implements OnInit, OnDestroy{
   buttonDisabled = false;
   exportResult: any;
   formdata: FormData;
-  private TOPIC = '/topic/*';
+  
   private stompClient: Stomp;
   private messagingService: MessagingService;
   messageHistory: JmsStatusMessage<any>[];
   state = 'NOT CONNECTED';
   time = 0;
   completedStatus: string;*/
-  constructor(private filmService: FilmService) {
+  @ViewChild('fileInput', { static: true }) inputEl: ElementRef;
+  buttonDisabled = false;
+  loading = false;
+  loadingStatus = false;
+  time = 0;
+  formdata: FormData;
+  // @ts-ignore, to suppress warning related to being undefined
+  private topicSubscription: Subscription;
+  TOPIC = '/topic/*';
+  messageHistory: JmsStatusMessage<any>[];
+  receivedMessages: Message[] = [];
+  form: FormGroup;
+  
+  constructor(private filmService: FilmService,private rxStompService: RxStompService) {
     //this.messageHistory = [];
   }
   ngOnInit() {
-    //this.initializeWebSocketConnection();
-    //this.subscribeTopic();
+    console.log(this.rxStompService)
+    this.topicSubscription = this.rxStompService.watch(this.TOPIC).subscribe((message: Message) => {
+      console.log('message',message);
+      const jmsStatusMessage: JmsStatusMessage<any> = JmsStatusMessage.fromJson(JSON.parse(message.body));
+      console.log('jmsStatusMessage',jmsStatusMessage);
+      this.receivedMessages.push(message);
+    });
   }
   ngOnDestroy() {
-    //this.messagingService.disconnect();
+    this.topicSubscription.unsubscribe();
   }
-  /*
+
+  loadFile() {
+    // console.log('loadFile event', event);
+    const inputEl: HTMLInputElement = this.inputEl.nativeElement;
+    // @ts-ignore, to suppress warning related to being undefined
+    const fileCount: number = inputEl.files.length;
+    if (fileCount === 1) {
+      this.formdata = new FormData();
+      // @ts-ignore, to suppress warning related to being undefined
+      this.formdata.append('file', inputEl.files.item(0));
+    }
+  }
+
+  
   importFilmList() {
     const start = new Date().getTime();
     this.buttonDisabled = true;
@@ -51,17 +84,17 @@ export class FilmImportComponent implements OnInit, OnDestroy{
         this.loadingStatus = false;
         const end = new Date().getTime();
         this.time = end - start;
-        // console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.');
+        console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.');
       }
       , () => {
         this.buttonDisabled = false;
         this.loading = false;
         const end = new Date().getTime();
         // this.time = end - start;
-        // console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.');
+        console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.');
       });
   }
-
+/*
   private subscribeTopic() {
     // Subscribe to its stream (to listen on messages)
     this.messagingService.stream().subscribe((message: Message) => {
@@ -111,15 +144,7 @@ export class FilmImportComponent implements OnInit, OnDestroy{
       });
   }
 
-  loadFile(event) {
-    // console.log('loadFile event', event);
-    const inputEl: HTMLInputElement = this.inputEl.nativeElement;
-    const fileCount: number = inputEl.files.length;
-    if (fileCount === 1) {
-      this.formdata = new FormData();
-      this.formdata.append('file', inputEl.files.item(0));
-    }
-  }
+  
   private initializeWebSocketConnection() {
     // Instantiate a messagingService
     this.messagingService = new MessagingService(environment.websocketApiUrl, this.TOPIC);

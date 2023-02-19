@@ -121,8 +121,7 @@ export class ApiService {
   importFilmList(formdata: FormData): Observable<any> {
     const url = '/films/import';
     //console.log('importFilmList');
-    return this.http.post(this.backendUrl + '/films/import', formdata).pipe(
-      tap(_ => console.log('importFilmList done')));
+    return this.http.post(this.backendUrl + '/films/import', formdata);
   }
 
   exportFilmList(origine: Origine) {

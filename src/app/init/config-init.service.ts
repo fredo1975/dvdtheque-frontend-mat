@@ -20,7 +20,7 @@ export class ConfigInitService {
           catchError((error) => {
             console.log(error)
             return of(null)
-          } ),
+          }),
           mergeMap((response) => {
             if (response && response.body) {
               this.config = response.body;

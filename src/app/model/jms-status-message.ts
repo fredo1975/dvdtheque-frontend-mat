@@ -11,7 +11,9 @@ export class JmsStatusMessage<T> {
         this.timing = _timing;
         this.statusValue = statusValue;
     }
-    
+    public static fromJson(json: JmsStatusMessage<any>): JmsStatusMessage<any> {
+        return new JmsStatusMessage(json['status'], json['film'], json['timing'], json['statusValue']);
+    }
     public getStatusValue() {
         return this.statusValue;
     }
