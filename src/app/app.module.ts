@@ -34,6 +34,7 @@ import { FilmExportComponent } from './film-export/film-export.component';
 import { FilmImportComponent } from './film-import/film-import.component';
 import { RxStompService } from './init/rx-stomp.service';
 import { initializeRxStompService } from './init/rx-stomp-init.factory';
+import { FilmAdminComponent } from './film-admin/film-admin.component';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -47,7 +48,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FilmAddComponent,
     FilmFilterSortComponent,
     FilmExportComponent,
-    FilmImportComponent
+    FilmImportComponent,
+    FilmAdminComponent
   ],
   imports: [
     BrowserModule,

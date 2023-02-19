@@ -18,7 +18,9 @@ export class FilmAddComponent implements OnInit{
   origines: Origine[] = [Origine[Origine.DVD], Origine[Origine.EN_SALLE], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV]];
   origine: Origine;
   errorOccured: boolean;
+  completedStatus: string;
   displayedColumns: string[] = ['poster','titre','titreO','realisateurs','acteurs','annee','alreadyInDvdtheque'];
+  
   constructor(private filmService: FilmService,
     private route: ActivatedRoute,
     private router: Router) { }

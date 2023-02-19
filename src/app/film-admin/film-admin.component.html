@@ -1,0 +1,66 @@
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<app-film-filter-sort (filmFilterSortChange)="filterOnFilmFilterSort()">
+    
+</app-film-filter-sort>
+<div class="grid-item" *ngIf="films && films.length >0">
+    <mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
+ 
+    </mat-paginator>
+</div>
+<div class="grid-item" *ngIf="films && films.length >0">
+    <table mat-table [dataSource]="films" class="mat-elevation-z8">
+        <ng-container matColumnDef="poster">
+            <th mat-header-cell *matHeaderCellDef> Poster </th>
+            <td mat-cell *matCellDef="let film"><img src="{{film.posterPath}}" alt="" width="200" /></td>
+        </ng-container>
+        <ng-container matColumnDef="titre">
+            <th mat-header-cell *matHeaderCellDef>Titre</th>
+            <td mat-cell *matCellDef="let film">{{film.titre}}</td>
+        </ng-container>
+        <ng-container matColumnDef="titreO">
+            <th mat-header-cell *matHeaderCellDef>Titre original</th>
+            <td mat-cell *matCellDef="let film">{{film.titreO}}</td>
+        </ng-container>
+        <ng-container matColumnDef="realisateurs">
+            <th mat-header-cell *matHeaderCellDef>Réalisateurs</th>
+            <td mat-cell *matCellDef="let film">
+                <div *ngFor="let realisateur of film.realisateur">
+                    {{realisateur.nom | uppercase}}
+                  </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="acteurs">
+            <th mat-header-cell *matHeaderCellDef>Acteurs</th>
+            <td mat-cell *matCellDef="let film">
+                <div *ngFor="let acteur of film.acteur">
+                    {{acteur.nom}}
+                  </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="annee">
+            <th mat-header-cell *matHeaderCellDef>Année</th>
+            <td mat-cell *matCellDef="let film">{{film.annee}}</td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let film">
+                <button (click)="removeFilm(film.id)"
+              [disabled]="buttonDisabled">Supprimer</button><br /><br />
+            <button class="btn btn-primary" (click)="retrieveFilmImage(film.id)" [disabled]="buttonDisabled">Trouver
+              le poster</button><br>
+            </td>
+        </ng-container>
+        
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+<div class="grid-item" *ngIf="films && films.length >0">
+    <mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
+ 
+    </mat-paginator>
+</div>

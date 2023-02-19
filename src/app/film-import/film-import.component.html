@@ -1,4 +1,57 @@
-<form (ngSubmit)="importFilmList()" #form="ngForm">
-    <input type="file" ng-model="file_upload" name="file" type="file" (change)="loadFile()" #fileInput>&nbsp;
-    <button class="btn btn-primary" [disabled]="buttonDisabled" type="submit">Importer</button>
-</form>
+<h2>Importer des films au format Excel ou CSV</h2>
+<h3>Realisateur | Titre | Annee | Acteurs | Origine Film | TMDB ID | Vu | Date Vu | Date insertion | Zonedvd | Rippé |
+    RIP Date
+    | Dvd Format | Date Sortie DVD</h3>
+
+<div class="grid-container">
+    <div class="grid-item">
+        <form (ngSubmit)="importFilmList()" #form="ngForm">
+            <input type="file" ng-model="file_upload" name="file" type="file" (change)="loadFile()" #fileInput>&nbsp;
+            <button class="btn btn-primary" [disabled]="buttonDisabled" type="submit">Importer</button>
+        </form>
+    </div>
+</div>
+
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<div class="grid-container" *ngIf="loadingStatus">
+    <div class="grid-item">
+        <p>Status de l'import {{completedStatus}}
+            &nbsp;<span *ngIf="completedStatus"> en {{time / 1000}} s</span></p>&nbsp;&nbsp;
+        <p>Nombre de films importés {{completedNumber}}</p>
+    </div>
+    <div class="grid-item">
+
+        <table class="">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Titre</th>
+                    <th>Id</th>
+                    <th>Timing (ms)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let message of messageHistory">
+                    <td [ngStyle]="{'color':message.getStatusValue() === 0 ? 'red' : 'green' }">
+                        {{message.status}}
+                    </td>
+                    <td>
+                        <div *ngIf="message.film">
+                            {{message.film.titre}}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="message.film">
+                            {{message.film.tmdbId}}
+                        </div>
+                    </td>
+                    <td>
+                        {{message.timing}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

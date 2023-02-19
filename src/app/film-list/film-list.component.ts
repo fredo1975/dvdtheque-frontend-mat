@@ -29,7 +29,7 @@ export class FilmListComponent implements OnInit{
     this.getFilms({query:'', pageIndex:1, pageSize:this.defaultPageSize, sort:'-dateInsertion,-titre'});
   }
 
-  private getFilms(request: any) {
+  protected getFilms(request: any) {
     this.loading = true;
 
     this.filmService.paginatedSarch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe({
