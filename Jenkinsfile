@@ -1,6 +1,6 @@
 pipeline {
 	environment {
-		HOST = 'dvdtheque-frontend-mat'
+		HOST = 'dvdtheque-frontend'
 		PROD_SERVER_IP = "192.168.1.106"
 		DEV_SERVER_IP = "192.168.1.100"
 		/*GIT_COMMIT_SHORT = sh(
