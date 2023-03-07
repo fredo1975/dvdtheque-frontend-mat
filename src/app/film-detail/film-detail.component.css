@@ -2,7 +2,19 @@
   display: grid;
   grid-template-columns: 1fr 4fr;
 }
-  
+.grid-container-cp {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.grid-item-cp {
+  display: inline-flex;
+  align-items: center;
+  grid-gap: 1px;
+  flex-wrap: wrap;
+  padding: 10px;
+  padding-top: 15px;
+  font-size: 0.9rem;
+}
 .grid-item {
   display: grid;
   grid-template-columns: 150px 1fr;
