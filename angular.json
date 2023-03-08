@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "rxjs-compat","lodash"
+              "base64-js","js-sha256","file-saver","lodash"
            ],
             "outputPath": "dist/dvdtheque-frontend-mat",
             "index": "src/index.html",
