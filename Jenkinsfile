@@ -1,5 +1,6 @@
 pipeline {
 	environment {
+		HOST_ORIGIN = 'dvdtheque-frontend-mat'
 		HOST = 'dvdtheque-frontend'
 		PROD_SERVER_IP = "192.168.1.106"
 		DEV_SERVER_IP = "192.168.1.100"
@@ -67,7 +68,7 @@ pipeline {
 			steps {
 				script {
 					sh "ssh jenkins@$DEV_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST/* jenkins@$DEV_SERVER_IP:/var/www/$HOST"
+					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$DEV_SERVER_IP:/var/www/$HOST"
 				}
 			}
 		}
@@ -79,7 +80,7 @@ pipeline {
 				script {
 					sh "echo PROD_SERVER_IP=$PROD_SERVER_IP"
 					sh "ssh jenkins@$PROD_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST/* jenkins@$PROD_SERVER_IP:/var/www/$HOST"
+					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$PROD_SERVER_IP:/var/www/$HOST"
 				}
 			}
 		}
