@@ -41,6 +41,7 @@ pipeline {
 				script {
 					sh "npm -v"
 					sh "ng v"
+					sh "npm install @stomp/stompjs ws"
 					sh "npm install --save-dev @angular-devkit/build-angular --legacy-peer-deps"
 					sh "ng build -c=dev --verbose"
 				}
