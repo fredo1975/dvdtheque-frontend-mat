@@ -40,6 +40,7 @@ pipeline {
 			steps {
 				script {
 					sh "npm -v"
+					sh "ng v"
 					sh "npm install --save-dev @angular-devkit/build-angular"
 					sh "ng build -c=dev --verbose"
 				}
