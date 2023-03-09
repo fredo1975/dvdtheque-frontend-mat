@@ -56,6 +56,7 @@ pipeline {
 			steps {
 				script {
 					sh "npm install @stomp/stompjs ws"
+					sh "npm install uuid"
 					ARTIFACT_VERSION = getArtifactVersion(GIT_BRANCH_NAME,GIT_REVISION)
 					sh "npm install --save-dev @angular-devkit/build-angular --legacy-peer-deps"
 					sh "ng build -c=production --verbose"
