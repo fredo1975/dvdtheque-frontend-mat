@@ -21,6 +21,7 @@ export class FilmListComponent implements OnInit{
   Origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
   readonly defaultPageSize: number = 50;
+  query: string = ''
   constructor(protected filmService: FilmService) { 
     //this.films = [];
   }
@@ -51,48 +52,48 @@ export class FilmListComponent implements OnInit{
 
   handlePageEvent(e: PageEvent) {
     //console.log(e);
-    this.getFilms({query:'', pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:''});
+    this.getFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:''});
   }
 
   filterOnFilmFilterSort() {
     //console.log(this.filmFilterSortViewChild.filmFilterSort);
-    let query = ''
+    this.query = ''
     if(!this.filmFilterSortViewChild.filmFilterSort.default){
       if(this.filmFilterSortViewChild.filmFilterSort.titre != ''){
-        query+='titre:eq:'+this.filmFilterSortViewChild.filmFilterSort.titre+':AND,'
+        this.query+='titre:eq:'+this.filmFilterSortViewChild.filmFilterSort.titre+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.realisateur != ''){
-        query += 'realisateur:eq:'+this.filmFilterSortViewChild.filmFilterSort.realisateur+':AND,'
+        this.query += 'realisateur:eq:'+this.filmFilterSortViewChild.filmFilterSort.realisateur+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.acteur != ''){
-        query += 'acteur:eq:'+this.filmFilterSortViewChild.filmFilterSort.acteur+':AND,'
+        this.query += 'acteur:eq:'+this.filmFilterSortViewChild.filmFilterSort.acteur+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.origine != ''){
-        query += 'origine:eq:'+this.filmFilterSortViewChild.filmFilterSort.origine+':AND,'
+        this.query += 'origine:eq:'+this.filmFilterSortViewChild.filmFilterSort.origine+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.annee != ''){
-        query += 'dateSortie:eq:'+this.filmFilterSortViewChild.filmFilterSort.annee+':AND,'
+        this.query += 'dateSortie:eq:'+this.filmFilterSortViewChild.filmFilterSort.annee+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.categorie != ''){
-        query += 'genre:eq:'+this.filmFilterSortViewChild.filmFilterSort.categorie+':AND,'
+        this.query += 'genre:eq:'+this.filmFilterSortViewChild.filmFilterSort.categorie+':AND,'
       }
       if(this.filmFilterSortViewChild.filmFilterSort.vu != ''){
         if(this.filmFilterSortViewChild.filmFilterSort.vu === 'vu'){
-          query += 'vu:eq:true:AND,'
+          this.query += 'vu:eq:true:AND,'
         }else{
-          query += 'vu:eq:false:AND,'
+          this.query += 'vu:eq:false:AND,'
         }
       }
       if(this.filmFilterSortViewChild.filmFilterSort.ripped != ''){
         if(this.filmFilterSortViewChild.filmFilterSort.ripped === 'rippé'){
-          query += 'dvd:eq:true:AND,'
+          this.query += 'dvd:eq:true:AND,'
         }else{
-          query += 'dvd:eq:false:AND,'
+          this.query += 'dvd:eq:false:AND,'
         }
       }
-      //console.log('query',query);
+      //console.log('query',this.query);
     }
-    this.getFilms({query:query, pageIndex:1, pageSize:this.defaultPageSize, sort:''})
+    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:''})
     
   }
 }
