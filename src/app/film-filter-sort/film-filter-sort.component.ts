@@ -11,7 +11,7 @@ import { FilmService } from '../services/film.service';
 })
 export class FilmFilterSortComponent implements OnInit{
   @Output() filmFilterSortChange = new EventEmitter<FilmFilterSort>();
-  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:'',annee:'',categorie: '',vu:'',ripped:''}
+  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:''}
   buttonDisabled = false
   origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV]
   Origine = Origine
