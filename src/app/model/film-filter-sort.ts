@@ -9,5 +9,6 @@ export interface FilmFilterSort {
     annee: string,
     categorie: string,
     vu: string,
-    ripped: string
+    ripped: string,
+    sortBy: string
 }

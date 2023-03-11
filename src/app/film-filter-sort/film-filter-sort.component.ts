@@ -11,7 +11,7 @@ import { FilmService } from '../services/film.service';
 })
 export class FilmFilterSortComponent implements OnInit{
   @Output() filmFilterSortChange = new EventEmitter<FilmFilterSort>();
-  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:''}
+  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
   buttonDisabled = false
   origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV]
   Origine = Origine
@@ -19,6 +19,8 @@ export class FilmFilterSortComponent implements OnInit{
   categories: Genre[]
   vuOptions: string[] = ['vu','non vu']
   rippedOptions: string[] = ['rippé','non rippé']
+  sortByOptions: string[] = ['titre asc','titre desc','realisateur asc' ,'realisateur desc','acteur asc','acteur desc','annee asc','annee desc']
+  sortBySelected: string
   constructor(private filmService: FilmService) {
   }
   ngOnInit() {
@@ -38,10 +40,12 @@ export class FilmFilterSortComponent implements OnInit{
   filter(){
     //console.log(this.filmFilterSort);
     this.filmFilterSort.default=false
+    this.filmFilterSort.sortBy = this.sortBySelected
     this.filmFilterSortChange.emit(this.filmFilterSort)
   }
   resetFields(){
-    this.filmFilterSort={titre:'',default: true,realisateur:'',acteur:'',origine:'',annee:'',categorie: '',vu:'',ripped:''}
+    this.sortBySelected = ''
+    this.filmFilterSort={titre:'',default: true,realisateur:'',acteur:'',origine:'',annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
     this.filmFilterSortChange.emit(this.filmFilterSort)
   }
 }

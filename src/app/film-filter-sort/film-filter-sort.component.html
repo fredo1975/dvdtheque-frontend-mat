@@ -53,6 +53,14 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Trié par</mat-label>
+            <mat-select [(ngModel)]="sortBySelected" name="sortBySelected">
+              <mat-option *ngFor="let sortBy of sortByOptions" [value]="sortBy">
+                {{sortBy}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
         <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
         <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
     </div>

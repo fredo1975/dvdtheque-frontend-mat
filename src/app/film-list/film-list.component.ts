@@ -22,12 +22,13 @@ export class FilmListComponent implements OnInit{
   readonly dvdOrigineEnum = Origine.DVD
   readonly defaultPageSize: number = 50;
   query: string = ''
+  sort: string = ''
   constructor(protected filmService: FilmService) { 
     //this.films = [];
   }
   ngOnInit(): void {
     //console.log('FilmListComponent::ngOnInit');
-    this.getFilms({query:'', pageIndex:1, pageSize:this.defaultPageSize, sort:'-dateInsertion,-titre'});
+    this.getFilms({query:'origine:eq:DVD:AND,', pageIndex:1, pageSize:this.defaultPageSize, sort:'-dateInsertion,-titre'});
   }
 
   protected getFilms(request: any) {
@@ -58,6 +59,7 @@ export class FilmListComponent implements OnInit{
   filterOnFilmFilterSort() {
     //console.log(this.filmFilterSortViewChild.filmFilterSort);
     this.query = ''
+    this.sort = ''
     if(!this.filmFilterSortViewChild.filmFilterSort.default){
       if(this.filmFilterSortViewChild.filmFilterSort.titre != ''){
         this.query+='titre:eq:'+this.filmFilterSortViewChild.filmFilterSort.titre+':AND,'
@@ -91,9 +93,25 @@ export class FilmListComponent implements OnInit{
           this.query += 'dvd:eq:false:AND,'
         }
       }
+      if(this.filmFilterSortViewChild.filmFilterSort.sortBy != ''){
+        if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'titre asc'){
+          this.sort += '+titre,'
+        }else if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'titre desc'){
+          this.sort += '-titre,'
+        }else if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'annee asc'){
+          this.sort += '+annee,'
+        }else if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'annee desc'){
+          this.sort += '-annee,'
+        }else if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'acteur asc'){
+          this.sort += '+acteur,'
+        }else if(this.filmFilterSortViewChild.filmFilterSort.sortBy === 'acteur desc'){
+          this.sort += '-acteur,'
+        }
+      }
       //console.log('query',this.query);
+      console.log('sort',this.sort);
     }
-    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:''})
+    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort})
     
   }
 }
