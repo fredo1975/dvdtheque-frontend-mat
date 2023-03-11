@@ -53,7 +53,7 @@ export class FilmListComponent implements OnInit{
 
   handlePageEvent(e: PageEvent) {
     //console.log(e);
-    this.getFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:''});
+    this.getFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:this.sort});
   }
 
   filterOnFilmFilterSort() {
@@ -109,7 +109,7 @@ export class FilmListComponent implements OnInit{
         }
       }
       //console.log('query',this.query);
-      console.log('sort',this.sort);
+      //console.log('sort',this.sort);
     }
     this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort})
     
