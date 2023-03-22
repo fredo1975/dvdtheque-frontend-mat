@@ -29,7 +29,8 @@ export class FilmListComponent implements OnInit{
   ngOnInit(): void {
     //console.log('FilmListComponent::ngOnInit');
     this.query += 'origine:eq:DVD:AND,'
-    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:'-dateInsertion,-titre'});
+    this.sort += '-dateInsertion,+titre'
+    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
 
   protected getFilms(request: any) {
@@ -58,7 +59,7 @@ export class FilmListComponent implements OnInit{
   }
 
   filterOnFilmFilterSort() {
-    console.log(this.filmFilterSortViewChild.filmFilterSort);
+    //console.log(this.filmFilterSortViewChild.filmFilterSort);
     this.query = ''
     this.sort = ''
     if(!this.filmFilterSortViewChild.filmFilterSort.default){
@@ -113,6 +114,5 @@ export class FilmListComponent implements OnInit{
       //console.log('sort',this.sort);
     }
     this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort})
-    
   }
 }
