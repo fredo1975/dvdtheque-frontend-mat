@@ -23,6 +23,7 @@ export class FilmDetailComponent implements OnInit{
   origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV];
   Origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
+  readonly enSalleOrigineEnum = Origine.EN_SALLE
   updated = false;
   initOrigine: Origine
   constructor(private filmService: FilmService, private route: ActivatedRoute, private router: Router) {

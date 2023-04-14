@@ -45,8 +45,8 @@
             </mat-form-field>
         </label> 
 
-        <label *ngIf="film.origine === dvdOrigineEnum" class="label-pre">Sortie DVD : </label> 
-        <label *ngIf="film.origine === dvdOrigineEnum" class="label-val">
+        <label *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum" class="label-pre">Sortie DVD : </label> 
+        <label *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum" class="label-val">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
                 <input matInput [matDatepicker]="picker" [(ngModel)]="film.dvd.dateSortie">
@@ -55,7 +55,8 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </label> 
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label><label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label>
+        <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
                 <mat-select [(ngModel)]="film.dvd.zone" name="zone">
                 <mat-option *ngFor="let zone of zonesList" [value]="zone">
@@ -64,7 +65,8 @@
                 </mat-select>
             </mat-form-field>
         </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Format DVD : </label><label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Format DVD : </label>
+        <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
                 <mat-select [(ngModel)]="film.dvd.format" name="format">
                   <mat-option *ngFor="let dvdFormat of dvdFormats" [value]="dvdFormat">
@@ -73,7 +75,8 @@
                 </mat-select>
             </mat-form-field>
         </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label> <label class="label-val" 
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label>
+        <label class="label-val" 
             *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped && film.dvd.dateRip">
             le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
         </label>
