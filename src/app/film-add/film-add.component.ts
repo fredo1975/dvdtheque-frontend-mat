@@ -67,23 +67,24 @@ export class FilmAddComponent implements OnInit{
     this.buttonDisabled = true;
     this.loading = true;
     this.errorOccured = false;
-    // console.log('tmdbId=' + tmdbId + ' film.id=' + this.film.id + ' film.tmdbId=' + this.film.tmdbId);
-    this.filmService.saveFilm(tmdbId, this.origine).subscribe((filmSaved: Film) => {
-      // console.log('film with id : ' + filmSaved.id + ' - ' + filmSaved.titre + ' saved');
-      this.film = filmSaved;
-      this.tmdbFilms = [];
-    }
-      , (error) => {
-        this.errorOccured = true;
-        this.buttonDisabled = false;
-        console.log(error); this.buttonDisabled = false;
+
+    this.filmService.saveFilm(tmdbId, this.origine).subscribe({
+      next: (filmSaved: Film) => {
+        this.film = filmSaved
+        this.tmdbFilms = []
+      },
+      error: (e) => {
+        this.errorOccured = true
+        this.buttonDisabled = false
+        console.log(e)
+        this.loading = false
+      },
+      complete: () => {
+        this.buttonDisabled = false
+        this.loading = false
+        this.router.navigate(['/filmDetail/' + this.film.id])
       }
-      , () => {
-        // console.log('saveFilm Fini !');
-        this.buttonDisabled = false;
-        this.loading = false;
-        this.router.navigate(['/filmDetail/' + this.film.id]);
-      });
+    })
   }
 
   resetTmdbFilm() {

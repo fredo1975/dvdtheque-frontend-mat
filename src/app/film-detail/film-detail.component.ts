@@ -32,26 +32,24 @@ export class FilmDetailComponent implements OnInit{
   ngOnInit() {
     this.loading = true;
     this.buttonDisabled = true;
-    this.filmService.getFilm(this.route.snapshot.params['id']).subscribe(_film => {
-      this.film = _film;
-      // init of dvd in case change to dvd origine
-      if(!this.film.dvd){
-        this.film.dvd = {id:0,annee:0,zone: 2,edition: '',ripped: false,dateRip: new Date(),dateSortie: new Date(),format: DvdFormat.DVD}
-      }
-      
-      this.initOrigine = this.film.origine
-      //console.log(this.film)
-    }
-      , (error) => {
+    this.filmService.getFilm(this.route.snapshot.params['id']).subscribe({
+      next: (_film) => {
+        this.film = _film;
+        // init of dvd in case change to dvd origine and to be able to set dateSortie of DVD
+        if (!this.film.dvd) {
+          this.film.dvd = { id: 0, annee: 0, zone: 2, edition: '', ripped: false, dateRip: new Date(), dateSortie: new Date(), format: DvdFormat.DVD }
+        }
+        this.initOrigine = this.film.origine
+      },
+      error: (e) => {
         console.log('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
         this.loading = false;
-      }
-      , () => {
+      },
+      complete: () => {
         this.checkIfCritiquePresseExist();
         this.loading = false;
-        //console.log(this.film)
-      });
-    
+      }
+    })
     this.buttonDisabled = false;
     this.annees = this.filmService.getAnneesSelect();
   }
@@ -75,21 +73,22 @@ export class FilmDetailComponent implements OnInit{
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
-    return this.filmService.updateFilm(this.film).subscribe(f => {
-      //console.log('film with id : ' + f.id + ' updated');
-      this.film = f;
-    }
-      , (error) => {
+    return this.filmService.updateFilm(this.film).subscribe({
+      next: (f) => {
+        console.log('film with id : ' + f.id + ' updated');
+        this.film = f;
+      },
+      error: (e) => {
         this.errorOccured = true;
         this.loading = false;
-        console.log(error);
-      }
-      , () => {
+        console.log(e);
+      },
+      complete: () => {
         this.loading = false;
         this.buttonDisabled = false;
         this.updated = true;
         this.checkIfCritiquePresseExist();
-      });
+      }
+    })
   }
-
 }
