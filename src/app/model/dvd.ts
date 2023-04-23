@@ -7,6 +7,5 @@ export interface Dvd {
     edition: string;
     ripped: boolean;
     dateRip: Date;
-    dateSortie: Date;
     format: DvdFormat;
 }

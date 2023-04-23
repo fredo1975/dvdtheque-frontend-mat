@@ -35,10 +35,6 @@ export class FilmDetailComponent implements OnInit{
     this.filmService.getFilm(this.route.snapshot.params['id']).subscribe({
       next: (_film) => {
         this.film = _film;
-        // init of dvd in case change to dvd origine and to be able to set dateSortie of DVD
-        if (!this.film.dvd) {
-          this.film.dvd = { id: 0, annee: 0, zone: 2, edition: '', ripped: false, dateRip: new Date(), dateSortie: new Date(), format: DvdFormat.DVD }
-        }
         this.initOrigine = this.film.origine
       },
       error: (e) => {
@@ -62,9 +58,15 @@ export class FilmDetailComponent implements OnInit{
       this.critiquePresseExist = false;
     }
   }
+  createDateVu(){
+    console.log('createDateVu');
+    if(this.film.vu){
+      this.film.dateVue = new Date();
+    }
+  }
   
   updateFilm() {
-    if(this.film.dvd && this.film.dvd.ripped){
+    if(this.film.dvd && this.film.dvd.ripped && !this.film.dvd.dateRip){
       this.film.dvd.dateRip = new Date();
     }
     if(this.film.vu){

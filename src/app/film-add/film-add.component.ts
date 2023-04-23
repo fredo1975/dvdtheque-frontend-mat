@@ -21,11 +21,9 @@ export class FilmAddComponent implements OnInit{
   completedStatus: string;
   displayedColumns: string[] = ['poster','titre','titreO','realisateurs','acteurs','annee','alreadyInDvdtheque'];
   
-  constructor(private filmService: FilmService,
-    private route: ActivatedRoute,
-    private router: Router) { }
+  constructor(private filmService: FilmService, private route: ActivatedRoute, private router: Router) {
+  }
   ngOnInit() {
-    
   }
 
   serachTmdbFilm() {

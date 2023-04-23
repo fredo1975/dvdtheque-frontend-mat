@@ -49,7 +49,7 @@
         <label *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum" class="label-val">
             <mat-form-field appearance="fill">
                 <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dvd.dateSortie">
+                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dateSortieDvd">
                 <mat-hint>DD/MM/YYYY</mat-hint>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
@@ -80,7 +80,7 @@
             *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped && film.dvd.dateRip">
             le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
         </label>
-        <label class="label-pre"><input type="checkbox" [(ngModel)]="film.vu" [checked]="film.vu"/>Vu</label> <label class="label-val" *ngIf="film.vu">
+        <label class="label-pre"><input type="checkbox" [(ngModel)]="film.vu" [checked]="film.vu" (change)="createDateVu()"/>Vu</label> <label class="label-val" *ngIf="film.vu">
             le : {{film.dateVue | date: 'dd/MM/yyyy'}}
         </label>
         <label class="label-pre">Ajouté le : </label> 
