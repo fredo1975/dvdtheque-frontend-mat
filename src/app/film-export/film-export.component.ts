@@ -39,7 +39,7 @@ export class FilmExportComponent implements OnInit{
       this.filmService.saveAsExcelFile(data, `${fileName}-${now}-${this.origine}` + EXCEL_EXTENSION);
     }
       , (error) => {
-        console.log(error);
+        console.error(error);
         this.buttonDisabled = false;
         this.loading = false;
         this.errorOccured = true;

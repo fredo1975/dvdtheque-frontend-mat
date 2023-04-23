@@ -46,7 +46,7 @@ export class FilmImportComponent implements OnInit, OnDestroy {
       error: (e) => {
         this.errorOccured = true;
         this.loading = false;
-        console.log(e);
+        console.error(e);
       },
       complete: () => {
         this.loading = false;
@@ -114,7 +114,7 @@ export class FilmImportComponent implements OnInit, OnDestroy {
 
     }
       , (error) => {
-        console.log(error)
+        console.error(error)
         this.buttonDisabled = false
         this.loading = false
         this.loadingStatus = false
@@ -130,65 +130,4 @@ export class FilmImportComponent implements OnInit, OnDestroy {
         console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.')
       });
   }
-  /*
-    private subscribeTopic() {
-      // Subscribe to its stream (to listen on messages)
-      this.messagingService.stream().subscribe((message: Message) => {
-        if (this.buttonDisabled === false) {
-          this.buttonDisabled = true;
-        }
-        if (this.loading === false) {
-          this.loading = true;
-        }
-        const jmsStatusMessage: JmsStatusMessage<any> = JmsStatusMessage.fromJson(JSON.parse(message.body));
-        if (JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.FILE_ITEM_READER_COMPLETED.toString()) {
-          this.messageHistory.splice(1, 1);
-          this.messageHistory.splice(1, 0, jmsStatusMessage);
-        } else if (JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.FILM_CSV_LINE_MAPPER_COMPLETED.toString()) {
-          this.messageHistory.splice(2, 1);
-          this.messageHistory.splice(2, 0, jmsStatusMessage);
-          // tslint:disable-next-line:max-line-length
-        } else if (JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.IMPORT_COMPLETED_SUCCESS.toString() || JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.IMPORT_COMPLETED_ERROR.toString()) {
-          //console.log('subscribeTopic end', JSON.parse(message.body));
-          this.buttonDisabled = false;
-          this.loading = false;
-          this.time = jmsStatusMessage.getTiming();
-          // this.messageHistory.unshift(jmsStatusMessage);
-          if (JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.IMPORT_COMPLETED_SUCCESS.toString()) {
-            this.completedStatus = 'OK';
-          } else {
-            this.completedStatus = 'KO';
-          }
-        } else if (JmsStatus[jmsStatusMessage.getStatus()].toString() === JmsStatus.IMPORT_INIT.toString()) {
-          
-        } else {
-          if (jmsStatusMessage.getStatusValue() === 1) {
-            this.messageHistory.shift();
-          }
-          this.messageHistory.unshift(jmsStatusMessage);
-        }
-        this.loadingStatus = true;
-      }, (error) => {
-        console.log(error);
-        this.buttonDisabled = false;
-        this.loadingStatus = false;
-      }
-        , () => {
-          //console.log('subscribeTopic end');
-          this.buttonDisabled = false;
-          this.loadingStatus = false;
-        });
-    }
-  
-    
-    private initializeWebSocketConnection() {
-      // Instantiate a messagingService
-      this.messagingService = new MessagingService(environment.websocketApiUrl, this.TOPIC);
-      //console.log('environment.websocketApiUrl',environment.websocketApiUrl);
-      // Subscribe to its state (to know its connected or not)
-      this.messagingService.state().subscribe((state: StompState) => {
-        this.state = StompState[state];
-          //console.log('this.state=', this.state);
-      });
-    }*/
 }

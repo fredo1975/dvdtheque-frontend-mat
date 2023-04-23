@@ -47,7 +47,7 @@ export class FilmAddComponent implements OnInit{
         this.errorOccured = true;
         this.loading = false;
         this.buttonDisabled = false;
-        console.log(error);
+        console.error(error);
       }
       , () => {
         //console.log('serachTmdbFilm Fini !',this.tmdbFilms);
@@ -74,7 +74,7 @@ export class FilmAddComponent implements OnInit{
       error: (e) => {
         this.errorOccured = true
         this.buttonDisabled = false
-        console.log(e)
+        console.error(e)
         this.loading = false
       },
       complete: () => {

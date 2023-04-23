@@ -24,7 +24,7 @@ export class FilmAdminComponent extends FilmListComponent implements OnInit {
           //console.log('film with id : ' + id + ' removed')
         },
         error: (e) => {
-          console.log(e)
+          console.error(e)
           this.buttonDisabled = false
           this.errorOccured = true
         },
@@ -49,7 +49,7 @@ export class FilmAdminComponent extends FilmListComponent implements OnInit {
         //console.log('all images retrieved');
       }
         , (error) => { 
-          console.log(error)
+          console.error(error)
           this.buttonDisabled = false
           this.errorOccured = true
         }
@@ -76,7 +76,7 @@ export class FilmAdminComponent extends FilmListComponent implements OnInit {
           this.loading = false
         },
         error: (e) => {
-          console.log(e);
+          console.error(e);
           this.buttonDisabled = false
           this.loading = false
           this.errorOccured = true

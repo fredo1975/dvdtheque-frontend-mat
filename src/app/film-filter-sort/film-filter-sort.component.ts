@@ -31,7 +31,7 @@ export class FilmFilterSortComponent implements OnInit{
       , (error) => {
         //this.errorOccured = true;
         //this.loading = false;
-        console.log(error);
+        console.error(error);
       }
       , () => {
         //this.loading = false;

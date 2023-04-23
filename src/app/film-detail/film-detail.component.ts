@@ -38,7 +38,7 @@ export class FilmDetailComponent implements OnInit{
         this.initOrigine = this.film.origine
       },
       error: (e) => {
-        console.log('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
+        console.error('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
         this.loading = false;
       },
       complete: () => {
@@ -59,31 +59,27 @@ export class FilmDetailComponent implements OnInit{
     }
   }
   createDateVu(){
-    console.log('createDateVu');
     if(this.film.vu){
       this.film.dateVue = new Date();
     }
   }
-  
-  updateFilm() {
-    if(this.film.dvd && this.film.dvd.ripped && !this.film.dvd.dateRip){
+  createDateRip(){
+    if(this.film.dvd && this.film.dvd.ripped){
       this.film.dvd.dateRip = new Date();
     }
-    if(this.film.vu){
-      this.film.dateVue = new Date();
-    }
+  }
+  updateFilm() {
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
-        console.log('film with id : ' + f.id + ' updated');
         this.film = f;
       },
       error: (e) => {
         this.errorOccured = true;
         this.loading = false;
-        console.log(e);
+        console.error(e);
       },
       complete: () => {
         this.loading = false;

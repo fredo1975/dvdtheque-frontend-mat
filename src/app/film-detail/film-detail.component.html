@@ -75,7 +75,7 @@
                 </mat-select>
             </mat-form-field>
         </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped"/>Rippé</label>
+        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox" [(ngModel)]="film.dvd.ripped" [checked]="film.dvd.ripped" (change)="createDateRip()"/>Rippé</label>
         <label class="label-val" 
             *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped && film.dvd.dateRip">
             le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}

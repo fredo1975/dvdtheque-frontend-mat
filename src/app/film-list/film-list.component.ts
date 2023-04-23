@@ -44,7 +44,7 @@ export class FilmListComponent implements OnInit{
       error: (e) => {
         this.errorOccured = true;
         this.loading = false;
-        console.log(e);
+        console.error(e);
       },
       complete: () => {
         this.loading = false;

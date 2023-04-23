@@ -62,7 +62,7 @@ export class FilmUpdateCritiquepresseComponent implements OnInit{
         this.errorOccured = true;
         this.loading = false;
         this.buttonDisabled = false;
-        console.log(error);
+        console.error(error);
       }
       , () => {
         this.loading = false;
