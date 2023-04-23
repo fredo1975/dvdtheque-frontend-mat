@@ -1,11 +1,11 @@
-
-.nav-link{
-    color: rgba(255,255,255,.5);
+.nav-link {
+    color: rgba(255, 255, 255, .5);
 }
+
 .bg-dark {
-    background-color: #343a40!important;
+    background-color: #343a40 !important;
 }
 
 spacer {
-flex: 1 1 auto;
+    flex: 1 1 auto;
 }

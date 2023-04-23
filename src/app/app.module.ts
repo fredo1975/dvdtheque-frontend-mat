@@ -7,6 +7,7 @@ import { FilmListComponent } from './film-list/film-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ConfigInitService } from './init/config-init.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -58,6 +59,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     BrowserAnimationsModule,
     RoutingModule,
     MatToolbarModule,
+    MatSidenavModule,
     MatButtonModule,
     KeycloakAngularModule,
     HttpClientModule,
