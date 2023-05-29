@@ -6,6 +6,7 @@ import { RoutingModule } from './routing/routing.module';
 import { FilmListComponent } from './film-list/film-list.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -37,7 +38,8 @@ import { RxStompService } from './init/rx-stomp.service';
 import { initializeRxStompService } from './init/rx-stomp-init.factory';
 import { FilmAdminComponent } from './film-admin/film-admin.component';
 import { FilmUpdateCritiquepresseComponent } from './film-update-critiquepresse/film-update-critiquepresse.component';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatListModule } from '@angular/material/list';
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
   declarations: [
@@ -60,6 +62,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     RoutingModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatIconModule,
     MatButtonModule,
     KeycloakAngularModule,
     HttpClientModule,
@@ -74,7 +77,9 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    FlexLayoutModule,
+    MatListModule,
   ],
   providers: [{
     provide: APP_INITIALIZER,
