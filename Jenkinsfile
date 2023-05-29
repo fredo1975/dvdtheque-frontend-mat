@@ -42,7 +42,7 @@ pipeline {
 				script {
 					sh "npm -v"
 					sh "ng v"
-					sh "npm install @angular/flex-layout --save"
+					sh "npm install"
 					sh "ng build -c=dev --verbose"
 				}
 			}
