@@ -4,14 +4,20 @@
             <mat-label>Titre</mat-label>
             <input matInput placeholder="Titre" [(ngModel)]="filmFilterSort.titre">
         </mat-form-field>
+    </div>
+    <div class="grid-item" >
         <mat-form-field class="full-width">
             <mat-label>Réalisateur</mat-label>
             <input matInput placeholder="realisateur" [(ngModel)]="filmFilterSort.realisateur">
         </mat-form-field>
+      </div>
+      <div class="grid-item" >
         <mat-form-field class="full-width">
             <mat-label>Acteur</mat-label>
             <input matInput placeholder="acteur" [(ngModel)]="filmFilterSort.acteur">
         </mat-form-field>
+      </div>
+      <div class="grid-item" >
         <mat-form-field appearance="fill">
           <mat-label>Origine</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.origine" name="origine">
@@ -20,6 +26,7 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
+      </div>
         <!--
         <mat-form-field appearance="fill">
             <mat-select [(ngModel)]="filmFilterSort.annee" name="annee">
@@ -29,6 +36,7 @@
             </mat-select>
         </mat-form-field>
         -->
+        <div class="grid-item" >
         <mat-form-field appearance="fill">
           <mat-label>Catégorie</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.categorie" name="categorie">
@@ -37,6 +45,8 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
+      </div>
+      <div class="grid-item" >
         <mat-form-field appearance="fill">
           <mat-label>Déjà vu</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.vu" name="vu">
@@ -45,6 +55,8 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
+      </div>
+      <div class="grid-item" >
         <mat-form-field appearance="fill">
           <mat-label>Rippé</mat-label>
             <mat-select [(ngModel)]="filmFilterSort.ripped" name="ripped">
@@ -53,6 +65,8 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
+      </div>
+      <div class="grid-item" >
         <mat-form-field appearance="fill">
           <mat-label>Trié par</mat-label>
             <mat-select [(ngModel)]="sortBySelected" name="sortBySelected">
@@ -61,7 +75,11 @@
               </mat-option>
             </mat-select>
         </mat-form-field>
-        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
+      </div>
+      <div class="grid-item" >
+        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>
+      </div>
+      <div class="grid-item" >
         <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
-    </div>
+      </div>
 </div>
