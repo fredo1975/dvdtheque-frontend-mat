@@ -53,6 +53,8 @@ pipeline {
             }
 			steps {
 				script {
+					sh "npm -v"
+					sh "ng v"
 					sh "npm install"
 					ARTIFACT_VERSION = getArtifactVersion(GIT_BRANCH_NAME,GIT_REVISION)
 					sh "ng build -c=production --verbose"
