@@ -64,7 +64,7 @@
         <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label>
         <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="film.dvd.zone" name="zone">
+                <mat-select [(ngModel)]="film.dvd && film.dvd.zone" name="zone">
                     <mat-option *ngFor="let zone of zonesList" [value]="zone">
                         {{zone}}
                     </mat-option>
