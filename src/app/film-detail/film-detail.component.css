@@ -6,7 +6,7 @@
 
 .grid-item {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 6fr;
   grid-gap: 1px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   padding: 10px;
