@@ -3,12 +3,14 @@
 <div class="grid-container" *ngIf="!loading">
     <img src="{{film.posterPath}}" alt="" />
     <div class="grid-item">
-        <label class="label-pre"></label><label class="label-val">
+        <label class="label-pre"></label>
+        <label class="label-val">
             <div class="updatedDiv" *ngIf="updated">
                 <strong>Film modifié</strong>
             </div>
         </label>
-        <label class="label-pre"></label><label class="label-val">
+        <label class="label-pre"></label>
+        <label class="label-val">
             <div class="errorDiv" *ngIf="errorOccured">
                 <strong>une erreur est survenue</strong>
             </div>

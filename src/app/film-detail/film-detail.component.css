@@ -1,11 +1,12 @@
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-rows: 1fr;
 }
 
 .grid-item {
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 1fr;
   grid-gap: 1px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* this adds the "card" effect */
   padding: 10px;
@@ -28,7 +29,7 @@ img {
   height: auto;
 }
 img.acteurs {
-  width: 150px;
+  width: 100%;
 }
 
 .acteur-list {
