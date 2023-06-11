@@ -38,11 +38,7 @@ export class FilmDetailComponent implements OnInit{
     this.filmService.getFilm(this.route.snapshot.params['id']).subscribe({
       next: (_film) => {
         this.film = _film;
-        console.log('film',this.film);
-        this.initOrigine = this.film.origine
-        this.zoneSelected = this.film.dvd && this.film.dvd.zone
-        this.formatSelected = this.film.dvd && this.film.dvd.format
-        this.rippedSelected = this.film.dvd && this.film.dvd.ripped
+        this.initSelectedFields()
       },
       error: (e) => {
         console.error('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
@@ -56,7 +52,11 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = false;
     this.annees = this.filmService.getAnneesSelect();
   }
-  
+  private initSelectedFields(){
+    this.zoneSelected = this.film.dvd && this.film.dvd.zone
+    this.formatSelected = this.film.dvd && this.film.dvd.format
+    this.rippedSelected = this.film.dvd && this.film.dvd.ripped
+  }
   private checkIfCritiquePresseExist(){
     if (this.film.critiquePresse && this.film.critiquePresse.length > 0) {
       // console.log('ngOnInit this.film.critiquesPresse');
@@ -81,14 +81,12 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = true;
     
     if(this.film.origine === Origine.DVD){
-      console.log('this.film.origine selected',this.film.origine);
-      console.log('this.zoneSelected',this.zoneSelected);
-      console.log('this.formatSelected',this.formatSelected);
       this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: new Date()}
     }
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
         this.film = f;
+        this.initSelectedFields()
       },
       error: (e) => {
         this.errorOccured = true;
