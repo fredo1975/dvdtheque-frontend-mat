@@ -64,7 +64,7 @@
         <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label>
         <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="film.dvd && film.dvd.zone" name="zone">
+                <mat-select [(ngModel)]="zoneSelected" name="zone">
                     <mat-option *ngFor="let zone of zonesList" [value]="zone">
                         {{zone}}
                     </mat-option>
@@ -74,7 +74,7 @@
         <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Format DVD : </label>
         <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
             <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="film.dvd && film.dvd.format" name="format">
+                <mat-select [(ngModel)]="formatSelected" name="format">
                     <mat-option *ngFor="let dvdFormat of dvdFormats" [value]="dvdFormat">
                         {{dvdFormat}}
                     </mat-option>
@@ -82,9 +82,9 @@
             </mat-form-field>
         </label>
         <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox"
-                [(ngModel)]="film.dvd && film.dvd.ripped" [checked]="film.dvd && film.dvd.ripped" (change)="createDateRip()" />Rippé</label>
+                [(ngModel)]="rippedSelected" [checked]="rippedSelected" (change)="createDateRip()" />Rippé</label>
         <label class="label-val"
-            *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped && film.dvd.dateRip">
+            *ngIf="film.origine === dvdOrigineEnum && rippedSelected && film.dvd.dateRip">
             le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
         </label>
         <label class="label-pre"><input type="checkbox" [(ngModel)]="film.vu" [checked]="film.vu"

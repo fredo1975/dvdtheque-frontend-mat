@@ -1,10 +1,10 @@
 import { DvdFormat } from "./dvd-format";
 
 export interface Dvd {
-    id: number;
-    annee: number;
+    id?: number;
+    annee?: number;
     zone: number;
-    edition: string;
+    edition?: string;
     ripped: boolean;
     dateRip: Date;
     format: DvdFormat;

@@ -21,11 +21,14 @@ export class FilmDetailComponent implements OnInit{
   zonesList: number[] = [1,2,3];
   dvdFormats: DvdFormat[] = [DvdFormat.BLUERAY, DvdFormat.DVD];
   origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV];
-  Origine = Origine;
+  origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
   readonly enSalleOrigineEnum = Origine.EN_SALLE
   updated = false;
   initOrigine: Origine
+  zoneSelected: number
+  formatSelected : DvdFormat
+  rippedSelected: boolean = false
   constructor(private filmService: FilmService, private route: ActivatedRoute, private router: Router) {
   }
 
@@ -37,6 +40,9 @@ export class FilmDetailComponent implements OnInit{
         this.film = _film;
         console.log('film',this.film);
         this.initOrigine = this.film.origine
+        this.zoneSelected = this.film.dvd && this.film.dvd.zone
+        this.formatSelected = this.film.dvd && this.film.dvd.format
+        this.rippedSelected = this.film.dvd && this.film.dvd.ripped
       },
       error: (e) => {
         console.error('an error occured when fetching film with id : ' + this.route.snapshot.params['id']);
@@ -65,7 +71,7 @@ export class FilmDetailComponent implements OnInit{
     }
   }
   createDateRip(){
-    if(this.film.dvd && this.film.dvd.ripped){
+    if(this.rippedSelected){
       this.film.dvd.dateRip = new Date();
     }
   }
@@ -73,6 +79,13 @@ export class FilmDetailComponent implements OnInit{
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
+    
+    if(this.film.origine === Origine.DVD){
+      console.log('this.film.origine selected',this.film.origine);
+      console.log('this.zoneSelected',this.zoneSelected);
+      console.log('this.formatSelected',this.formatSelected);
+      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: new Date()}
+    }
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
         this.film = f;
