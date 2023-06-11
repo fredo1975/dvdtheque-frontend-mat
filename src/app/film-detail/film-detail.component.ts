@@ -35,6 +35,7 @@ export class FilmDetailComponent implements OnInit{
     this.filmService.getFilm(this.route.snapshot.params['id']).subscribe({
       next: (_film) => {
         this.film = _film;
+        console.log('film',this.film);
         this.initOrigine = this.film.origine
       },
       error: (e) => {

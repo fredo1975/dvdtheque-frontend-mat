@@ -13,10 +13,10 @@
             <mat-card-content>
                 Durée : {{film.runtime}}
 
-                <div *ngIf="film.origine === dvdOrigineEnum && film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
+                <div *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
                         src="assets/img/ok.png" class="img ripped"><br />
                 </div>
-                <div *ngIf="film.origine === dvdOrigineEnum && !film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
+                <div *ngIf="film.origine === dvdOrigineEnum && film.dvd && !film.dvd.ripped">{{film.origine}} Rippé : &nbsp;<img
                         src="assets/img/ko.png" class="img ripped"><br />
                 </div>
                 <div *ngIf="film.origine != dvdOrigineEnum">{{film.origine}}</div>
