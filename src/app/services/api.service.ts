@@ -51,10 +51,13 @@ export class ApiService {
     params = params.append('title', title);
     return this.http.get<FicheFilm[]>(this.backendUrl + '/films/allocine/byTitle', { params: params });
   }
+  /*
   getAllTmdbFilmsByTitre(titre: string): Observable<Film[]> {
     return this.http.get<Film[]>(this.backendUrl + '/films/tmdb/byTitre/' + titre);
+  }*/
+  getAllTmdbFilmsByTitre(titre: string): Observable<Film[]> {
+    return this.http.get<Film[]>(this.backendUrl + '/films/tmdb/byTitre/' + titre+ '/' + 1);
   }
-
   getFilm(id: number): Observable<Film> {
     return this.http.get<Film>(this.backendUrl + '/films/byId/' + id);
   }
