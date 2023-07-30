@@ -13,7 +13,7 @@ export class FilmFilterSortComponent implements OnInit{
   @Output() filmFilterSortChange = new EventEmitter<FilmFilterSort>();
   filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
   buttonDisabled = false
-  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.GOOGLE_PLAY,Origine.TV]
+  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.CANAL_PLUS,Origine.GOOGLE_PLAY,Origine.TV]
   Origine = Origine
   annees: number[]
   categories: Genre[]
