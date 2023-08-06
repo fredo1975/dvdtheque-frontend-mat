@@ -81,7 +81,7 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = true;
     
     if(this.film.origine === Origine.DVD){
-      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: new Date()}
+      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: this.film.dvd.dateRip ? this.film.dvd.dateRip : new Date()}
     }
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
