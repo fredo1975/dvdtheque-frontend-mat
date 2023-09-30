@@ -2,8 +2,8 @@
 <div class="errorDiv" *ngIf="errorOccured">
     <strong>une erreur est survenue</strong>
 </div>
-<div class="grid-container" >
-    <div class="grid-item" >
+<div class="grid-container">
+    <div class="grid-item">
         <mat-form-field class="full-width">
             <mat-label>Titre</mat-label>
             <input matInput placeholder="Titre" [(ngModel)]="titre">
@@ -12,13 +12,14 @@
         <mat-form-field appearance="fill">
             <mat-label>Origine</mat-label>
             <mat-select name="origine" [(ngModel)]="origine">
-                <mat-option *ngFor="let origine of origines" [value]="origine" >
-                {{origine}}
+                <mat-option *ngFor="let origine of origines" [value]="origine">
+                    {{origine}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <button type="button" class="btn btn-primary" (click)="serachTmdbFilm()" [disabled]="buttonDisabled">Chercher</button>&nbsp;
+        <button type="button" class="btn btn-primary" (click)="serachTmdbFilm()"
+            [disabled]="buttonDisabled">Chercher</button>&nbsp;
         <button type="button" class="btn btn-primary" (click)="resetTmdbFilm()" [disabled]="buttonDisabled">Effecer la
             recherche</button>
     </div>
@@ -44,7 +45,7 @@
                 <td mat-cell *matCellDef="let film">
                     <div *ngFor="let realisateur of film.realisateur">
                         {{realisateur.nom | uppercase}}
-                      </div>
+                    </div>
                 </td>
             </ng-container>
             <ng-container matColumnDef="acteurs">
@@ -52,7 +53,7 @@
                 <td mat-cell *matCellDef="let film">
                     <div *ngFor="let acteur of film.acteur">
                         {{acteur.nom}}
-                      </div>
+                    </div>
                 </td>
             </ng-container>
             <ng-container matColumnDef="annee">
@@ -63,7 +64,7 @@
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let film">
                     <button *ngIf="!film.alreadyInDvdtheque" class="btn btn-primary" (click)="saveFilm(film.id)"
-                    [disabled]="buttonDisabled">Ajouter</button>
+                        [disabled]="buttonDisabled">Ajouter</button>
                     <div *ngIf="film.alreadyInDvdtheque">déjà enregistré</div>
                 </td>
             </ng-container>
