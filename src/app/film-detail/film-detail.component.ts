@@ -85,6 +85,7 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = true;
     
     if(this.film.origine === Origine.DVD){
+      console.log('this.film.origine === Origine.DVD');
       let drip = this.film.dvd != null && this.film.dvd.dateRip != null ? this.film.dvd.dateRip : new Date()
       this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: drip}
     }
