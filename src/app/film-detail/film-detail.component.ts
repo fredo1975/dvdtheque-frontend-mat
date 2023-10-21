@@ -72,7 +72,11 @@ export class FilmDetailComponent implements OnInit{
   }
   createDateRip(){
     if(this.rippedSelected){
-      this.film.dvd.dateRip = new Date();
+      if(this.film.dvd == null){
+        this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: new Date()}
+      }else{
+        this.film.dvd.dateRip = new Date();
+      }
     }
   }
   updateFilm() {
@@ -81,7 +85,8 @@ export class FilmDetailComponent implements OnInit{
     this.buttonDisabled = true;
     
     if(this.film.origine === Origine.DVD){
-      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: this.film.dvd && this.film.dvd.dateRip ? this.film.dvd.dateRip : new Date()}
+      let drip = this.film.dvd != null && this.film.dvd.dateRip != null ? this.film.dvd.dateRip : new Date()
+      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: drip}
     }
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
