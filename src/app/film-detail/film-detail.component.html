@@ -1,7 +1,7 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 
 <div class="grid-container" *ngIf="!loading">
-    <img src="{{film.posterPath}}" alt="" />
+    <div class="grid-item"><img src="{{film.posterPath}}" alt="" /></div>
     <div class="grid-item">
         <label class="label-pre"></label>
         <label class="label-val">
@@ -38,7 +38,7 @@
         </label>
         <label class="label-pre">Home Page : </label> <label class="label-val"><a *ngIf="film.homepage"
                 href="{{film.homepage}}">{{film.homepage}}</a></label>
-        <label class="label-pre">TMDB D : </label><label class="label-val">{{film.tmdbId}}</label>
+        <label class="label-pre">TMDB ID : </label><label class="label-val">{{film.tmdbId}}</label>
         <label class="label-pre">Origine : </label>
         <label class="label-val">
             <mat-form-field appearance="fill">

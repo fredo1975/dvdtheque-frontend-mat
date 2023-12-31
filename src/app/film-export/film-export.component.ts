@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Origine } from '../model/origine';
 import { FilmService } from '../services/film.service';
 
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
@@ -36,6 +35,7 @@ export class FilmExportComponent implements OnInit{
     //console.log(this.origine);
     this.filmService.exportFilmList(this.origine).subscribe((data: any) => {
       const now = Date.now();
+      
       this.filmService.saveAsExcelFile(data, `${fileName}-${now}-${this.origine}` + EXCEL_EXTENSION);
     }
       , (error) => {

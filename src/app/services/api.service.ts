@@ -154,6 +154,7 @@ export class ApiService {
     return this.http.get<Page>(this.backendUrl + '/films/paginatedSarch', { params: params });
   }
   saveAsExcelFile(data: any, fileName: string): void {
+    console.log('data',data);
     const blob: Blob = new Blob([data], { type: EXCEL_TYPE });
     FileSaver.saveAs(blob, fileName);
   }

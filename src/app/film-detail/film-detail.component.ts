@@ -88,9 +88,11 @@ export class FilmDetailComponent implements OnInit{
       let drip = this.film.dvd != null && this.film.dvd.dateRip != null ? this.film.dvd.dateRip : new Date()
       this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: drip}
     }
+    console.log("updateFilm",this.film)
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
         this.film = f;
+        console.log("updateFilm updated",this.film)
         this.initSelectedFields()
       },
       error: (e) => {
