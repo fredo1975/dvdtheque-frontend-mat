@@ -15,7 +15,7 @@ export class FilmAddComponent implements OnInit{
   tmdbFilms: Film[] = [];
   buttonDisabled = false;
   loading = false;
-  origines: Origine[] = [Origine[Origine.DVD], Origine[Origine.EN_SALLE], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV], Origine[Origine.CANAL_PLUS]];
+  origines: Origine[] = [Origine[Origine.DVD], Origine[Origine.EN_SALLE],Origine[Origine.CANAL_PLUS], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV]];
   origine: Origine;
   errorOccured: boolean;
   completedStatus: string;

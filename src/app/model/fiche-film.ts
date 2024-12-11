@@ -7,4 +7,5 @@ export interface FicheFilm {
     pageNumber: number;
     title: string;
     critiquePresse: CritiquePresse[];
+    creationDate: Date;
 }

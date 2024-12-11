@@ -1,0 +1,36 @@
+<div class="errorDiv" *ngIf="errorOccured">
+    <strong>une erreur est survenue</strong>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+
+<table mat-table [dataSource]="ficheFilms" class="mat-elevation-z8">
+    <ng-container matColumnDef="titre">
+        <th mat-header-cell *matHeaderCellDef>Titre</th>
+        <td mat-cell *matCellDef="let film">{{film.title}}</td>
+    </ng-container>
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>id</th>
+        <td mat-cell *matCellDef="let film">{{film.id}}</td>
+    </ng-container>
+    <ng-container matColumnDef="allocineFilmId">
+        <th mat-header-cell *matHeaderCellDef>allocineFilmId</th>
+        <td mat-cell *matCellDef="let film">{{film.allocineFilmId}}</td>
+    </ng-container>
+    <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef>url</th>
+        <td mat-cell *matCellDef="let film">{{film.url}}</td>
+    </ng-container>
+    <ng-container matColumnDef="pageNumber">
+        <th mat-header-cell *matHeaderCellDef>pageNumber</th>
+        <td mat-cell *matCellDef="let film">{{film.pageNumber}}</td>
+    </ng-container>
+    <ng-container matColumnDef="creationDate">
+        <th mat-header-cell *matHeaderCellDef>creationDate</th>
+        <td mat-cell *matCellDef="let film">{{film.creationDate | date: 'dd/MM/yyyy'}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements"
+    (page)="handlePageEvent($event)" class="paginator">
+</mat-paginator>
