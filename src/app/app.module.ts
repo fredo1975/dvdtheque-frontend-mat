@@ -40,6 +40,7 @@ import { FilmAdminComponent } from './film-admin/film-admin.component';
 import { FilmUpdateCritiquepresseComponent } from './film-update-critiquepresse/film-update-critiquepresse.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
+import { FilmAllocineComponent } from './film-allocine/film-allocine.component';
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FilmExportComponent,
     FilmImportComponent,
     FilmAdminComponent,
-    FilmUpdateCritiquepresseComponent
+    FilmUpdateCritiquepresseComponent,
+    FilmAllocineComponent
   ],
   imports: [
     BrowserModule,

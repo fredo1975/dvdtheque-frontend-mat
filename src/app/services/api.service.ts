@@ -9,6 +9,7 @@ import { Origine } from '../model/origine';
 import { FicheFilm } from '../model/fiche-film';
 import * as FileSaver from 'file-saver';
 import { Page } from '../model/page';
+import { FicheFilmPage } from '../model/fiche-film-page';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,6 +28,7 @@ export class ApiService {
   constructor(protected http: HttpClient) { }
 
   private readonly backendUrl = '/dvdtheque-service'
+  private readonly allocineBackendUrl = '/dvdtheque-allocine-service'
 
   private createdisplayTypeParam(displayType: string,limitFilmSize: number): HttpParams {
     let params = new HttpParams();
@@ -157,6 +159,12 @@ export class ApiService {
     console.log('data',data);
     const blob: Blob = new Blob([data], { type: EXCEL_TYPE });
     FileSaver.saveAs(blob, fileName);
+  }
+
+  paginatedSearchAlloCine(query: string,offset: number, limit: number,sort: string): Observable<FicheFilmPage>{
+    let params = new HttpParams();
+    params = params.append('query', query).append('offset', offset.toString()).append('limit', limit.toString()).append('sort', sort);
+    return this.http.get<FicheFilmPage>(this.allocineBackendUrl + '/paginatedSarch', { params: params });
   }
 }
 function tap(arg0: (_: any) => void): import("rxjs").OperatorFunction<Object, any> {
