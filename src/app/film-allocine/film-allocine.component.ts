@@ -21,7 +21,8 @@ export class FilmAllocineComponent implements OnInit{
   buttonDisabled = false
   readonly defaultPageSize: number = 50;
   displayedColumns: string[] = ['titre', 'id', 'allocineFilmId', 'url', 'pageNumber','creationDate']
-
+  sortByOptions: string[] = ['created date asc','created date desc']
+  sortBySelected: string
   ngOnInit(): void {
     console.log('FilmAllocineComponent::ngOnInit');
   }
@@ -56,12 +57,20 @@ export class FilmAllocineComponent implements OnInit{
   }
 
   filter(){
-    //console.log('filter',this.title);
-    this.query = 'title:eq:'+this.title+':AND';
+    if(this.title != ''){
+      this.query = 'title:eq:'+this.title+':AND';
+    }
+    if(this.sortBySelected != '' && this.sortBySelected === 'created date asc'){
+      this.sort = '+creationDate'
+    } else if(this.sortBySelected != '' && this.sortBySelected === 'created date desc'){
+      this.sort = '-creationDate'
+    }
     this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
+  sortByCreationDate(){
+    this.sort= ''
+  }
   resetFields(){
-    //console.log('resetFields');
     this.query = ''
     this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
