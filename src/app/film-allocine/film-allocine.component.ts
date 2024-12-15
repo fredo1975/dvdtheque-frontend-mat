@@ -72,6 +72,9 @@ export class FilmAllocineComponent implements OnInit{
   }
   resetFields(){
     this.query = ''
+    this.sort = ''
+    this.sortBySelected = ''
+    this.title = ''
     this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
 }
