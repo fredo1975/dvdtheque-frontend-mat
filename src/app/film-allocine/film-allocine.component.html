@@ -11,6 +11,16 @@
         </mat-form-field>
     </div>
     <div class="grid-item" >
+        <mat-form-field appearance="fill">
+          <mat-label>Trié par</mat-label>
+            <mat-select [(ngModel)]="sortBySelected" name="sortBySelected">
+              <mat-option *ngFor="let sortBy of sortByOptions" [value]="sortBy">
+                {{sortBy}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+    <div class="grid-item" >
         <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
       
         <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
@@ -31,7 +41,7 @@
     </ng-container>
     <ng-container matColumnDef="url">
         <th mat-header-cell *matHeaderCellDef>url</th>
-        <td mat-cell *matCellDef="let film">{{film.url}}</td>
+        <td mat-cell *matCellDef="let film"><a href="{{film.url}}" target="_blank">{{film.url}}</a></td>
     </ng-container>
     <ng-container matColumnDef="pageNumber">
         <th mat-header-cell *matHeaderCellDef>pageNumber</th>
