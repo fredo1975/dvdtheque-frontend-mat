@@ -17,6 +17,8 @@ export class FilmAllocineComponent implements OnInit{
   ficheFilms: FicheFilm[] = [];
   query: string = ''
   sort: string = '+title'
+  title: string = ''
+  buttonDisabled = false
   readonly defaultPageSize: number = 50;
   displayedColumns: string[] = ['titre', 'id', 'allocineFilmId', 'url', 'pageNumber','creationDate']
 
@@ -51,5 +53,16 @@ export class FilmAllocineComponent implements OnInit{
   handlePageEvent(e: PageEvent) {
     //console.log(e);
     this.getAllFicheFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:this.sort});
+  }
+
+  filter(){
+    //console.log('filter',this.title);
+    this.query = 'title:eq:'+this.title+':AND';
+    this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
+  }
+  resetFields(){
+    //console.log('resetFields');
+    this.query = ''
+    this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
 }

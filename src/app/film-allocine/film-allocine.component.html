@@ -3,6 +3,19 @@
 </div>
 <mat-spinner *ngIf="loading"></mat-spinner>
 
+<div class="grid-container" >
+    <div class="grid-item" >
+        <mat-form-field class="full-width">
+            <mat-label>Titre</mat-label>
+            <input matInput placeholder="Titre" [(ngModel)]="title">
+        </mat-form-field>
+    </div>
+    <div class="grid-item" >
+        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
+      
+        <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
+      </div>
+</div>
 <table mat-table [dataSource]="ficheFilms" class="mat-elevation-z8">
     <ng-container matColumnDef="titre">
         <th mat-header-cell *matHeaderCellDef>Titre</th>
