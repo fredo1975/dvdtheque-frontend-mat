@@ -16,7 +16,7 @@ export class FilmAllocineComponent implements OnInit{
   totalElements: number = 0;
   ficheFilms: FicheFilm[] = [];
   query: string = ''
-  sort: string = '+title'
+  sort: string = '-creationDate'
   title: string = ''
   buttonDisabled = false
   readonly defaultPageSize: number = 50;
