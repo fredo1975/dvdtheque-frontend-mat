@@ -51,10 +51,12 @@ export class FilmUpdateCritiquepresseComponent implements OnInit {
   }
   choose(id: number) {
     console.log(id)
-    const filmUpdated = {allocineFicheFilmId: id} = this.film
+    let clone = {...this.film}
+    clone.allocineFicheFilmId = id
+    console.log(clone)
     this.loading = true;
     this.buttonDisabled = true;
-    this.filmService.updateFilm(filmUpdated).subscribe({
+    this.filmService.updateFilm(clone).subscribe({
       next: (f: Film) => {
         this.film = f;
         console.log('updateFilm film f =',f);
