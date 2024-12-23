@@ -10,7 +10,7 @@ import { FilmService } from '../services/film.service';
   templateUrl: './film-update-critiquepresse.component.html',
   styleUrls: ['./film-update-critiquepresse.component.css']
 })
-export class FilmUpdateCritiquepresseComponent implements OnInit{
+export class FilmUpdateCritiquepresseComponent implements OnInit {
   ficheFilmTab: FicheFilm[];
   film: Film;
   loading = false;
@@ -22,7 +22,7 @@ export class FilmUpdateCritiquepresseComponent implements OnInit{
 
   ngOnInit(): void {
     this.loading = true;
-    
+
     this.filmService.getFilm(this.route.snapshot.params['id']).pipe(
       switchMap(
         film => {
@@ -31,15 +31,15 @@ export class FilmUpdateCritiquepresseComponent implements OnInit{
           return this.filmService.getAllCritiquePresseByAllocineFilmByTitle(film.titre)
         }
       )
-      ).subscribe(_ficheFilmTab => {
-        this.ficheFilmTab = _ficheFilmTab.slice();
-        console.log(this.ficheFilmTab)
-        this.loading = false
-      }
-        , (error) => {
-          console.log('an error occured when fetching allocine film with title : ' + this.film.titre);
-          this.loading = false;
-        });
+    ).subscribe(_ficheFilmTab => {
+      this.ficheFilmTab = _ficheFilmTab.slice();
+      console.log(this.ficheFilmTab)
+      this.loading = false
+    }
+      , (error) => {
+        console.log('an error occured when fetching allocine film with title : ' + this.film.titre);
+        this.loading = false;
+      });
   }
 
   getCurrentFilm = () => {
@@ -54,20 +54,22 @@ export class FilmUpdateCritiquepresseComponent implements OnInit{
     this.film.allocineFicheFilmId = id;
     this.loading = true;
     this.buttonDisabled = true;
-    this.filmService.updateFilm(this.film).subscribe(f => {
-      // console.log('film with id : ' + f.id + ' updated');
-      this.film = f;
-    }
-      , (error) => {
+    this.filmService.updateFilm(this.film).subscribe({
+      next: (f: Film) => {
+        this.film = f;
+        console.log('updateFilm film f =',f);
+      },
+      error: (e) => {
         this.errorOccured = true;
         this.loading = false;
         this.buttonDisabled = false;
-        console.error(error);
-      }
-      , () => {
+        console.error(e);
+      },
+      complete: () => {
         this.loading = false;
         this.buttonDisabled = false;
         this.updated = true;
-      });
+      }
+    })
   }
 }
