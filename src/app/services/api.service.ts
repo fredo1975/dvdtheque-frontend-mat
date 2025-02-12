@@ -29,6 +29,7 @@ export class ApiService {
 
   private readonly backendUrl = '/dvdtheque-service'
   private readonly allocineBackendUrl = '/dvdtheque-allocine-service'
+  private readonly batchBackendUrl = '/dvdtheque-batch-service'
 
   private createdisplayTypeParam(displayType: string,limitFilmSize: number): HttpParams {
     let params = new HttpParams();
@@ -126,7 +127,7 @@ export class ApiService {
   importFilmList(formdata: FormData): Observable<any> {
     const url = '/films/import';
     //console.log('importFilmList');
-    return this.http.post(this.backendUrl + '/films/import', formdata);
+    return this.http.post(this.batchBackendUrl + '/films/import', formdata);
   }
 
   exportFilmList(origine: Origine) {
