@@ -26,9 +26,34 @@ export class FilmListComponent implements OnInit{
   constructor(protected filmService: FilmService) { 
     //this.films = [];
   }
+
+  private setCookie(name: string, value: string, days: number) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+}
+
+private getCookie(name: string): string | null {
+  if (!document.cookie) return null;
+  const cookies = document.cookie.split('; ');
+  for (const cookie of cookies) {
+    const [key, ...rest] = cookie.split('=');
+    if (key === name) {
+      return decodeURIComponent(rest.join('='));
+    }
+  }
+  return null;
+}
+
   ngOnInit(): void {
     //console.log('FilmListComponent::ngOnInit');
-    this.query += 'origine:eq:DVD:AND,'
+    // Lire le cookie origine si présent
+    const origineCookie = this.getCookie('origine');
+    const origineValue = origineCookie ? origineCookie : 'DVD';
+    // Affecter la valeur au filtre du composant enfant AVANT la requête
+    if (this.filmFilterSortViewChild && this.filmFilterSortViewChild.filmFilterSort) {
+      this.filmFilterSortViewChild.filmFilterSort.origine = origineValue;
+    }
+    this.query += `origine:eq:${origineValue}:AND,`;
     this.sort += '-dateInsertion,+titre'
     this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
   }
@@ -74,6 +99,8 @@ export class FilmListComponent implements OnInit{
       }
       if(this.filmFilterSortViewChild.filmFilterSort.origine != ''){
         this.query += 'origine:eq:'+this.filmFilterSortViewChild.filmFilterSort.origine+':AND,'
+        // Stocker dans le cookie pour 30 jours
+        this.setCookie('origine', this.filmFilterSortViewChild.filmFilterSort.origine, 30);
       }
       if(this.filmFilterSortViewChild.filmFilterSort.annee != ''){
         this.query += 'dateSortie:eq:'+this.filmFilterSortViewChild.filmFilterSort.annee+':AND,'
