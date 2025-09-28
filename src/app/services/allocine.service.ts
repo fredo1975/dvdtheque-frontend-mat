@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
-import { Page } from '../model/page';
 import { FicheFilmPage } from '../model/fiche-film-page';
 
 @Injectable({
