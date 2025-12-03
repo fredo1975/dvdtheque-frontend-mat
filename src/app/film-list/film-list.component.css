@@ -18,7 +18,7 @@
 }
 .film-card {
   height: 100%;
-  padding: 1rem;
+  padding: 0.4em;
   width: 100%;
 }
 .film-title{
@@ -26,8 +26,8 @@
 }
 .film-header-image {
   background-size: cover;
-  width: 200px;
-  height: 305px;
+  background-position: center;
+  width: 100%;
 }
 img.ripped {
   width: 15px;
