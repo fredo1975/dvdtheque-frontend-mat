@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Film } from '../model/film';
-import { Origine } from '../model/origine';
+import { Origine , OriginesWithoutTous} from '../model/origine';
 import { FilmService } from '../services/film.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class FilmAddComponent implements OnInit{
   tmdbFilms: Film[] = [];
   buttonDisabled = false;
   loading = false;
-  origines: Origine[] = [Origine[Origine.DVD], Origine[Origine.EN_SALLE],Origine[Origine.CANAL_PLUS], Origine[Origine.GOOGLE_PLAY], Origine[Origine.NETFLIX], Origine[Origine.AMAZON_PRIME], Origine[Origine.TV]];
+  origines: Origine[] = OriginesWithoutTous;
   origine: Origine;
   errorOccured: boolean;
   completedStatus: string;
