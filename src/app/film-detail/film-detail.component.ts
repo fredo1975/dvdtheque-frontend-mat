@@ -20,7 +20,7 @@ export class FilmDetailComponent implements OnInit{
   private annees: number[];
   zonesList: number[] = [1,2,3];
   dvdFormats: DvdFormat[] = [DvdFormat.BLUERAY, DvdFormat.DVD];
-  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.CANAL_PLUS,Origine.GOOGLE_PLAY,Origine.TV];
+  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.CANAL_PLUS,Origine.GOOGLE_PLAY, Origine[Origine.NETFLIX], Origine[Origine.AMAZON_PRIME],Origine.TV];
   origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
   readonly enSalleOrigineEnum = Origine.EN_SALLE
