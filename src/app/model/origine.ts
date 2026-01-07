@@ -8,3 +8,8 @@ export enum Origine {
     AMAZON_PRIME = 'AMAZON_PRIME',
     TOUS = 'TOUS'
 }
+
+function removeTousEntry() {
+    return Object.values(Origine).filter(origine => origine !== Origine.TOUS);
+    }
+export const OriginesWithoutTous: Origine[] = removeTousEntry();

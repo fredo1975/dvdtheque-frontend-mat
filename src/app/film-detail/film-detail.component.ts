@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Dvd } from '../model/dvd';
 import { DvdFormat } from '../model/dvd-format';
 import { Film } from '../model/film';
-import { Origine } from '../model/origine';
+import { Origine, OriginesWithoutTous } from '../model/origine';
 import { FilmService } from '../services/film.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class FilmDetailComponent implements OnInit{
   private annees: number[];
   zonesList: number[] = [1,2,3];
   dvdFormats: DvdFormat[] = [DvdFormat.BLUERAY, DvdFormat.DVD];
-  origines: Origine[] = [Origine.DVD,Origine.EN_SALLE,Origine.CANAL_PLUS,Origine.GOOGLE_PLAY, Origine[Origine.NETFLIX], Origine[Origine.AMAZON_PRIME],Origine.TV];
+  origines: Origine[] = OriginesWithoutTous
   origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
   readonly enSalleOrigineEnum = Origine.EN_SALLE
