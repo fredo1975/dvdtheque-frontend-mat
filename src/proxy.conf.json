@@ -1,12 +1,12 @@
 {
     "/dvdtheque-service": {
-      "target": "http://192.168.1.106:8762",
+      "target": "http://192.168.1.106",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
     },
     "/dvdtheque-allocine-service": {
-      "target": "http://192.168.1.106:8762",
+      "target": "http://192.168.1.106",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
