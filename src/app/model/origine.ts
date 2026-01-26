@@ -6,6 +6,7 @@ export enum Origine {
     CANAL_PLUS = 'CANAL_PLUS',
     NETFLIX = 'NETFLIX',
     AMAZON_PRIME = 'AMAZON_PRIME',
+    DISNEY_PLUS = 'DISNEY_PLUS',
     TOUS = 'TOUS'
 }
 
