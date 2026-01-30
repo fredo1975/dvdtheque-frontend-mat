@@ -10,5 +10,11 @@
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
+    },
+    "/dvdtheque-batch-service": {
+      "target": "http://localhost:8762",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
     }
   }
