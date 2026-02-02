@@ -63,8 +63,9 @@ private getCookie(name: string): string | null {
 
     this.filmService.paginatedSarch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe({
       next: (data: Page) => {
+        console.log(data);
         this.films = data.content;
-        this.totalElements = data.totalElements;
+        this.totalElements = data.page.totalElements;
       },
       error: (e) => {
         this.errorOccured = true;

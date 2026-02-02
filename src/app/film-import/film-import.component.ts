@@ -105,29 +105,28 @@ export class FilmImportComponent implements OnInit, OnDestroy {
 
 
   importFilmList() {
-    const start = new Date().getTime()
-    this.buttonDisabled = true
-    this.loading = true
-    this.loadingStatus = true
-    this.messageHistory = []
-    this.filmService.importFilmList(this.formdata).subscribe((data: any) => {
+    const fileBrowser = this.inputEl.nativeElement;
 
-    }
-      , (error) => {
-        console.error(error)
-        this.buttonDisabled = false
-        this.loading = false
-        this.loadingStatus = false
-        const end = new Date().getTime()
-        this.time = end - start
-        console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.')
-      }
-      , () => {
-        this.buttonDisabled = false
-        this.loading = false
-        const end = new Date().getTime()
-        // this.time = end - start;
-        console.log('Call to importFilmList took ' + this.time / 1000 + ' seconds.')
+    if (fileBrowser.files && fileBrowser.files[0]) {
+      this.loading = true;
+      this.loadingStatus = true;
+
+      // 1. Create FormData locally
+      const formData = new FormData();
+
+      // 2. Append the file (ensure key 'file' matches Backend @RequestPart)
+      formData.append('file', fileBrowser.files[0]);
+
+      // 3. Send THIS specific instance
+      this.filmService.importFilmList(formData).subscribe({
+        next: (data) => {
+          console.log("Upload successful", data);
+        },
+        error: (err) => {
+          console.error("Upload failed", err);
+          this.loading = false;
+        }
       });
+    }
   }
 }
