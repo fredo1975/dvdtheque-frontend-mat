@@ -46,7 +46,7 @@ pipeline {
 					sh "npm -v"
 					//sh "ng v"
 					sh "npm install"
-					sh "ng build -c=dev --verbose"
+					sh "npx ng build -c=dev --verbose"
 				}
 			}
 		}
