@@ -70,8 +70,8 @@ pipeline {
             }
 			steps {
 				script {
-					sh "ssh jenkins@$DEV_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$DEV_SERVER_IP:/var/www/$HOST"
+					sh "rm -rf /var/www/$HOST/*"
+					sh "cp -r dist/$HOST_ORIGIN/* /var/www/$HOST"
 				}
 			}
 		}
@@ -81,9 +81,8 @@ pipeline {
             }
 			steps {
 				script {
-					sh "echo PROD_SERVER_IP=$PROD_SERVER_IP"
-					sh "ssh jenkins@$PROD_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$PROD_SERVER_IP:/var/www/$HOST"
+					sh "rm -rf /var/www/$HOST/*"
+					sh "cp -r dist/$HOST_ORIGIN/* /var/www/$HOST"
 				}
 			}
 		}
