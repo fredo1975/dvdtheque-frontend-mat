@@ -20,7 +20,7 @@ export class FilmListComponent implements OnInit{
   displayedColumns: string[] = ['id', 'titre'];
   Origine = Origine;
   readonly dvdOrigineEnum = Origine.DVD
-  readonly defaultPageSize: number = 50;
+  defaultPageSize: number = 50;
   query: string = ''
   sort: string = ''
   constructor(protected filmService: FilmService) { 
@@ -49,13 +49,16 @@ private getCookie(name: string): string | null {
     // Lire le cookie origine si présent
     const origineCookie = this.getCookie('origine');
     const origineValue = origineCookie ? origineCookie : 'DVD';
+    const itemsPerPageCookie = this.getCookie('itemsPerPage');
+    const itemsPerPageValue = itemsPerPageCookie ? parseInt(itemsPerPageCookie) : this.defaultPageSize;
     // Affecter la valeur au filtre du composant enfant AVANT la requête
     if (this.filmFilterSortViewChild && this.filmFilterSortViewChild.filmFilterSort) {
       this.filmFilterSortViewChild.filmFilterSort.origine = origineValue;
     }
     this.query += `origine:eq:${origineValue}:AND,`;
     this.sort += '-dateInsertion,+titre'
-    this.getFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
+    this.defaultPageSize = itemsPerPageValue;
+    this.getFilms({query:this.query, pageIndex:1, pageSize:itemsPerPageValue, sort:this.sort});
   }
 
   protected getFilms(request: any) {
@@ -81,6 +84,9 @@ private getCookie(name: string): string | null {
 
   handlePageEvent(e: PageEvent) {
     //console.log(e);
+    this.defaultPageSize = e.pageSize;
+    // Stocker dans le cookie pour 30 jours
+    this.setCookie('itemsPerPage', e.pageSize.toString(), 30);
     this.getFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:this.sort});
   }
 

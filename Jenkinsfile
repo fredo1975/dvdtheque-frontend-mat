@@ -3,7 +3,7 @@ pipeline {
 		HOST_ORIGIN = 'dvdtheque-frontend-mat'
 		HOST = 'dvdtheque-frontend'
 		PROD_SERVER_IP = "192.168.1.106"
-		DEV_SERVER_IP = "192.168.1.100"
+		DEV_SERVER_IP = "192.168.1.107"
 		/*GIT_COMMIT_SHORT = sh(
                 script: "printf \$(git rev-parse --short HEAD)",
                 returnStdout: true
@@ -14,6 +14,9 @@ pipeline {
 	}
     //agent { label 'slave01' }
 	agent any
+	tools {
+        nodejs 'Node24' 
+    }
     stages{
 		stage ('Initialize') {
             steps {
@@ -43,7 +46,7 @@ pipeline {
 					sh "npm -v"
 					//sh "ng v"
 					sh "npm install"
-					sh "ng build -c=dev --verbose"
+					sh "npx ng build -c=dev --verbose"
 				}
 			}
 		}
@@ -67,8 +70,8 @@ pipeline {
             }
 			steps {
 				script {
-					sh "ssh jenkins@$DEV_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$DEV_SERVER_IP:/var/www/$HOST"
+					sh "rm -rf /var/www/$HOST/*"
+					sh "cp -r dist/$HOST_ORIGIN/* /var/www/$HOST"
 				}
 			}
 		}
@@ -78,9 +81,8 @@ pipeline {
             }
 			steps {
 				script {
-					sh "echo PROD_SERVER_IP=$PROD_SERVER_IP"
-					sh "ssh jenkins@$PROD_SERVER_IP rm -rf /var/www/$HOST/*"
-					sh "scp -r dist/$HOST_ORIGIN/* jenkins@$PROD_SERVER_IP:/var/www/$HOST"
+					sh "rm -rf /var/www/$HOST/*"
+					sh "cp -r dist/$HOST_ORIGIN/* /var/www/$HOST"
 				}
 			}
 		}
