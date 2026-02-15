@@ -60,7 +60,7 @@ pipeline {
 					//sh "ng v"
 					sh "npm install"
 					ARTIFACT_VERSION = getArtifactVersion(GIT_BRANCH_NAME,GIT_REVISION)
-					sh "ng build -c=production --verbose"
+					sh "npx ng build -c=production --verbose"
 				}
 			}
 		}
