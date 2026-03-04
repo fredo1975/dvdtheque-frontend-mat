@@ -1,38 +1,35 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
-
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree
+} from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard extends KeycloakAuthGuard {
+export class AuthGuard implements CanActivate {
+
   constructor(
-    protected readonly router: Router,
-    protected readonly keycloak: KeycloakService
-  ) {
-    super(router, keycloak);
-  }
-  
-  async isAccessAllowed(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  public async canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Promise<boolean | UrlTree> {
-    //console.log(this.authenticated);
-    if (!this.authenticated) {
-      await this.keycloak.login({
-        redirectUri: window.location.origin + state.url,
-      });
+    state: RouterStateSnapshot
+  ): Promise<boolean | UrlTree> {
+    
+    // On vérifie si l'utilisateur est authentifié via notre service Pure JS
+    if (!this.authService.getIsAuthenticated()) {
+      // Si non, on déclenche le login
+      this.authService.login(window.location.origin + state.url);
+      return false;
     }
 
-    // Get the roles required from the route.
-    const requiredRoles = route.data.roles;
-
-    // Allow the user to proceed if no additional roles are required to access the route.
-    if (!(requiredRoles instanceof Array) || requiredRoles.length === 0) {
-      return true;
-    }
-
-    // Allow the user to proceed if all the required roles are present.
-    return requiredRoles.every((role) => this.roles.includes(role));
+    return true;
   }
 }

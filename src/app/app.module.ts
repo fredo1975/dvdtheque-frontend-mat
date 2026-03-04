@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { AuthService } from './services/auth.service';
 import { ConfigInitService } from './init/config-init.service';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
@@ -41,6 +41,9 @@ import { FilmUpdateCritiquepresseComponent } from './film-update-critiquepresse/
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
 import { FilmAllocineComponent } from './film-allocine/film-allocine.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
   declarations: [
@@ -66,7 +69,6 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatSidenavModule,
     MatIconModule,
     MatButtonModule,
-    KeycloakAngularModule,
     HttpClientModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
@@ -83,17 +85,28 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FlexLayoutModule,
     MatListModule,
   ],
-  providers: [{
-    provide: APP_INITIALIZER,
-    useFactory: initializeKeycloak,
-    multi: true,
-    deps: [KeycloakService, ConfigInitService],
-  },
-  { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
-  {
-    provide: RxStompService,
-    useFactory: initializeRxStompService,
-  }],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
+    
+    // 1. Dépendance pour RxStomp (déjà présente chez vous)
+    {
+      provide: RxStompService,
+      useFactory: initializeRxStompService,
+    },
+
+    // 2. Initialisation de Keycloak
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [ConfigInitService, AuthService] // Très important : injecter les services requis
+    },
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,8 +14,8 @@ import { FilmFilterSortComponent } from '../film-filter-sort/film-filter-sort.co
 export class FilmListComponent implements OnInit{
   @ViewChild(FilmFilterSortComponent, { static: true }) filmFilterSortViewChild: FilmFilterSortComponent;
   films: Film[] = [];
-  loading: boolean;
-  errorOccured: boolean;
+  loading = false;
+  errorOccured = false;
   totalElements: number = 0;
   displayedColumns: string[] = ['id', 'titre'];
   Origine = Origine;
@@ -48,7 +48,9 @@ private getCookie(name: string): string | null {
     //console.log('FilmListComponent::ngOnInit');
     // Lire le cookie origine si présent
     const origineCookie = this.getCookie('origine');
-    const origineValue = origineCookie ? origineCookie : 'DVD';
+    const origineValue = origineCookie
+      ? Origine[origineCookie as keyof typeof Origine]
+      : Origine.DVD;
     const itemsPerPageCookie = this.getCookie('itemsPerPage');
     const itemsPerPageValue = itemsPerPageCookie ? parseInt(itemsPerPageCookie) : this.defaultPageSize;
     // Affecter la valeur au filtre du composant enfant AVANT la requête
