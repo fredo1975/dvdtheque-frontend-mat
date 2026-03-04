@@ -26,10 +26,9 @@ export class AuthService {
 
     try {
       this.authenticated = await this.keycloak.init({ 
-        onLoad: 'check-sso', // 'check-sso' est plus souple que 'login-required' pour les SPAs
+        onLoad: 'login-required',
         checkLoginIframe: false,
-        pkceMethod: 'S256',
-        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
+        silentCheckSsoRedirectUri: undefined
       });
       
       //console.log(this.authenticated ? "✅ Keycloak : Authentifié" : "ℹKeycloak : Non authentifié");
