@@ -27,8 +27,7 @@ export class AuthService {
     try {
       this.authenticated = await this.keycloak.init({ 
         onLoad: 'login-required',
-        checkLoginIframe: false,
-        silentCheckSsoRedirectUri: undefined
+        checkLoginIframe: false
       });
       
       //console.log(this.authenticated ? "✅ Keycloak : Authentifié" : "ℹKeycloak : Non authentifié");
