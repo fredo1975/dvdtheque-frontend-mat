@@ -11,7 +11,7 @@ export const environment = {
   configFile: 'assets/config/config.dev.json',
   apiUrl: 'http://192.168.1.105:8762/dvdtheque-service',
   apiAllocineUrl: 'http://192.168.1.105:8762/dvdtheque-allocine-service',
-  websocketApiUrl: 'ws://192.168.1.105:8762/dvdtheque-ws/websocket'
+  websocketApiUrl: 'wss://192.168.1.107/dvdtheque-ws/websocket'
 };
 
 /*
