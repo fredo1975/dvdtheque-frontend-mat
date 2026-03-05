@@ -9,8 +9,5 @@ export enum Origine {
     DISNEY_PLUS = 'DISNEY_PLUS',
     TOUS = 'TOUS'
 }
-
-function removeTousEntry() {
-    return Object.values(Origine).filter(origine => origine !== Origine.TOUS);
-    }
-export const OriginesWithoutTous: Origine[] = removeTousEntry();
+export const OriginesWithoutTous: Origine[] = Object.values(Origine)
+    .filter((o): o is Exclude<Origine, Origine.TOUS> => o !== Origine.TOUS);

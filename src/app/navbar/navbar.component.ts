@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { KeycloakService } from 'keycloak-angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,13 +8,13 @@ import { KeycloakService } from 'keycloak-angular';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit{
-  constructor(private router: Router, private keycloakService: KeycloakService) { }
+  constructor(private router: Router, private authService: AuthService) { }
   @Output() public sidenavToggle = new EventEmitter();
   ngOnInit() {
   }
 
   logout(){
-    this.keycloakService.logout();
+    this.authService.logout();
   }
 
   public onToggleSidenav = () => {
