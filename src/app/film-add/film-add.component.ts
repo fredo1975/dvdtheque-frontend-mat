@@ -35,6 +35,31 @@ export class FilmAddComponent implements OnInit{
     this.buttonDisabled = true;
     this.loading = true;
     this.errorOccured = false;
+
+    this.filmService.getAllTmdbFilmsByTitre(this.titre).subscribe({
+      next: (data: Film[]) => {
+        if (data) {
+          this.tmdbFilms = data;
+        } else {
+          this.tmdbFilms = [];
+        }
+        //console.log(this.tmdbFilms);
+      }
+      , error: (e) => {
+        this.errorOccured = true;
+        this.loading = false;
+        this.buttonDisabled = false;
+        console.error(e);
+      }
+      , complete: () => {
+        //console.log('serachTmdbFilm Fini !',this.tmdbFilms);
+        this.buttonDisabled = false;
+        this.errorOccured = false;
+        this.loading = false;
+      }
+    });
+
+
     this.filmService.getAllTmdbFilmsByTitre(this.titre).subscribe((data: Film[]) => {
       if(data){
         this.tmdbFilms = data;

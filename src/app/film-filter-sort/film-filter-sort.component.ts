@@ -25,17 +25,18 @@ export class FilmFilterSortComponent implements OnInit{
   }
   ngOnInit() {
     this.annees = this.filmService.getAnneesSelect();
-    this.filmService.getAllGenres().subscribe((data: Genre[]) => {
-      this.categories = data;
-    }
-      , (error) => {
-        //this.errorOccured = true;
-        //this.loading = false;
-        console.error(error);
-      }
-      , () => {
-        //this.loading = false;
-      });
+    this.filmService.getAllGenres().subscribe({
+          next: (data: Genre[]) => {
+            this.categories = data;
+          },
+          error: (e) => {
+            console.error(e);
+          },
+          complete: () => {
+           //console.log('Genres loaded');
+          }
+        }
+    );
   }
   filter(){
     //console.log(this.filmFilterSort);

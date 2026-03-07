@@ -24,7 +24,7 @@ export class FilmAllocineComponent implements OnInit{
   sortByOptions: string[] = ['created date asc','created date desc']
   sortBySelected: string
   ngOnInit(): void {
-    console.log('FilmAllocineComponent::ngOnInit');
+    //console.log('FilmAllocineComponent::ngOnInit');
   }
 
   constructor(protected allocineService: AllocineService) { 

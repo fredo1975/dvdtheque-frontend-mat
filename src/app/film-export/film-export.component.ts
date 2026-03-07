@@ -9,18 +9,18 @@ const EXCEL_EXTENSION = '.xlsx';
   templateUrl: './film-export.component.html',
   styleUrls: ['./film-export.component.css']
 })
-export class FilmExportComponent implements OnInit{
+export class FilmExportComponent implements OnInit {
   loading = false;
   buttonDisabled = false;
   exportResult: any;
-  origines: Origine[] = [Origine[Origine.TOUS],Origine[Origine.DVD], Origine[Origine.EN_SALLE], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV]];
+  origines: Origine[] = [Origine[Origine.TOUS], Origine[Origine.DVD], Origine[Origine.EN_SALLE], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV]];
   origine: Origine;
   errorOccured: boolean;
 
   constructor(private filmService: FilmService) {
   }
   ngOnInit() {
-    
+
   }
 
   exportFilmList() {
@@ -33,20 +33,22 @@ export class FilmExportComponent implements OnInit{
     this.errorOccured = false;
     const fileName = 'ListeDvdExport';
     //console.log(this.origine);
-    this.filmService.exportFilmList(this.origine).subscribe((data: any) => {
-      const now = Date.now();
-      
-      this.filmService.saveAsExcelFile(data, `${fileName}-${now}-${this.origine}` + EXCEL_EXTENSION);
-    }
-      , (error) => {
-        console.error(error);
+    this.filmService.exportFilmList(this.origine).subscribe({
+      next: (data: any) => {
+        const now = Date.now();
+        this.filmService.saveAsExcelFile(data, `${fileName}-${now}-${this.origine}${EXCEL_EXTENSION}`);
+      },
+      error: (e) => {
+        console.error(e);
         this.buttonDisabled = false;
         this.loading = false;
         this.errorOccured = true;
-      }
-      , () => {
+      },
+      complete: () => { // Added the colon and arrow here
         this.buttonDisabled = false;
         this.loading = false;
-      });
+      }
+    });
   }
+  
 }
