@@ -1,84 +1,51 @@
-<div class="grid-container" >
-    <div class="grid-item" >
-        <mat-form-field class="full-width">
-            <mat-label>Titre</mat-label>
-            <input matInput placeholder="Titre" [(ngModel)]="filmFilterSort.titre">
-        </mat-form-field>
-    </div>
-    <div class="grid-item" >
-        <mat-form-field class="full-width">
-            <mat-label>Réalisateur</mat-label>
-            <input matInput placeholder="realisateur" [(ngModel)]="filmFilterSort.realisateur">
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <mat-form-field class="full-width">
-            <mat-label>Acteur</mat-label>
-            <input matInput placeholder="acteur" [(ngModel)]="filmFilterSort.acteur">
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Origine</mat-label>
-            <mat-select [(ngModel)]="filmFilterSort.origine" name="origine">
-              <mat-option *ngFor="let origine of origines" [value]="origine">
-                {{origine}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-        <!--
-        <mat-form-field appearance="fill">
-            <mat-select [(ngModel)]="filmFilterSort.annee" name="annee">
-              <mat-option *ngFor="let annee of annees" [value]="annee">
-                {{annee}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-        -->
-        <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Catégorie</mat-label>
-            <mat-select [(ngModel)]="filmFilterSort.categorie" name="categorie">
-              <mat-option *ngFor="let categorie of categories" [value]="categorie.name">
-                {{categorie.name}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Déjà vu</mat-label>
-            <mat-select [(ngModel)]="filmFilterSort.vu" name="vu">
-              <mat-option *ngFor="let vu of vuOptions" [value]="vu">
-                {{vu}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Rippé</mat-label>
-            <mat-select [(ngModel)]="filmFilterSort.ripped" name="ripped">
-              <mat-option *ngFor="let ripped of rippedOptions" [value]="ripped">
-                {{ripped}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Trié par</mat-label>
-            <mat-select [(ngModel)]="sortBySelected" name="sortBySelected">
-              <mat-option *ngFor="let sortBy of sortByOptions" [value]="sortBy">
-                {{sortBy}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="grid-item" >
-        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
-      
-        <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
-      </div>
+<div class="grid-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Titre</mat-label>
+    <input matInput 
+           [ngModel]="filmFilterSort().titre" 
+           (ngModelChange)="updateField('titre', $event)">
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Réalisateur</mat-label>
+    <input matInput 
+           [ngModel]="filmFilterSort().realisateur" 
+           (ngModelChange)="updateField('realisateur', $event)">
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Origine</mat-label>
+    <mat-select [ngModel]="filmFilterSort().origine" 
+                (ngModelChange)="updateField('origine', $event)">
+      <mat-option *ngFor="let origine of origines()" [value]="origine">{{ origine }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Vu</mat-label>
+    <mat-select [ngModel]="filmFilterSort().vu" 
+                (ngModelChange)="updateField('vu', $event)">
+      <mat-option *ngFor="let vu of vuOptions" [value]="vu">{{ vu }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
+    <mat-label>Tri</mat-label>
+    <mat-select [ngModel]="filmFilterSort().sortBy" 
+                (ngModelChange)="updateField('sortBy', $event)">
+      <mat-option *ngFor="let sort of sortByOptions" [value]="sort">{{ sort }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <button mat-raised-button color="primary" (click)="reset()">Effacer les filtres</button>
 </div>

@@ -1,52 +1,64 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal, effect } from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
-import { Genre } from '../model/genre';
 import { Origine } from '../model/origine';
-import { FilmService } from '../services/film.service';
+import { Genre } from '../model/genre';
 
 @Component({
   selector: 'app-film-filter-sort',
   templateUrl: './film-filter-sort.component.html',
   styleUrls: ['./film-filter-sort.component.css']
 })
-export class FilmFilterSortComponent implements OnInit{
-  @Output() filmFilterSortChange = new EventEmitter<FilmFilterSort>();
-  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
-  buttonDisabled = false
-  origines: Origine[] = Object.values(Origine).sort();
-  Origine = Origine
-  annees: number[]
-  categories: Genre[]
-  vuOptions: string[] = ['vu','non vu']
-  rippedOptions: string[] = ['rippé','non rippé']
-  sortByOptions: string[] = ['titre asc','titre desc','realisateur asc' ,'realisateur desc','acteur asc','acteur desc','annee asc','annee desc']
-  sortBySelected: string
-  constructor(private filmService: FilmService) {
+export class FilmFilterSortComponent {
+
+  @Output() filterChange = new EventEmitter<FilmFilterSort>();
+
+  // signal principal pour les filtres
+  filmFilterSort = signal<FilmFilterSort>({
+    titre: '',
+    default: true,
+    realisateur: '',
+    acteur: '',
+    origine: Origine.DVD,
+    annee: '',
+    categorie: '',
+    vu: '',
+    ripped: '',
+    sortBy: ''
+  });
+
+  // listes de sélection
+  origines = signal(Object.values(Origine).filter(o => o !== Origine.TOUS).sort() as Origine[]);
+  categories = signal<Genre[]>([]);
+  vuOptions = ['vu', 'non vu'];
+  rippedOptions = ['rippé', 'non rippé'];
+  sortByOptions = ['titre asc','titre desc','realisateur asc','realisateur desc','acteur asc','acteur desc','annee asc','annee desc'];
+
+  constructor() {
+    // 🔥 auto emission dès que le signal change
+    effect(() => {
+      this.filterChange.emit(this.filmFilterSort());
+    });
   }
-  ngOnInit() {
-    this.annees = this.filmService.getAnneesSelect();
-    this.filmService.getAllGenres().subscribe({
-          next: (data: Genre[]) => {
-            this.categories = data;
-          },
-          error: (e) => {
-            console.error(e);
-          },
-          complete: () => {
-           //console.log('Genres loaded');
-          }
-        }
-    );
+
+  // update générique d’un champ
+  updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
+    this.filmFilterSort.update(f => ({ ...f, [key]: value, default: false }));
   }
-  filter(){
-    //console.log(this.filmFilterSort);
-    this.filmFilterSort.default=false
-    this.filmFilterSort.sortBy = this.sortBySelected
-    this.filmFilterSortChange.emit(this.filmFilterSort)
+
+  // reset du filtre
+  reset() {
+    this.filmFilterSort.set({
+      titre: '',
+      default: true,
+      realisateur: '',
+      acteur: '',
+      origine: Origine.DVD,
+      annee: '',
+      categorie: '',
+      vu: '',
+      ripped: '',
+      sortBy: ''
+    });
   }
-  resetFields(){
-    this.sortBySelected = ''
-    this.filmFilterSort={titre:'',default: true,realisateur:'',acteur:'',origine:'',annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
-    this.filmFilterSortChange.emit(this.filmFilterSort)
-  }
+
 }

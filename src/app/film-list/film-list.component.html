@@ -1,31 +1,24 @@
-<div class="errorDiv" *ngIf="errorOccured">
-    <strong>une erreur est survenue</strong>
-</div>
-<mat-spinner *ngIf="loading"></mat-spinner>
-<app-film-filter-sort (filmFilterSortChange)="filterOnFilmFilterSort()">
-</app-film-filter-sort>
-<div class="myDiv">
-    <div *ngFor="let film of films">
-        <mat-card class="film-card">
-            <a routerLink="/filmDetail/{{film.id}}" title="{{film.titre}}">
-                <img mat-card-image src="{{film.posterPath}}" class="film-header-image" alt="{{film.titre}}"/>
-            </a>
-            <mat-card-content>
-                Durée : {{film.runtime}}
+<app-film-filter-sort (filterChange)="filterOnFilmFilterSort($event)">
 
-                <div *ngIf="film.origine === dvdOrigineEnum && film.dvd && film.dvd.ripped">{{film.dvd.format}} Rippé : &nbsp;<img
-                        src="assets/img/ok.png" class="img ripped"/><br />
-                </div>
-                <div *ngIf="film.origine === dvdOrigineEnum && film.dvd && !film.dvd.ripped">{{film.dvd.format}} Rippé : &nbsp;<img
-                        src="assets/img/ko.png" class="img ripped"/><br />
-                </div>
-                <div *ngIf="film.origine != dvdOrigineEnum">{{film.origine}}</div>
-                <div *ngIf="film.vu">Vu : &nbsp;<img src="assets/img/ok.png" class="img ripped"/></div>
-                <div *ngIf="!film.vu">Vu : &nbsp;<img src="assets/img/ko.png" class="img ripped"/></div>
-            </mat-card-content>
-        </mat-card>
-    </div>
-</div>
-<mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="defaultPageSize" [length]="totalElements"
-    (page)="handlePageEvent($event)" class="paginator">
+<table mat-table [dataSource]="store.films()">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef>ID</th>
+    <td mat-cell *matCellDef="let film">{{film.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="titre">
+    <th mat-header-cell *matHeaderCellDef>Titre</th>
+    <td mat-cell *matCellDef="let film">{{film.titre}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+
+<mat-paginator
+  [length]="store.totalElements()"
+  [pageSize]="store.pageSize()"
+  (page)="handlePageEvent($event)">
 </mat-paginator>
