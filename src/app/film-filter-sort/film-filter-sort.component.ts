@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal, effect } from '@angular/core';
+import { Component, EventEmitter, Output, signal, effect, NgZone } from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
@@ -33,12 +33,15 @@ export class FilmFilterSortComponent {
   rippedOptions = ['rippé', 'non rippé'];
   sortByOptions = ['titre asc','titre desc','realisateur asc','realisateur desc','acteur asc','acteur desc','annee asc','annee desc'];
 
-  constructor() {
-    // 🔥 auto emission dès que le signal change
-    effect(() => {
-      this.filterChange.emit(this.filmFilterSort());
+  constructor(private zone: NgZone) {
+  effect(() => {
+    const value = this.filmFilterSort();
+
+    this.zone.runOutsideAngular(() => {
+      queueMicrotask(() => this.filterChange.emit(value));
     });
-  }
+  });
+}
 
   // update générique d’un champ
   updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {

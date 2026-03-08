@@ -1,23 +1,26 @@
-import { Injectable, signal, computed, inject, effect } from '@angular/core';
+import { Injectable, signal, computed, inject, effect, NgZone } from '@angular/core';
 import { FilmService } from '../services/film.service';
 import { Film } from '../model/film';
 import { Page } from '../model/page';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { Origine } from '../model/origine';
 
 @Injectable({ providedIn: 'root' })
 export class FilmStore {
 
   private filmService = inject(FilmService);
+  private zone = inject(NgZone);
 
   films = signal<Film[]>([]);
-  totalElements = signal(0);
-  loading = signal(false);
-  errorOccured = signal(false);
+  totalElements = signal<number>(0);
+  loading = signal<boolean>(false);
+  errorOccured = signal<boolean>(false);
 
-  query = signal('');
-  sort = signal('-dateInsertion,+titre');
-  pageIndex = signal(1);
-  pageSize = signal(50);
+  query = signal<string>('');
+  sort = signal<string>('-dateInsertion,+titre');
+  pageIndex = signal<number>(1);
+  pageSize = signal<number>(50);
 
   request = computed(() => ({
     query: this.query(),
@@ -27,35 +30,46 @@ export class FilmStore {
   }));
 
   constructor() {
-
     effect(() => {
-
       const req = this.request();
+      this.zone.runOutsideAngular(() => {
+        setTimeout(() => this.loadFilms(req.query, req.pageIndex, req.pageSize, req.sort), 0);
+      });
+    });
+  }
 
-      this.loading.set(true);
+  private loadFilms(query: string, pageIndex: number, pageSize: number, sort: string) {
+    this.zone.run(() => this.loading.set(true));
+    this.zone.run(() => this.errorOccured.set(false));
 
-      this.filmService
-        .paginatedSarch(req.query, req.pageIndex, req.pageSize, req.sort)
-        .subscribe({
-          next: (data: Page) => {
-            this.films.set(data.content);
-            this.totalElements.set(data.page.totalElements);
+    this.filmService.paginatedSarch(query, pageIndex, pageSize, sort)
+      .subscribe({
+        next: (data: Page) => {
+          this.zone.run(() => {
+            if (data) {
+              this.films.set(data.content);
+              this.totalElements.set(data.page.totalElements);
+            }
             this.loading.set(false);
-          },
-          error: () => {
+          });
+        },
+        error: () => {
+          this.zone.run(() => {
             this.errorOccured.set(true);
             this.loading.set(false);
-          }
-        });
-
-    });
-
+          });
+        }
+      });
   }
 
   setFilter(query: string, sort: string) {
     this.pageIndex.set(1);
     this.query.set(query);
     this.sort.set(sort);
+
+    // 🔹 Mise à jour du cookie si origine présent
+    const match = query.match(/origine:eq:([^:]+):AND/);
+    if (match) this.setCookie('origine', match[1], 30);
   }
 
   setPage(pageIndex: number) {
@@ -64,34 +78,37 @@ export class FilmStore {
 
   setPageSize(pageSize: number) {
     this.pageSize.set(pageSize);
+    this.setCookie('itemsPerPage', pageSize.toString(), 30);
   }
 
-  // Supprimer un film
+  // 🔹 Gestion des cookies
+  private setCookie(name: string, value: string, days: number) {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+  }
+
+  public getCookie(name: string): string | null {
+    if (!document.cookie) return null;
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [key, ...rest] = cookie.split('=');
+      if (key === name) {
+        return decodeURIComponent(rest.join('='));
+      }
+    }
+    return null;
+  }
+
   removeFilm(id: number): Observable<void> {
-    return new Observable<void>(observer => {
-      this.filmService.removeFilm(id).subscribe({
-        next: () => {
-          // Mettre à jour la liste locale après suppression
-          const updated = this.films().filter(f => f.id !== id);
-          this.films.set(updated);
-          observer.next();
-          observer.complete();
-        },
-        error: err => observer.error(err)
-      });
-    });
+    return this.filmService.removeFilm(id).pipe(
+      tap(() => {
+        const updated = this.films().filter(f => f.id !== id);
+        this.films.set(updated);
+      })
+    );
   }
 
-  // Récupérer l'image d'un film
   retrieveFilmImage(id: number): Observable<Film> {
-    return new Observable<Film>(observer => {
-      this.filmService.retrieveFilmImage(id).subscribe({
-        next: (imageUrl) => {
-          observer.next(imageUrl);
-          observer.complete();
-        },
-        error: err => observer.error(err)
-      });
-    });
+    return this.filmService.retrieveFilmImage(id);
   }
 }
