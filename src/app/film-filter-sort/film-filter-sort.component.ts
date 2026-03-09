@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal, effect, NgZone } from '@angular/core';
+import { Component, EventEmitter, Output, signal, effect, NgZone, ViewChild, OnInit } from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
@@ -12,13 +12,14 @@ export class FilmFilterSortComponent {
 
   @Output() filterChange = new EventEmitter<FilmFilterSort>();
 
+
   // signal principal pour les filtres
   filmFilterSort = signal<FilmFilterSort>({
     titre: '',
     default: true,
     realisateur: '',
     acteur: '',
-    origine: Origine.DVD,
+    origine: this.getOrigineFromCookie(),
     annee: '',
     categorie: '',
     vu: '',
@@ -31,17 +32,34 @@ export class FilmFilterSortComponent {
   categories = signal<Genre[]>([]);
   vuOptions = ['vu', 'non vu'];
   rippedOptions = ['rippé', 'non rippé'];
-  sortByOptions = ['titre asc','titre desc','realisateur asc','realisateur desc','acteur asc','acteur desc','annee asc','annee desc'];
+  sortByOptions = ['titre asc', 'titre desc', 'realisateur asc', 'realisateur desc', 'acteur asc', 'acteur desc', 'annee asc', 'annee desc'];
+
+  private getCookie(name: string): string | null {
+    if (!document.cookie) return null;
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [key, ...rest] = cookie.split('=');
+      if (key === name) {
+        return decodeURIComponent(rest.join('='));
+      }
+    }
+    return null;
+  }
+
+  private getOrigineFromCookie(): Origine {
+    const origineCookie = this.getCookie('origine');
+    if (origineCookie && Object.values(Origine).includes(origineCookie as Origine)) {
+      return origineCookie as Origine;
+    }
+    return Origine.DVD;
+  }
 
   constructor(private zone: NgZone) {
-  effect(() => {
-    const value = this.filmFilterSort();
-
-    this.zone.runOutsideAngular(() => {
-      queueMicrotask(() => this.filterChange.emit(value));
+    //console.log('FilmFilterSortComponent initialized with default filter:', this.filmFilterSort());
+    effect(() => {
+      this.filterChange.emit(this.filmFilterSort());
     });
-  });
-}
+  }
 
   // update générique d’un champ
   updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
@@ -55,7 +73,7 @@ export class FilmFilterSortComponent {
       default: true,
       realisateur: '',
       acteur: '',
-      origine: Origine.DVD,
+      origine: Origine.TOUS,
       annee: '',
       categorie: '',
       vu: '',

@@ -2,9 +2,10 @@ import { Injectable, signal, computed, inject, effect, NgZone } from '@angular/c
 import { FilmService } from '../services/film.service';
 import { Film } from '../model/film';
 import { Page } from '../model/page';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Origine } from '../model/origine';
+import { DvdFormat } from '../model/dvd-format';
 
 @Injectable({ providedIn: 'root' })
 export class FilmStore {
@@ -41,7 +42,8 @@ export class FilmStore {
   private loadFilms(query: string, pageIndex: number, pageSize: number, sort: string) {
     this.zone.run(() => this.loading.set(true));
     this.zone.run(() => this.errorOccured.set(false));
-
+    const matchNoFilter = query.match(/origine:eq:([^:]+):AND/);
+    if (matchNoFilter && matchNoFilter[1] === Origine.TOUS) query = '';
     this.filmService.paginatedSarch(query, pageIndex, pageSize, sort)
       .subscribe({
         next: (data: Page) => {
@@ -62,12 +64,27 @@ export class FilmStore {
       });
   }
 
+  public initFromCookie() {
+    const origineCookie = this.getCookie('origine');
+    const origineValue = origineCookie && Object.values(Origine).includes(origineCookie as Origine)
+      ? origineCookie
+      : Origine.DVD;
+
+    const itemsPerPageCookie = this.getCookie('itemsPerPage');
+    const pageSizeValue = itemsPerPageCookie ? parseInt(itemsPerPageCookie) : 50;
+
+    // set initial values
+    this.pageSize.set(pageSizeValue);
+    this.query.set(`origine:eq:${origineValue}:AND,`);
+    this.sort.set('-dateInsertion,+titre');
+  }
+
+  
   setFilter(query: string, sort: string) {
     this.pageIndex.set(1);
     this.query.set(query);
     this.sort.set(sort);
 
-    // 🔹 Mise à jour du cookie si origine présent
     const match = query.match(/origine:eq:([^:]+):AND/);
     if (match) this.setCookie('origine', match[1], 30);
   }
@@ -100,12 +117,16 @@ export class FilmStore {
   }
 
   removeFilm(id: number): Observable<void> {
-    return this.filmService.removeFilm(id).pipe(
-      tap(() => {
-        const updated = this.films().filter(f => f.id !== id);
-        this.films.set(updated);
-      })
-    );
+    const confir = confirm('Sûr de supprimer le film ?')
+    if (confir) {
+      return this.filmService.removeFilm(id).pipe(
+        tap(() => {
+          const updated = this.films().filter(f => f.id !== id);
+          this.films.set(updated);
+        })
+      );
+    }
+    return EMPTY;
   }
 
   retrieveFilmImage(id: number): Observable<Film> {

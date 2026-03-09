@@ -30,22 +30,32 @@ export class FilmAdminComponent {
   handlePageEvent(e: PageEvent) {
     this.store.setPage(e.pageIndex + 1);
     this.store.setPageSize(e.pageSize);
-    document.cookie = `itemsPerPage=${e.pageSize}; path=/; max-age=${60*60*24*30}`;
   }
 
-  // filtre depuis le child component
   filterOnFilmFilterSort(filter: FilmFilterSort) {
     const queryParts: string[] = [];
-
     if (filter.titre) queryParts.push(`titre:eq:${filter.titre}:AND`);
     if (filter.realisateur) queryParts.push(`realisateur:eq:${filter.realisateur}:AND`);
     if (filter.acteur) queryParts.push(`acteur:eq:${filter.acteur}:AND`);
+    if (filter.origine) queryParts.push(`origine:eq:${filter.origine}:AND`);
+    if (filter.annee) queryParts.push(`dateSortie:eq:${filter.annee}:AND`);
+    if (filter.categorie) queryParts.push(`genre:eq:${filter.categorie}:AND`);
+    if (filter.vu === 'vu') queryParts.push(`vu:eq:true:AND`);
+    if (filter.vu === 'non vu') queryParts.push(`vu:eq:false:AND`);
 
     const query = queryParts.join(',');
+    const sortMap: Record<string,string> = {
+      'titre asc': '+titre',
+      'titre desc': '-titre',
+      'annee asc': '+annee',
+      'annee desc': '-annee',
+      'acteur asc': '+acteur',
+      'acteur desc': '-acteur'
+    };
+    const sort = sortMap[filter.sortBy] ?? '-dateInsertion,+titre';
 
-    const sort = '-dateInsertion,+titre';
-
-    this.store.setFilter(query, sort);
+    //console.log('Generated query:', query);
+    queueMicrotask(() => this.store.setFilter(query, sort));
   }
 
   // actions admin
@@ -58,6 +68,7 @@ export class FilmAdminComponent {
         this.buttonDisabled = false;
       }
     });
+    this.buttonDisabled = false;
   }
 
   retrieveFilmImage(id: number) {

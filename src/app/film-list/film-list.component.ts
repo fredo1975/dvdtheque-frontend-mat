@@ -20,7 +20,6 @@ export class FilmListComponent {
   dvdOrigineEnum = Origine.DVD;
   displayedColumns: string[] = ['id', 'titre'];
 
-  // ✅ Getters typés pour le template
   get films(): Film[] { return this.store.films(); }
   get totalElements(): number { return this.store.totalElements(); }
   get pageSize(): number { return this.store.pageSize(); }
@@ -54,7 +53,7 @@ export class FilmListComponent {
     };
     const sort = sortMap[filter.sortBy] ?? '-dateInsertion,+titre';
 
-    // 🔹 Met à jour le store et déclenche la requête automatiquement
+    //console.log('Generated query:', query);
     queueMicrotask(() => this.store.setFilter(query, sort));
   }
 }
