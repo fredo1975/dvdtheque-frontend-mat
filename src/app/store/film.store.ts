@@ -200,4 +200,10 @@ export class FilmStore {
 
     console.log('Liste synchronisée avec les dernières modifications.');
   }
+
+  updateLocalFilm(updatedFilm: Film) {
+  this.films.update(films => 
+    films.map(f => f.id === updatedFilm.id ? { ...updatedFilm } : f)
+  );
+}
 }
