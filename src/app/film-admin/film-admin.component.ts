@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FilmStore } from '../store/film.store';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { PageEvent } from '@angular/material/paginator';
-import { signal } from '@angular/core';
 
 @Component({
   selector: 'app-film-admin',
@@ -10,52 +9,46 @@ import { signal } from '@angular/core';
   styleUrls: ['./film-admin.component.css']
 })
 export class FilmAdminComponent {
-
   store = inject(FilmStore);
 
-  // signals
-  films = this.store.films; // WritableSignal<Film[]>
-  totalElements = this.store.totalElements; // WritableSignal<number>
-  loading = this.store.loading; // WritableSignal<boolean>
-  pageSize = this.store.pageSize; // WritableSignal<number>
+  // Signaux du store
+  films = this.store.films;
+  totalElements = this.store.totalElements;
+  loading = this.store.loading;
+  pageSize = this.store.pageSize;
 
-  // erreurs et UI
+  // UI
   errorOccured = signal(false);
-  buttonDisabled = false;
+  isProcessing = signal(false); // Plus précis que buttonDisabled
 
-  // table
   displayedColumns: string[] = ['titre', 'realisateur', 'annee', 'actions'];
 
-  // pagination
   handlePageEvent(e: PageEvent) {
     this.store.setPage(e.pageIndex + 1);
     this.store.setPageSize(e.pageSize);
   }
 
-  filterOnFilmFilterSort(filter: FilmFilterSort) {
-    this.store.updateFromFilter(filter);
-  }
-
-  // actions admin
-  removeFilm(id: number) {
-    this.buttonDisabled = true;
-    this.store.removeFilm(id).subscribe({
-      next: () => this.buttonDisabled = false,
-      error: () => {
-        this.errorOccured.set(true);
-        this.buttonDisabled = false;
-      }
-    });
-    this.buttonDisabled = false;
+  // Actions Admin
+  removeFilm(id: number, titre: string) {
+    if (confirm(`Êtes-vous sûr de vouloir supprimer définitivement "${titre}" ?`)) {
+      this.isProcessing.set(true);
+      this.store.removeFilm(id).subscribe({
+        next: () => this.isProcessing.set(false),
+        error: () => {
+          this.errorOccured.set(true);
+          this.isProcessing.set(false);
+        }
+      });
+    }
   }
 
   retrieveFilmImage(id: number) {
-    this.buttonDisabled = true;
+    this.isProcessing.set(true);
     this.store.retrieveFilmImage(id).subscribe({
-      next: () => this.buttonDisabled = false,
+      next: () => this.isProcessing.set(false),
       error: () => {
         this.errorOccured.set(true);
-        this.buttonDisabled = false;
+        this.isProcessing.set(false);
       }
     });
   }
