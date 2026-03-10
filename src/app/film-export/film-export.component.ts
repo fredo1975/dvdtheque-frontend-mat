@@ -12,43 +12,44 @@ const EXCEL_EXTENSION = '.xlsx';
 export class FilmExportComponent implements OnInit {
   loading = false;
   buttonDisabled = false;
-  exportResult: any;
-  origines: Origine[] = [Origine[Origine.TOUS], Origine[Origine.DVD], Origine[Origine.EN_SALLE], Origine[Origine.GOOGLE_PLAY], Origine[Origine.TV]];
+  // Utilisation de la constante centralisée pour les origines
+  origines: Origine[] = Object.values(Origine);
   origine: Origine;
-  errorOccured: boolean;
+  errorOccured = false;
+  exportSuccess = false;
 
-  constructor(private filmService: FilmService) {
-  }
-  ngOnInit() {
+  constructor(private filmService: FilmService) { }
 
-  }
+  ngOnInit() { }
 
   exportFilmList() {
-    if (this.origine == null) {
-      alert('il faut séléctionner quels films exporter : Tous, les dvd, les films en salle ...');
-      return;
+    if (!this.origine) {
+      return; // Le bouton est normalement désactivé par le template
     }
+
     this.buttonDisabled = true;
     this.loading = true;
     this.errorOccured = false;
-    const fileName = 'ListeDvdExport';
-    //console.log(this.origine);
+    this.exportSuccess = false;
+
+    const fileName = 'Export_DVDtheque';
+    
     this.filmService.exportFilmList(this.origine).subscribe({
       next: (data: any) => {
-        const now = Date.now();
-        this.filmService.saveAsExcelFile(data, `${fileName}-${now}-${this.origine}${EXCEL_EXTENSION}`);
+        const timestamp = new Date().toISOString().split('T')[0];
+        this.filmService.saveAsExcelFile(data, `${fileName}_${this.origine}_${timestamp}${EXCEL_EXTENSION}`);
+        this.exportSuccess = true;
       },
       error: (e) => {
-        console.error(e);
-        this.buttonDisabled = false;
-        this.loading = false;
+        console.error('Erreur export:', e);
         this.errorOccured = true;
-      },
-      complete: () => { // Added the colon and arrow here
-        this.buttonDisabled = false;
         this.loading = false;
+        this.buttonDisabled = false;
+      },
+      complete: () => {
+        this.loading = false;
+        this.buttonDisabled = false;
       }
     });
   }
-  
 }
