@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Dvd } from '../model/dvd';
 import { DvdFormat } from '../model/dvd-format';
 import { Film } from '../model/film';
 import { Origine, OriginesWithoutTous } from '../model/origine';
 import { FilmService } from '../services/film.service';
+import { FilmStore } from '../store/film.store';
 
 @Component({
   selector: 'app-film-detail',
@@ -12,6 +13,7 @@ import { FilmService } from '../services/film.service';
   styleUrls: ['./film-detail.component.css']
 })
 export class FilmDetailComponent implements OnInit{
+  private store = inject(FilmStore);
   @Input() film: Film;
   loading = false;
   buttonDisabled = false;
@@ -94,6 +96,7 @@ export class FilmDetailComponent implements OnInit{
         this.film = f;
         console.log("updateFilm updated",this.film)
         this.initSelectedFields()
+        this.store.refreshList();
       },
       error: (e) => {
         this.errorOccured = true;

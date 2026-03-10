@@ -185,4 +185,19 @@ export class FilmStore {
     };
     return sortMap[sortBy] ?? '-dateInsertion,+titre';
   }
+
+  /**
+ * Force le rechargement complet de la liste à partir du serveur
+ */
+  refreshList() {
+    // On récupère la requête actuelle (stockée en cookie ou signal)
+    const currentQuery = this.query();
+
+    // On ré-applique la requête. 
+    // Si le signal ne change pas de valeur, Angular ne déclenchera rien.
+    // On peut donc "forcer" en repassant par le cookie.
+    this.initFromCookie();
+
+    console.log('Liste synchronisée avec les dernières modifications.');
+  }
 }

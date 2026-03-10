@@ -43,6 +43,7 @@ import { MatListModule } from '@angular/material/list';
 import { FilmAllocineComponent } from './film-allocine/film-allocine.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -84,6 +85,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatSelectModule,
     FlexLayoutModule,
     MatListModule,
+    MatCheckboxModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },

@@ -4,9 +4,7 @@
 
 <app-film-filter-sort></app-film-filter-sort>
 
-
 <div class="myDiv">
-
   <ng-container *ngIf="store.loading()">
     <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
       <mat-card class="film-card">
@@ -45,7 +43,6 @@
       </mat-card>
     </div>
   </ng-container>
-
 </div>
 
 <mat-paginator [length]="store.totalElements()" [pageSizeOptions]="[50, 100]" [pageSize]="store.pageSize()"
