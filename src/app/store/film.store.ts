@@ -1,11 +1,12 @@
 import { Injectable, signal, computed, inject, effect, NgZone } from '@angular/core';
 import { FilmService } from '../services/film.service';
 import { Film } from '../model/film';
-import { Page } from '../model/page';
 import { EMPTY, Observable, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Origine } from '../model/origine';
-import { DvdFormat } from '../model/dvd-format';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { FilmFilterSort } from '../model/film-filter-sort';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class FilmStore {
@@ -23,45 +24,37 @@ export class FilmStore {
   pageIndex = signal<number>(1);
   pageSize = signal<number>(50);
 
-  request = computed(() => ({
+  // On combine les paramètres dans un computed pour réagir à n'importe quel changement
+  private requestParams = computed(() => ({
     query: this.query(),
-    sort: this.sort(),
     pageIndex: this.pageIndex(),
-    pageSize: this.pageSize()
+    pageSize: this.pageSize(),
+    sort: this.sort()
   }));
 
   constructor() {
-    effect(() => {
-      const req = this.request();
-      this.zone.runOutsideAngular(() => {
-        setTimeout(() => this.loadFilms(req.query, req.pageIndex, req.pageSize, req.sort), 0);
-      });
-    });
-  }
-
-  private loadFilms(query: string, pageIndex: number, pageSize: number, sort: string) {
-    this.zone.run(() => this.loading.set(true));
-    this.zone.run(() => this.errorOccured.set(false));
-    const matchNoFilter = query.match(/origine:eq:([^:]+):AND/);
-    if (matchNoFilter && matchNoFilter[1] === Origine.TOUS) query = '';
-    this.filmService.paginatedSarch(query, pageIndex, pageSize, sort)
-      .subscribe({
-        next: (data: Page) => {
-          this.zone.run(() => {
-            if (data) {
-              this.films.set(data.content);
-              this.totalElements.set(data.page.totalElements);
-            }
-            this.loading.set(false);
-          });
-        },
-        error: () => {
-          this.zone.run(() => {
+    // Conversion du signal en observable pour profiter de switchMap (évite les race conditions)
+    toObservable(this.requestParams).pipe(
+      tap(() => this.loading.set(true)),
+      switchMap(req => {
+        let q = req.query;
+        if (q.includes(`origine:eq:${Origine.TOUS}:AND`)) q = '';
+        
+        return this.filmService.paginatedSarch(q, req.pageIndex, req.pageSize, req.sort).pipe(
+          catchError(() => {
+            console.log('Erreur lors de la récupération des films');
             this.errorOccured.set(true);
-            this.loading.set(false);
-          });
-        }
-      });
+            return of(null);
+          })
+        );
+      })
+    ).subscribe(data => {
+      if (data) {
+        this.films.set(data.content);
+        this.totalElements.set(data.page.totalElements);
+      }
+      this.loading.set(false);
+    });
   }
 
   public initFromCookie() {
@@ -131,5 +124,62 @@ export class FilmStore {
 
   retrieveFilmImage(id: number): Observable<Film> {
     return this.filmService.retrieveFilmImage(id);
+  }
+
+  /**
+   * Méthode unique pour mettre à jour les filtres depuis le composant
+   */
+  updateFromFilter(filter: FilmFilterSort) {
+    const query = this.buildQuery(filter);
+    const sort = this.mapSort(filter.sortBy);
+
+    // On met à jour les signaux de base
+    this.pageIndex.set(1);
+    this.query.set(query);
+    this.sort.set(sort);
+
+    // Gestion du cookie d'origine
+    if (filter.origine) {
+      this.setCookie('origine', filter.origine, 30);
+    }
+  }
+
+  /**
+   * Transforme l'objet de filtre en chaîne de caractère pour le backend
+   */
+  private buildQuery(f: FilmFilterSort): string {
+    const parts: string[] = [];
+
+    // Mapping simple (clé: valeur)
+    if (f.titre) parts.push(`titre:eq:${f.titre}:AND`);
+    if (f.realisateur) parts.push(`realisateur:eq:${f.realisateur}:AND`);
+    if (f.acteur) parts.push(`acteur:eq:${f.acteur}:AND`);
+    if (f.annee) parts.push(`dateSortie:eq:${f.annee}:AND`);
+    if (f.categorie) parts.push(`genre:eq:${f.categorie}:AND`);
+
+    // Cas particuliers (Origine & Vu)
+    if (f.origine && f.origine !== Origine.TOUS) {
+      parts.push(`origine:eq:${f.origine}:AND`);
+    }
+
+    if (f.vu === 'vu') parts.push(`vu:eq:true:AND`);
+    if (f.vu === 'non vu') parts.push(`vu:eq:false:AND`);
+
+    return parts.join(',');
+  }
+
+  /**
+   * Mapping des options de tri lisibles vers les paramètres API
+   */
+  private mapSort(sortBy: string): string {
+    const sortMap: Record<string, string> = {
+      'titre asc': '+titre',
+      'titre desc': '-titre',
+      'annee asc': '+annee',
+      'annee desc': '-annee',
+      'acteur asc': '+acteur',
+      'acteur desc': '-acteur'
+    };
+    return sortMap[sortBy] ?? '-dateInsertion,+titre';
   }
 }

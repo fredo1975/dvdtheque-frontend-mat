@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal, effect, NgZone, ViewChild, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, signal} from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
@@ -54,32 +54,26 @@ export class FilmFilterSortComponent {
     return Origine.DVD;
   }
 
-  constructor(private zone: NgZone) {
-    //console.log('FilmFilterSortComponent initialized with default filter:', this.filmFilterSort());
-    effect(() => {
-      this.filterChange.emit(this.filmFilterSort());
-    });
-  }
-
-  // update générique d’un champ
   updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
-    this.filmFilterSort.update(f => ({ ...f, [key]: value, default: false }));
+    this.filmFilterSort.update(f => {
+      const newFilter = { ...f, [key]: value, default: false };
+
+      // On émet manuellement ici : c'est une action utilisateur, pas un effet de bord
+      this.filterChange.emit(newFilter);
+
+      return newFilter;
+    });
   }
 
-  // reset du filtre
+  // 3. Pareil pour le reset
   reset() {
-    this.filmFilterSort.set({
-      titre: '',
-      default: true,
-      realisateur: '',
-      acteur: '',
-      origine: Origine.TOUS,
-      annee: '',
-      categorie: '',
-      vu: '',
-      ripped: '',
-      sortBy: ''
-    });
+    const defaultFilter: FilmFilterSort = {
+      titre: '', default: true, realisateur: '', acteur: '',
+      origine: Origine.TOUS, annee: '', categorie: '',
+      vu: '', ripped: '', sortBy: ''
+    };
+    this.filmFilterSort.set(defaultFilter);
+    this.filterChange.emit(defaultFilter);
   }
 
 }

@@ -35,7 +35,7 @@
 
   <mat-paginator
     [pageSizeOptions]="[50,100]"
-    [pageSize]="50"
+    [pageSize]="pageSize()"
     [length]="totalElements()"
     (page)="handlePageEvent($event)">
   </mat-paginator>
