@@ -1,59 +1,89 @@
-<div class="errorDiv" *ngIf="errorOccured">
-    <strong>une erreur est survenue</strong>
-</div>
-<mat-spinner *ngIf="loading"></mat-spinner>
-
-<div class="grid-container" >
-    <div class="grid-item" >
-        <mat-form-field class="full-width">
-            <mat-label>Titre</mat-label>
-            <input matInput placeholder="Titre" [(ngModel)]="title">
-        </mat-form-field>
+<div class="allocine-container">
+    <div class="header-section">
+        <h1>Archives Fiches AlloCiné</h1>
+        <p class="subtitle">Gestion des fiches de films synchronisées</p>
     </div>
-    <div class="grid-item" >
-        <mat-form-field appearance="fill">
-          <mat-label>Trié par</mat-label>
-            <mat-select [(ngModel)]="sortBySelected" name="sortBySelected">
-              <mat-option *ngFor="let sortBy of sortByOptions" [value]="sortBy">
-                {{sortBy}}
-              </mat-option>
+
+    <div class="filter-bar mat-elevation-z2">
+        <mat-form-field appearance="outline" class="title-field">
+            <mat-label>Filtrer par titre</mat-label>
+            <input matInput [(ngModel)]="title" (keyup.enter)="filter()" placeholder="Ex: Titanic">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="sort-field">
+            <mat-label>Trié par</mat-label>
+            <mat-select [(ngModel)]="sortBySelected">
+                <mat-option *ngFor="let option of sortByOptions" [value]="option.value">
+                    {{option.label}}
+                </mat-option>
             </mat-select>
         </mat-form-field>
-      </div>
-    <div class="grid-item" >
-        <button type="button" class="btn btn-primary" (click)="filter()" [disabled]="buttonDisabled">Filtrer</button>&nbsp;
-      
-        <button type="button" class="btn btn-primary" (click)="resetFields()" [disabled]="buttonDisabled">Effecer les filtres</button>
-      </div>
+
+        <div class="button-group">
+            <button mat-raised-button color="primary" (click)="filter()" [disabled]="loading">
+                <mat-icon>filter_list</mat-icon> FILTRER
+            </button>
+            <button mat-stroked-button (click)="resetFields()" [disabled]="loading">
+                RÉINITIALISER
+            </button>
+        </div>
+    </div>
+
+    <div class="status-indicator" *ngIf="loading || errorOccured">
+        <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+        <div class="error-banner" *ngIf="errorOccured">
+            <mat-icon>error_outline</mat-icon>
+            Impossible de charger les données AlloCiné.
+        </div>
+    </div>
+
+    <div class="table-wrapper mat-elevation-z8">
+        <table mat-table [dataSource]="ficheFilms">
+            
+            <ng-container matColumnDef="titre">
+                <th mat-header-cell *matHeaderCellDef> Titre </th>
+                <td mat-cell *matCellDef="let film" class="bold-cell"> {{film.title}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> ID </th>
+                <td mat-cell *matCellDef="let film"> <span class="badge-id">{{film.id}}</span> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="allocineFilmId">
+                <th mat-header-cell *matHeaderCellDef> AlloCiné ID </th>
+                <td mat-cell *matCellDef="let film"> {{film.allocineFilmId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="url">
+                <th mat-header-cell *matHeaderCellDef> Lien externe </th>
+                <td mat-cell *matCellDef="let film">
+                    <a [href]="film.url" target="_blank" class="link-icon">
+                        Ouvrir sur AlloCiné <mat-icon>open_in_new</mat-icon>
+                    </a>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pageNumber">
+                <th mat-header-cell *matHeaderCellDef> Page source </th>
+                <td mat-cell *matCellDef="let film"> {{film.pageNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="creationDate">
+                <th mat-header-cell *matHeaderCellDef> Date d'import </th>
+                <td mat-cell *matCellDef="let film"> {{film.creationDate | date: 'dd/MM/yyyy HH:mm'}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[50, 100]" 
+                       [pageSize]="50" 
+                       [length]="totalElements"
+                       (page)="handlePageEvent($event)" 
+                       showFirstLastButtons>
+        </mat-paginator>
+    </div>
 </div>
-<table mat-table [dataSource]="ficheFilms" class="mat-elevation-z8">
-    <ng-container matColumnDef="titre">
-        <th mat-header-cell *matHeaderCellDef>Titre</th>
-        <td mat-cell *matCellDef="let film">{{film.title}}</td>
-    </ng-container>
-    <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>id</th>
-        <td mat-cell *matCellDef="let film">{{film.id}}</td>
-    </ng-container>
-    <ng-container matColumnDef="allocineFilmId">
-        <th mat-header-cell *matHeaderCellDef>allocineFilmId</th>
-        <td mat-cell *matCellDef="let film">{{film.allocineFilmId}}</td>
-    </ng-container>
-    <ng-container matColumnDef="url">
-        <th mat-header-cell *matHeaderCellDef>url</th>
-        <td mat-cell *matCellDef="let film"><a href="{{film.url}}" target="_blank">{{film.url}}</a></td>
-    </ng-container>
-    <ng-container matColumnDef="pageNumber">
-        <th mat-header-cell *matHeaderCellDef>pageNumber</th>
-        <td mat-cell *matCellDef="let film">{{film.pageNumber}}</td>
-    </ng-container>
-    <ng-container matColumnDef="creationDate">
-        <th mat-header-cell *matHeaderCellDef>creationDate</th>
-        <td mat-cell *matCellDef="let film">{{film.creationDate | date: 'dd/MM/yyyy'}}</td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
-<mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements"
-    (page)="handlePageEvent($event)" class="paginator">
-</mat-paginator>

@@ -1,122 +1,156 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<div *ngIf="loading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+</div>
 
-<div class="grid-container" *ngIf="!loading">
-    <div class="grid-item"><img src="{{film.posterPath}}" alt="" /></div>
-    <div class="grid-item-details">
-        <label class="label-pre"></label>
-        <label class="label-val">
-            <div class="updatedDiv" *ngIf="updated">
-                <strong>Film modifié</strong>
+<div class="film-detail-container" *ngIf="!loading">
+    <div class="poster-column">
+        <img [src]="film.posterPath" class="main-poster" [alt]="film.titre" />
+        
+        <div class="actions-area">
+            <button mat-raised-button color="primary" class="btn-save" (click)="updateFilm()">
+                <mat-icon>save</mat-icon> SAUVEGARDER
+            </button>
+            
+            <div class="status-messages">
+                <p class="updated-msg" *ngIf="updated">
+                    <mat-icon>check_circle</mat-icon> Modification enregistrée
+                </p>
+                <p class="error-msg" *ngIf="errorOccured">
+                    <mat-icon>error</mat-icon> Erreur de sauvegarde
+                </p>
             </div>
-        </label>
-        <label class="label-pre"></label>
-        <label class="label-val">
-            <div class="errorDiv" *ngIf="errorOccured">
-                <strong>une erreur est survenue</strong>
-            </div>
-        </label>
-        <label class="label-pre">Titre : </label> <label class="label-val">{{film.titre | uppercase}}</label>
-        <label class="label-pre">Titre Original : </label> <label class="label-val">{{film.titreO | uppercase}}</label>
-        <label class="label-pre">Date de sortie : </label> <label class="label-val">{{film.dateSortie | date:
-            'dd/MM/yyyy'}}</label>
-        <label class="label-pre">Réalisateur : </label> <label class="label-val">{{film.realisateur |
-            realisateurs}}</label>
-        <label class="label-pre">Catégorie : </label> <label class="label-val">{{film.genre | genres}}</label>
-        <label class="label-pre">Durée : </label> <label class="label-val">{{film.runtime}} minutes</label>
+        </div>
+    </div>
 
-        <label class="label-pre">Résumé : </label> <label class="label-val">{{film.overview}}</label>
-        <label class="label-pre">Acteurs : </label> <label class="label-val">
-            <div class="acteur-list">
-                <div *ngFor="let act of film.acteur">
-                    <mat-card style="background-color: #f1f1f1;">
-                        <img class="acteurs" title="{{act.prenom | uppercase}} {{act.nom | uppercase}}" mat-card-image
-                            *ngIf="act.profilePath && act.profilePath != 'http://image.tmdb.org/t/p/w500null'"
-                            src="{{act.profilePath}}">
-                    </mat-card>
+    <div class="info-column">
+        <h1 class="film-main-title">{{film.titre | uppercase}}</h1>
+        <p class="film-subtitle">
+            {{film.titreO}} • {{film.dateSortie | date:'yyyy'}} • {{film.runtime}} min
+        </p>
+
+        <div class="director-highlight">
+            <div class="director-icon">
+                <mat-icon>videocam</mat-icon>
+            </div>
+            <div class="director-info">
+                <span class="meta-label">Réalisé par</span>
+                <h2 class="director-name">{{film.realisateur | realisateurs}}</h2>
+            </div>
+        </div>
+
+        <div class="metadata-grid">
+            <div class="meta-item">
+                <span class="meta-label">Genre</span>
+                <span class="meta-value-genre">{{film.genre | genres}}</span>
+            </div>
+        </div>
+
+        <div class="synopsis-section">
+            <h3 class="section-title">Résumé</h3>
+            <p class="overview-text">{{film.overview}}</p>
+        </div>
+
+        <div class="casting-section">
+            <h3 class="section-title">Casting</h3>
+            <div class="acteur-grid-large">
+                <div *ngFor="let act of film.acteur" class="acteur-item">
+                    <div class="acteur-card-large" *ngIf="act.profilePath && !act.profilePath.includes('null')">
+                        <img [src]="act.profilePath" [alt]="act.prenom" class="acteur-img">
+                        <div class="acteur-overlay">
+                            <span>{{act.prenom}} {{act.nom}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </label>
-        <label class="label-pre">Home Page : </label> <label class="label-val"><a *ngIf="film.homepage"
-                href="{{film.homepage}}">{{film.homepage}}</a></label>
-        <label class="label-pre">TMDB ID : </label><label class="label-val">{{film.tmdbId}}</label>
-        <label class="label-pre">Origine : </label>
-        <label class="label-val">
-            <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="film.origine" name="origine">
-                    <mat-option *ngFor="let origine of origines" [value]="origine">
-                        {{origine}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </label>
+        </div>
 
-        <label *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum" class="label-pre">Sortie
-            DVD : </label>
-        <label *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum" class="label-val">
-            <mat-form-field appearance="fill">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dateSortieDvd">
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Zone DVD : </label>
-        <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
-            <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="zoneSelected" name="zone">
-                    <mat-option *ngFor="let zone of zonesList" [value]="zone">
-                        {{zone}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum">Format DVD : </label>
-        <label class="label-val" *ngIf="film.origine === dvdOrigineEnum">
-            <mat-form-field appearance="fill">
-                <mat-select [(ngModel)]="formatSelected" name="format">
-                    <mat-option *ngFor="let dvdFormat of dvdFormats" [value]="dvdFormat">
-                        {{dvdFormat}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </label>
-        <label class="label-pre" *ngIf="film.origine === dvdOrigineEnum"><input type="checkbox"
-                [(ngModel)]="rippedSelected" [checked]="rippedSelected" (change)="createDateRip()" />Rippé</label>
-        <label class="label-val"
-            *ngIf="film.origine === dvdOrigineEnum && rippedSelected && film.dvd.dateRip">
-            le : {{film.dvd.dateRip | date: 'dd/MM/yyyy'}}
-        </label>
-        <label class="label-pre"><input type="checkbox" [(ngModel)]="film.vu" [checked]="film.vu"
-                (change)="createDateVu()" />Vu</label>
-        <label class="label-val" *ngIf="film.vu">
-            le : {{film.dateVue | date: 'dd/MM/yyyy'}}
-        </label>
-        <label class="label-pre">Ajouté le : </label>
-        <label class="label-val">
-            <mat-form-field appearance="fill">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="picker" [(ngModel)]="film.dateInsertion">
-                <mat-hint>DD/MM/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </label>
-        <label class="label-pre"></label>
-        <label class="label-val"><button type="button" (click)="updateFilm()">Sauver les modifications</button></label>
+        <h3 class="section-title">Gestion du Film</h3>
+        
+        <div class="management-grid">
+            <div class="management-card">
+                <h3 class="small-title">Références</h3>
+                <div class="info-row">
+                    <span class="meta-label">TMDB ID</span>
+                    <span class="meta-value-small">{{film.tmdbId}}</span>
+                </div>
+                <div class="info-row" *ngIf="film.homepage">
+                    <span class="meta-label">Home Page</span>
+                    <a [href]="film.homepage" target="_blank" class="link-external">
+                        Site officiel <mat-icon>open_in_new</mat-icon>
+                    </a>
+                </div>
+            </div>
 
-        <div *ngFor="let critiquePresse of film.critiquePresse" class="acteurs">
+            <div class="management-card highlight">
+                <h3 class="small-title">Support & Edition</h3>
+                <div class="form-stack">
+                    <mat-form-field appearance="outline" class="dense-field">
+                        <mat-label>Origine</mat-label>
+                        <mat-select [(ngModel)]="film.origine">
+                            <mat-option *ngFor="let o of origines" [value]="o">{{o}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-            <label class="label-pre"><b> {{critiquePresse.newsSource}} </b>
-                <br />
-                <label>Note : {{critiquePresse.rating}}</label>
-                <br />
-            </label>
-            <label class="label-val">
-                {{critiquePresse.body}}
-            </label>
+                    <mat-form-field appearance="outline" class="dense-field" *ngIf="film.origine === dvdOrigineEnum">
+                        <mat-label>Zone DVD</mat-label>
+                        <mat-select [(ngModel)]="zoneSelected">
+                            <mat-option *ngFor="let z of zonesList" [value]="z">Zone {{z}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-            <span>&nbsp;</span>
+                    <mat-form-field appearance="outline" class="dense-field" *ngIf="film.origine === dvdOrigineEnum">
+                        <mat-label>Format</mat-label>
+                        <mat-select [(ngModel)]="formatSelected">
+                            <mat-option *ngFor="let f of dvdFormats" [value]="f">{{f}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="checkbox-group">
+                    <div class="check-item" *ngIf="film.origine === dvdOrigineEnum">
+                        <mat-checkbox [(ngModel)]="rippedSelected" (change)="createDateRip()">Rippé</mat-checkbox>
+                        <span class="date-info" *ngIf="rippedSelected && film.dvd?.dateRip">le {{film.dvd.dateRip | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                    <div class="check-item">
+                        <mat-checkbox [(ngModel)]="film.vu" (change)="createDateVu()">Vu</mat-checkbox>
+                        <span class="date-info" *ngIf="film.vu && film.dateVue">le {{film.dateVue | date:'dd/MM/yyyy'}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="management-card">
+                <h3 class="small-title">Calendrier</h3>
+                <div class="date-stack">
+                    <mat-form-field appearance="outline" class="dense-field">
+                        <mat-label>Ajouté le</mat-label>
+                        <input matInput [matDatepicker]="pickerAdd" [(ngModel)]="film.dateInsertion">
+                        <mat-datepicker-toggle matIconSuffix [for]="pickerAdd"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerAdd></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="dense-field" *ngIf="film.origine === dvdOrigineEnum || film.origine === enSalleOrigineEnum">
+                        <mat-label>Sortie DVD</mat-label>
+                        <input matInput [matDatepicker]="pickerDVD" [(ngModel)]="film.dateSortieDvd">
+                        <mat-datepicker-toggle matIconSuffix [for]="pickerDVD"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerDVD></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="critiques-section" *ngIf="film.critiquePresse?.length">
+            <mat-divider></mat-divider>
+            <h3 class="section-title">Critiques Presse</h3>
+            <div class="critique-grid">
+                <div *ngFor="let critique of film.critiquePresse" class="critique-card">
+                    <div class="critique-header">
+                        <span class="source-news">{{critique.newsSource}}</span>
+                        <span class="rating-badge">{{critique.rating}}/5</span>
+                    </div>
+                    <div class="critique-body">
+                        <p>« {{critique.body}} »</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

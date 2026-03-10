@@ -80,7 +80,7 @@ export class FilmService {
     return this.apiService.removeFilm(id);
   }
 
-  retrieveFilmImage(id: number): Observable<any> {
+  retrieveFilmImage(id: number): Observable<Film> {
     return this.apiService.retrieveFilmImage(id);
   }
 

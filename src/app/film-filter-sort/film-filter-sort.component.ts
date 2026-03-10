@@ -1,51 +1,69 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal} from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
-import { Genre } from '../model/genre';
 import { Origine } from '../model/origine';
-import { FilmService } from '../services/film.service';
+import { Genre } from '../model/genre';
+import { FilmStore } from '../store/film.store';
 
 @Component({
   selector: 'app-film-filter-sort',
   templateUrl: './film-filter-sort.component.html',
   styleUrls: ['./film-filter-sort.component.css']
 })
-export class FilmFilterSortComponent implements OnInit{
-  @Output() filmFilterSortChange = new EventEmitter<FilmFilterSort>();
-  filmFilterSort: FilmFilterSort = {titre:'',default:true,realisateur:'',acteur:'',origine:Origine.DVD,annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
-  buttonDisabled = false
-  origines: Origine[] = Object.values(Origine).sort();
-  Origine = Origine
-  annees: number[]
-  categories: Genre[]
-  vuOptions: string[] = ['vu','non vu']
-  rippedOptions: string[] = ['rippé','non rippé']
-  sortByOptions: string[] = ['titre asc','titre desc','realisateur asc' ,'realisateur desc','acteur asc','acteur desc','annee asc','annee desc']
-  sortBySelected: string
-  constructor(private filmService: FilmService) {
+export class FilmFilterSortComponent {
+
+  private store = inject(FilmStore); // Injection directe
+
+
+  filmFilterSort = signal<FilmFilterSort>({
+    titre: '', default: true, realisateur: '', acteur: '',
+    origine: this.getOrigineFromCookie(), annee: '',
+    categorie: '', vu: '', ripped: '', sortBy: ''
+  });
+
+  updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
+    this.filmFilterSort.update(f => {
+      const newState = { ...f, [key]: value, default: false };
+      // On informe le store immédiatement
+      this.store.updateFromFilter(newState);
+      return newState;
+    });
   }
-  ngOnInit() {
-    this.annees = this.filmService.getAnneesSelect();
-    this.filmService.getAllGenres().subscribe((data: Genre[]) => {
-      this.categories = data;
-    }
-      , (error) => {
-        //this.errorOccured = true;
-        //this.loading = false;
-        console.error(error);
+
+  reset() {
+    const emptyFilter: FilmFilterSort = {
+      titre: '', default: true, realisateur: '', acteur: '',
+      origine: Origine.TOUS, annee: '', categorie: '',
+      vu: '', ripped: '', sortBy: ''
+    };
+    this.filmFilterSort.set(emptyFilter);
+    this.store.updateFromFilter(emptyFilter);
+  }
+
+  // listes de sélection
+  origines = signal(Object.values(Origine).filter(o => o !== Origine.TOUS).sort() as Origine[]);
+  categories = signal<Genre[]>([]);
+  vuOptions = ['vu', 'non vu'];
+  rippedOptions = ['rippé', 'non rippé'];
+  sortByOptions = ['titre asc', 'titre desc', 'realisateur asc', 'realisateur desc', 'acteur asc', 'acteur desc', 'annee asc', 'annee desc'];
+
+  private getCookie(name: string): string | null {
+    if (!document.cookie) return null;
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [key, ...rest] = cookie.split('=');
+      if (key === name) {
+        return decodeURIComponent(rest.join('='));
       }
-      , () => {
-        //this.loading = false;
-      });
+    }
+    return null;
   }
-  filter(){
-    //console.log(this.filmFilterSort);
-    this.filmFilterSort.default=false
-    this.filmFilterSort.sortBy = this.sortBySelected
-    this.filmFilterSortChange.emit(this.filmFilterSort)
+
+  private getOrigineFromCookie(): Origine {
+    const origineCookie = this.getCookie('origine');
+    if (origineCookie && Object.values(Origine).includes(origineCookie as Origine)) {
+      return origineCookie as Origine;
+    }
+    return Origine.DVD;
   }
-  resetFields(){
-    this.sortBySelected = ''
-    this.filmFilterSort={titre:'',default: true,realisateur:'',acteur:'',origine:'',annee:'',categorie: '',vu:'',ripped:'',sortBy: ''}
-    this.filmFilterSortChange.emit(this.filmFilterSort)
-  }
+
 }

@@ -1,67 +1,76 @@
-<div class="errorDiv" *ngIf="errorOccured">
-    <strong>une erreur est survenue</strong>
-</div>
-<mat-spinner *ngIf="loading"></mat-spinner>
-<app-film-filter-sort (filmFilterSortChange)="filterOnFilmFilterSort()">
-    
-</app-film-filter-sort>
-<div class="grid-item" *ngIf="films && films.length >0">
-    <mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
- 
-    </mat-paginator>
-</div>
-<div class="grid-item" *ngIf="films && films.length >0">
-    <table mat-table [dataSource]="films" class="mat-elevation-z8">
-        <ng-container matColumnDef="poster">
-            <th mat-header-cell *matHeaderCellDef> Poster </th>
-            <td mat-cell *matCellDef="let film"><img src="{{film.posterPath}}" alt="" width="200" /></td>
-        </ng-container>
-        <ng-container matColumnDef="titre">
-            <th mat-header-cell *matHeaderCellDef>Titre</th>
-            <td mat-cell *matCellDef="let film">{{film.titre}}</td>
-        </ng-container>
-        <ng-container matColumnDef="titreO">
-            <th mat-header-cell *matHeaderCellDef>Titre original</th>
-            <td mat-cell *matCellDef="let film">{{film.titreO}}</td>
-        </ng-container>
-        <ng-container matColumnDef="realisateurs">
-            <th mat-header-cell *matHeaderCellDef>Réalisateurs</th>
-            <td mat-cell *matCellDef="let film">
-                <div *ngFor="let realisateur of film.realisateur">
-                    {{realisateur.nom | uppercase}}
-                  </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="acteurs">
-            <th mat-header-cell *matHeaderCellDef>Acteurs</th>
-            <td mat-cell *matCellDef="let film">
-                <div *ngFor="let acteur of film.acteur">
-                    {{acteur.nom}}
-                  </div>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="annee">
-            <th mat-header-cell *matHeaderCellDef>Année</th>
-            <td mat-cell *matCellDef="let film">{{film.annee}}</td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let film">
-                <button (click)="removeFilm(film.id)"
-              [disabled]="buttonDisabled">Supprimer</button><br /><br />
-            <button class="btn btn-primary" (click)="retrieveFilmImage(film.id)" [disabled]="buttonDisabled">Trouver
-              le poster</button><br><br>
-              <a routerLink="/filmUpdateCritiquepresse/{{film.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">Choose critiques presse</a>
-            </td>
-        </ng-container>
-        
-        
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Administration de la DVDthèque</h1>
+    <p class="stats">Total : <strong>{{ totalElements() }}</strong> films référencés</p>
+  </div>
+
+  <div class="filter-section mat-elevation-z1">
+    <app-film-filter-sort></app-film-filter-sort>
+  </div>
+
+  <div class="alert-box error" *ngIf="errorOccured()">
+    <mat-icon>error</mat-icon>
+    <span>Une erreur critique est survenue lors de l'opération !</span>
+    <button mat-icon-button (click)="errorOccured.set(false)"><mat-icon>close</mat-icon></button>
+  </div>
+
+  <div class="table-container mat-elevation-z8">
+    <div class="loading-shade" *ngIf="loading()">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+
+    <table mat-table [dataSource]="films()" *ngIf="films().length > 0">
+      <ng-container matColumnDef="titre">
+        <th mat-header-cell *matHeaderCellDef>Titre</th>
+        <td mat-cell *matCellDef="let film" class="cell-titre">{{ film.titre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="realisateur">
+        <th mat-header-cell *matHeaderCellDef>Réalisateur</th>
+        <td mat-cell *matCellDef="let film">
+          {{ film.realisateur && film.realisateur[0] ? film.realisateur[0].nom : 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="annee">
+        <th mat-header-cell *matHeaderCellDef>Année</th>
+        <td mat-cell *matCellDef="let film">{{ film.annee }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="cell-actions">Actions</th>
+        <td mat-cell *matCellDef="let film">
+          <div class="action-buttons">
+            <button mat-icon-button color="primary" 
+                    matTooltip="Récupérer l'image TMDB"
+                    (click)="retrieveFilmImage(film.id)" 
+                    [disabled]="isProcessing()">
+              <mat-icon>image_search</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" 
+                    matTooltip="Supprimer le film"
+                    (click)="removeFilm(film.id, film.titre)" 
+                    [disabled]="isProcessing()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-</div>
-<div class="grid-item" *ngIf="films && films.length >0">
-    <mat-paginator #paginator [pageSizeOptions]="[50, 100]" [pageSize]="50" [length]="totalElements" (page)="handlePageEvent($event)" class="paginator">
- 
+
+    <div class="no-results" *ngIf="!loading() && films().length === 0">
+      Aucun film ne correspond à vos critères de recherche.
+    </div>
+
+    <mat-paginator
+      [pageSizeOptions]="[50, 100]"
+      [pageSize]="pageSize()"
+      [length]="totalElements()"
+      (page)="handlePageEvent($event)"
+      showFirstLastButtons>
     </mat-paginator>
+  </div>
 </div>

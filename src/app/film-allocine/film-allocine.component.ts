@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AllocineService } from '../services/allocine.service';
-import { Page } from '../model/page';
 import { FicheFilm } from '../model/fiche-film';
 import { FicheFilmPage } from '../model/fiche-film-page';
 import { PageEvent } from '@angular/material/paginator';
@@ -10,31 +9,38 @@ import { PageEvent } from '@angular/material/paginator';
   templateUrl: './film-allocine.component.html',
   styleUrls: ['./film-allocine.component.css']
 })
-export class FilmAllocineComponent implements OnInit{
-  loading: boolean;
-  errorOccured: boolean;
+export class FilmAllocineComponent implements OnInit {
+  loading: boolean = false;
+  errorOccured: boolean = false;
   totalElements: number = 0;
   ficheFilms: FicheFilm[] = [];
-  query: string = ''
-  sort: string = '-creationDate'
-  title: string = ''
-  buttonDisabled = false
+  
+  // Paramètres de recherche
+  query: string = '';
+  sort: string = '-creationDate';
+  title: string = '';
+  
+  buttonDisabled = false;
   readonly defaultPageSize: number = 50;
-  displayedColumns: string[] = ['titre', 'id', 'allocineFilmId', 'url', 'pageNumber','creationDate']
-  sortByOptions: string[] = ['created date asc','created date desc']
-  sortBySelected: string
+  
+  displayedColumns: string[] = ['titre', 'id', 'allocineFilmId', 'url', 'pageNumber', 'creationDate'];
+  sortByOptions = [
+    { label: 'Date création (Décroissant)', value: '-creationDate' },
+    { label: 'Date création (Croissant)', value: '+creationDate' }
+  ];
+  sortBySelected: string = '-creationDate';
+
+  constructor(protected allocineService: AllocineService) { }
+
   ngOnInit(): void {
-    console.log('FilmAllocineComponent::ngOnInit');
+    this.refreshData(1, this.defaultPageSize);
   }
 
-  constructor(protected allocineService: AllocineService) { 
-    //this.films = [];
-    this.getAllFicheFilms({query:this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
-  }
-
-  protected getAllFicheFilms(request: any) {
+  private refreshData(pageIndex: number, pageSize: number) {
     this.loading = true;
-    this.allocineService.paginatedSearch(request.query, request.pageIndex, request.pageSize,request.sort).subscribe({
+    this.errorOccured = false;
+    
+    this.allocineService.paginatedSearch(this.query, pageIndex, pageSize, this.sort).subscribe({
       next: (data: FicheFilmPage) => {
         this.ficheFilms = data.content;
         this.totalElements = data.totalElements;
@@ -47,34 +53,24 @@ export class FilmAllocineComponent implements OnInit{
       complete: () => {
         this.loading = false;
       }
-    }
-    )
+    });
   }
 
   handlePageEvent(e: PageEvent) {
-    //console.log(e);
-    this.getAllFicheFilms({query:this.query, pageIndex:e.pageIndex+1, pageSize:e.pageSize, sort:this.sort});
+    this.refreshData(e.pageIndex + 1, e.pageSize);
   }
 
-  filter(){
-    if(this.title != ''){
-      this.query = 'title:eq:'+this.title+':AND';
-    }
-    if(this.sortBySelected != '' && this.sortBySelected === 'created date asc'){
-      this.sort = '+creationDate'
-    } else if(this.sortBySelected != '' && this.sortBySelected === 'created date desc'){
-      this.sort = '-creationDate'
-    }
-    this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
+  filter() {
+    this.query = this.title ? `title:eq:${this.title}:AND` : '';
+    this.sort = this.sortBySelected;
+    this.refreshData(1, this.defaultPageSize);
   }
-  sortByCreationDate(){
-    this.sort= ''
-  }
-  resetFields(){
-    this.query = ''
-    this.sort = ''
-    this.sortBySelected = ''
-    this.title = ''
-    this.getAllFicheFilms({query: this.query, pageIndex:1, pageSize:this.defaultPageSize, sort:this.sort});
+
+  resetFields() {
+    this.query = '';
+    this.sort = '-creationDate';
+    this.sortBySelected = '-creationDate';
+    this.title = '';
+    this.refreshData(1, this.defaultPageSize);
   }
 }
