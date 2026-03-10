@@ -1,56 +1,77 @@
-<h2>Importer des films au format Excel ou CSV</h2>
-<h3>Realisateur | Titre | Annee | Acteurs | Origine Film | TMDB ID | Vu | Date Vu | Date insertion | Zonedvd | Rippé |
-    RIP Date
-    | Dvd Format | Date Sortie DVD</h3>
+<div class="import-container">
+    <div class="header-card mat-elevation-z3">
+        <h1>Import de Données Asynchrone</h1>
+        <div class="format-guide">
+            <span class="guide-label">Format requis (Colonnes) :</span>
+            <code>Realisateur | Titre | Annee | Acteurs | Origine | TMDB ID | Vu | Date Vu | ...</code>
+        </div>
+    </div>
 
-<div class="grid-container">
-    <div class="grid-item">
-        <form (ngSubmit)="importFilmList()" #form="ngForm">
-            <input type="file" ng-model="file_upload" name="file" type="file" (change)="loadFile()" #fileInput>&nbsp;
-            <button class="btn btn-primary" [disabled]="buttonDisabled" type="submit">Importer</button>
+    <div class="upload-zone mat-elevation-z2">
+        <form (ngSubmit)="importFilmList()" class="upload-form">
+            <div class="file-input-wrapper">
+                <input type="file" (change)="loadingStatus = false" #fileInput id="file" class="hidden-input">
+                <label for="file" class="custom-file-label">
+                    <mat-icon>upload_file</mat-icon>
+                    {{ inputEl.nativeElement.files[0]?.name || 'Choisir un fichier Excel/CSV' }}
+                </label>
+            </div>
+            
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading || !inputEl.nativeElement.files[0]">
+                <mat-icon>play_circle_filled</mat-icon> LANCER L'IMPORT
+            </button>
         </form>
     </div>
-</div>
 
-<div class="errorDiv" *ngIf="errorOccured">
-    <strong>une erreur est survenue</strong>
-</div>
-<div class="grid-container" *ngIf="loadingStatus">
-    <div class="grid-item">
-        <p>Status de l'import {{completedStatus}} <span *ngIf="completedStatus"> en {{time / 1000}}s</span></p>&nbsp;&nbsp;
-        <p>Nombre de films importés {{completedNumber}}</p>
-    </div>
-    <div class="grid-item">
+    <div class="monitoring-grid" *ngIf="loadingStatus">
+        
+        <div class="summary-cards">
+            <div class="stat-card" [class.success]="completedStatus === 'SUCCESS'" [class.error]="completedStatus === 'ERROR'">
+                <span class="stat-label">Statut Global</span>
+                <span class="stat-value">{{ completedStatus || 'EN COURS...' }}</span>
+                <mat-progress-bar mode="indeterminate" *ngIf="!completedStatus"></mat-progress-bar>
+            </div>
 
-        <table class="">
-            <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>Titre</th>
-                    <th>Id</th>
-                    <th>Timing (ms)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let message of messageHistory">
-                    <td [ngStyle]="{'color':message.getStatusValue() === 0 ? 'red' : 'green' }">
-                        {{message.status}}
-                    </td>
-                    <td>
-                        <div *ngIf="message.film">
-                            {{message.film.titre}}
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="message.film">
-                            {{message.film.tmdbId}}
-                        </div>
-                    </td>
-                    <td>
-                        {{message.timing}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="stat-card highlight">
+                <span class="stat-label">Films Traités</span>
+                <span class="stat-value">{{ completedNumber }}</span>
+                <mat-icon class="stat-icon">library_add</mat-icon>
+            </div>
+
+            <div class="stat-card" *ngIf="time > 0">
+                <span class="stat-label">Temps Total</span>
+                <span class="stat-value">{{ time / 1000 | number:'1.2-2' }}s</span>
+            </div>
+        </div>
+
+        <div class="log-console mat-elevation-z4">
+            <div class="console-header">
+                <mat-icon>terminal</mat-icon> Flux d'événements en direct (WebSockets)
+            </div>
+            <div class="table-scroll">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>État</th>
+                            <th>Film / Détail</th>
+                            <th>TMDB ID</th>
+                            <th>Timing</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let msg of messageHistory" [class.new-row]="true">
+                            <td>
+                                <span class="status-badge" [class.success]="msg.getStatusValue() !== 0" [class.fail]="msg.getStatusValue() === 0">
+                                    {{ msg.status }}
+                                </span>
+                            </td>
+                            <td>{{ msg.film?.titre || 'Traitement système...' }}</td>
+                            <td class="tmdb-cell">{{ msg.film?.tmdbId || '-' }}</td>
+                            <td class="time-cell">{{ msg.timing }}ms</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

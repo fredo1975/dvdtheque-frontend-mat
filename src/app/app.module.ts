@@ -45,6 +45,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ActeursPipe } from './pipes/acteurs.pipe';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
 @NgModule({
@@ -88,6 +89,7 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     FlexLayoutModule,
     MatListModule,
     MatCheckboxModule,
+    MatProgressBarModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
