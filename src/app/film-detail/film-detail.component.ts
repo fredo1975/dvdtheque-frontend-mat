@@ -67,11 +67,15 @@ export class FilmDetailComponent implements OnInit{
       this.critiquePresseExist = false;
     }
   }
-  createDateVu(){
-    if(this.film.vu){
-      this.film.dateVue = new Date();
-    }
+  createDateVu() {
+    console.log("createDateVu", this.film.vu);
+  if (this.film.vu) {
+    this.film.dateVue = new Date();
+  } else {
+    // TRÈS IMPORTANT : On réinitialise la date si on décoche "vu"
+    this.film.dateVue = null; 
   }
+}
   createDateRip(){
     if(this.rippedSelected){
       if(this.film.dvd == null){
