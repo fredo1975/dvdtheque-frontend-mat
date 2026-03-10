@@ -11,6 +11,25 @@ export class AuthService {
 
   constructor() {}
 
+  // 1. Correction pour la Navbar : Vérifie si le token est expiré (seuil de 5s)
+  isTokenExpired(): boolean {
+    return this.keycloak?.isTokenExpired(5) ?? true;
+  }
+
+  // 2. Méthode CRUCIALE pour ton Raspberry Pi : Rafraîchir le token
+  // Cette méthode garantit que tu as un token valide avant chaque appel API
+  async getValidToken(): Promise<string | undefined> {
+    try {
+      // updateToken(5) : rafraîchit si le token expire dans moins de 5 secondes
+      await this.keycloak?.updateToken(5);
+      return this.keycloak?.token;
+    } catch (error) {
+      console.error("Impossible de rafraîchir le token Keycloak", error);
+      this.logout(); // On déconnecte si le rafraîchissement échoue (session expirée sur le serveur)
+      return undefined;
+    }
+  }
+
   /**
    * Cette méthode sera appelée par votre factory (initializeKeycloak)
    * On lui passe la config récupérée dynamiquement.
