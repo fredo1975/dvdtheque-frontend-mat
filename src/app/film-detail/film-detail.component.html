@@ -28,14 +28,20 @@
             {{film.titreO}} • {{film.dateSortie | date:'yyyy'}} • {{film.runtime}} min
         </p>
 
+        <div class="director-highlight">
+            <div class="director-icon">
+                <mat-icon>videocam</mat-icon>
+            </div>
+            <div class="director-info">
+                <span class="meta-label">Réalisé par</span>
+                <h2 class="director-name">{{film.realisateur | realisateurs}}</h2>
+            </div>
+        </div>
+
         <div class="metadata-grid">
             <div class="meta-item">
-                <span class="meta-label">Réalisateur</span>
-                <span class="meta-value">{{film.realisateur | realisateurs}}</span>
-            </div>
-            <div class="meta-item">
                 <span class="meta-label">Genre</span>
-                <span class="meta-value">{{film.genre | genres}}</span>
+                <span class="meta-value-genre">{{film.genre | genres}}</span>
             </div>
         </div>
 
@@ -131,7 +137,6 @@
                 </div>
             </div>
         </div>
-
         <div class="critiques-section" *ngIf="film.critiquePresse?.length">
             <mat-divider></mat-divider>
             <h3 class="section-title">Critiques Presse</h3>
