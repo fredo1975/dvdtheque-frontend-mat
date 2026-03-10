@@ -100,7 +100,7 @@ export class FilmDetailComponent implements OnInit{
         this.film = f;
         console.log("updateFilm updated",this.film)
         this.initSelectedFields()
-        this.store.refreshList();
+        this.store.updateLocalFilm(f);
       },
       error: (e) => {
         this.errorOccured = true;
