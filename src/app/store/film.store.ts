@@ -33,17 +33,19 @@ export class FilmStore {
   }));
 
   constructor() {
-    // Conversion du signal en observable pour profiter de switchMap (évite les race conditions)
+    // 1. Définition de l'observable à partir du signal (CONTEXTE OK ICI)
+    // 2. On pipe directement pour gérer les appels API
     toObservable(this.requestParams).pipe(
       tap(() => this.loading.set(true)),
       switchMap(req => {
         let q = req.query;
         if (q.includes(`origine:eq:${Origine.TOUS}:AND`)) q = '';
-        
+
         return this.filmService.paginatedSarch(q, req.pageIndex, req.pageSize, req.sort).pipe(
-          catchError(() => {
-            console.log('Erreur lors de la récupération des films');
+          catchError((err) => {
+            console.error('Erreur API:', err);
             this.errorOccured.set(true);
+            this.loading.set(false);
             return of(null);
           })
         );
@@ -52,6 +54,7 @@ export class FilmStore {
       if (data) {
         this.films.set(data.content);
         this.totalElements.set(data.page.totalElements);
+        this.errorOccured.set(false);
       }
       this.loading.set(false);
     });
@@ -72,7 +75,7 @@ export class FilmStore {
     this.sort.set('-dateInsertion,+titre');
   }
 
-  
+
   setFilter(query: string, sort: string) {
     this.pageIndex.set(1);
     this.query.set(query);

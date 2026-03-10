@@ -2,7 +2,7 @@
   Une erreur est survenue !
 </div>
 
-<app-film-filter-sort (filterChange)="filterOnFilmFilterSort($event)"></app-film-filter-sort>
+<app-film-filter-sort></app-film-filter-sort>
 
 <div *ngIf="films() && films().length > 0">
   <table mat-table [dataSource]="films()" class="mat-elevation-z8">

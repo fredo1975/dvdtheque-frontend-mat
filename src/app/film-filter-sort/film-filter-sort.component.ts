@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output, signal} from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal} from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
+import { FilmStore } from '../store/film.store';
 
 @Component({
   selector: 'app-film-filter-sort',
@@ -10,22 +11,33 @@ import { Genre } from '../model/genre';
 })
 export class FilmFilterSortComponent {
 
-  @Output() filterChange = new EventEmitter<FilmFilterSort>();
+  private store = inject(FilmStore); // Injection directe
 
 
-  // signal principal pour les filtres
   filmFilterSort = signal<FilmFilterSort>({
-    titre: '',
-    default: true,
-    realisateur: '',
-    acteur: '',
-    origine: this.getOrigineFromCookie(),
-    annee: '',
-    categorie: '',
-    vu: '',
-    ripped: '',
-    sortBy: ''
+    titre: '', default: true, realisateur: '', acteur: '',
+    origine: this.getOrigineFromCookie(), annee: '',
+    categorie: '', vu: '', ripped: '', sortBy: ''
   });
+
+  updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
+    this.filmFilterSort.update(f => {
+      const newState = { ...f, [key]: value, default: false };
+      // On informe le store immédiatement
+      this.store.updateFromFilter(newState);
+      return newState;
+    });
+  }
+
+  reset() {
+    const emptyFilter: FilmFilterSort = {
+      titre: '', default: true, realisateur: '', acteur: '',
+      origine: Origine.TOUS, annee: '', categorie: '',
+      vu: '', ripped: '', sortBy: ''
+    };
+    this.filmFilterSort.set(emptyFilter);
+    this.store.updateFromFilter(emptyFilter);
+  }
 
   // listes de sélection
   origines = signal(Object.values(Origine).filter(o => o !== Origine.TOUS).sort() as Origine[]);
@@ -52,28 +64,6 @@ export class FilmFilterSortComponent {
       return origineCookie as Origine;
     }
     return Origine.DVD;
-  }
-
-  updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
-    this.filmFilterSort.update(f => {
-      const newFilter = { ...f, [key]: value, default: false };
-
-      // On émet manuellement ici : c'est une action utilisateur, pas un effet de bord
-      this.filterChange.emit(newFilter);
-
-      return newFilter;
-    });
-  }
-
-  // 3. Pareil pour le reset
-  reset() {
-    const defaultFilter: FilmFilterSort = {
-      titre: '', default: true, realisateur: '', acteur: '',
-      origine: Origine.TOUS, annee: '', categorie: '',
-      vu: '', ripped: '', sortBy: ''
-    };
-    this.filmFilterSort.set(defaultFilter);
-    this.filterChange.emit(defaultFilter);
   }
 
 }

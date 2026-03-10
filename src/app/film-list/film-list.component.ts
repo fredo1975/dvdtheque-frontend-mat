@@ -18,18 +18,11 @@ export class FilmListComponent {
   errorOccured = this.store.errorOccured;
   pageSize = this.store.pageSize;
 
-  @ViewChild(FilmFilterSortComponent, { static: true })
-  filmFilterSortViewChild!: FilmFilterSortComponent;
-
   dvdOrigineEnum = Origine.DVD;
   displayedColumns: string[] = ['id', 'titre'];
 
   handlePageEvent(e: PageEvent) {
     this.store.setPage(e.pageIndex + 1);
     this.store.setPageSize(e.pageSize);
-  }
-
-  filterOnFilmFilterSort(filter: FilmFilterSort) {
-    this.store.updateFromFilter(filter);
   }
 }
