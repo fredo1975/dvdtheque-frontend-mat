@@ -18,6 +18,15 @@
 
 <div class="grid-item">
   <mat-form-field appearance="fill">
+    <mat-label>Acteur</mat-label>
+    <input matInput 
+           [ngModel]="filmFilterSort().acteur" 
+           (ngModelChange)="updateField('acteur', $event)">
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
     <mat-label>Origine</mat-label>
     <mat-select [ngModel]="filmFilterSort().origine" 
                 (ngModelChange)="updateField('origine', $event)">

@@ -11,7 +11,7 @@ export interface Film {
     annee: number,
     dateSortie: Date,
     dateInsertion: Date,
-    dateSortieDvd: Date | null,
+    dateSortieDvd: string | null,
     vu: boolean,
     realisateur: Personne[],
     acteur: Personne[],

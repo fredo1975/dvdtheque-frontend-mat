@@ -85,18 +85,40 @@ export class FilmDetailComponent implements OnInit{
       }
     }
   }
+
+  formatDate(date?: Date | null): string | null {
+    if (!date) return null;
+
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+
+    return `${d.getFullYear()}-${month}-${day}`;
+  }
+
   updateFilm() {
     this.updated = false;
     this.loading = true;
     this.buttonDisabled = true;
-    
-    if(this.film.origine === Origine.DVD){
+
+    if (this.film.origine === Origine.DVD) {
       let drip = this.film.dvd != null && this.film.dvd.dateRip != null ? this.film.dvd.dateRip : new Date()
-      this.film.dvd = {zone: this.zoneSelected?this.zoneSelected:2,ripped : this.rippedSelected, format: this.formatSelected?this.formatSelected:DvdFormat.DVD, dateRip: drip}
+      this.film.dvd = { zone: this.zoneSelected ? this.zoneSelected : 2, ripped: this.rippedSelected, format: this.formatSelected ? this.formatSelected : DvdFormat.DVD, dateRip: drip }
+
+      const filmToSend = {
+        ...this.film,
+        dateSortieDvd: this.film.dateSortieDvd,
+        dateSortie: this.formatDate(this.film.dateSortie),
+        dateInsertion: this.formatDate(this.film.dateInsertion),
+        dateMaj: this.formatDate(this.film.dateMaj),
+        dateVue: this.formatDate(this.film.dateVue)
+      };
     }
+
     //console.log("updateFilm",this.film)
     return this.filmService.updateFilm(this.film).subscribe({
       next: (f) => {
+        console.log("updateFilm updated",f)
         this.film = f;
         console.log("updateFilm updated",this.film)
         this.initSelectedFields()
