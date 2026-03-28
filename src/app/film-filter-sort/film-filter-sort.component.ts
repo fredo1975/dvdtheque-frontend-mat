@@ -1,18 +1,27 @@
-import { Component, EventEmitter, inject, Output, signal} from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, signal} from '@angular/core';
 import { FilmFilterSort } from '../model/film-filter-sort';
 import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
 import { FilmStore } from '../store/film.store';
+import { FilmService } from '../services/film.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-film-filter-sort',
   templateUrl: './film-filter-sort.component.html',
   styleUrls: ['./film-filter-sort.component.css']
 })
-export class FilmFilterSortComponent {
+export class FilmFilterSortComponent implements OnInit {
 
   private store = inject(FilmStore); // Injection directe
+  private filmService = inject(FilmService);
 
+  // La liste complète pour le dropdown
+  genresList = signal<Genre[]>([]);
+
+  ngOnInit() {
+    this.getAllGenres();
+  }
 
   filmFilterSort = signal<FilmFilterSort>({
     titre: '', default: true, realisateur: '', acteur: '',
@@ -41,6 +50,7 @@ export class FilmFilterSortComponent {
 
   // listes de sélection
   origines = signal(Object.values(Origine).filter(o => o !== Origine.TOUS).sort() as Origine[]);
+
   categories = signal<Genre[]>([]);
   vuOptions = ['vu', 'non vu'];
   rippedOptions = ['rippé', 'non rippé'];
@@ -56,6 +66,28 @@ export class FilmFilterSortComponent {
       }
     }
     return null;
+  }
+
+  private getAllGenres(): void {
+    //this.loading = true; // On commence le chargement ici
+
+    this.filmService.getAllGenres().subscribe({
+      next: (data) => {
+        console.log("Genres reçus :", data);
+
+        this.genresList.set(data); // On remplit la liste d'options
+      },
+      error: (e) => {
+
+        console.error(e);
+      },
+      complete: () => {
+        /*this.loading = false;
+        this.buttonDisabled = false;
+        this.updated = true;
+        this.checkIfCritiquePresseExist();*/
+      }
+    });
   }
 
   private getOrigineFromCookie(): Origine {
