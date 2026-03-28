@@ -1,3 +1,4 @@
+import { Genre } from "./genre";
 import { Origine } from "./origine";
 
 export interface FilmFilterSort {

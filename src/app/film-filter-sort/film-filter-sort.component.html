@@ -37,6 +37,19 @@
 
 <div class="grid-item">
   <mat-form-field appearance="fill">
+    <mat-label>Genre</mat-label>
+    <mat-select [ngModel]="filmFilterSort().categorie" 
+                (ngModelChange)="updateField('categorie', $event)">
+      <mat-option *ngFor="let genre of genresList()" [value]="genre.name">
+        {{ genre.name }}
+      </mat-option>
+      
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="grid-item">
+  <mat-form-field appearance="fill">
     <mat-label>Vu</mat-label>
     <mat-select [ngModel]="filmFilterSort().vu" 
                 (ngModelChange)="updateField('vu', $event)">
