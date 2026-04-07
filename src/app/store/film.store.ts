@@ -113,16 +113,12 @@ export class FilmStore {
   }
 
   removeFilm(id: number): Observable<void> {
-    const confir = confirm('Sûr de supprimer le film ?')
-    if (confir) {
-      return this.filmService.removeFilm(id).pipe(
+    return this.filmService.removeFilm(id).pipe(
         tap(() => {
           const updated = this.films().filter(f => f.id !== id);
           this.films.set(updated);
         })
       );
-    }
-    return EMPTY;
   }
 
   retrieveFilmImage(id: number): Observable<Film> {
