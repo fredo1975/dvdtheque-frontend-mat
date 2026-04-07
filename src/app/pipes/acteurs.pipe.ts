@@ -7,6 +7,6 @@ import { Personne } from '../model/personne';
 export class ActeursPipe implements PipeTransform {
   transform(acteurs: Personne[]): string {
     if (!acteurs || acteurs.length === 0) return '';
-    return acteurs.map(a => `${a.prenom} ${a.nom}`).join(', ');
+    return acteurs.map(a => `${a.nom}`).join(', ');
   }
 }
