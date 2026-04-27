@@ -33,6 +33,7 @@ export class FilmStore {
   }));
 
   constructor() {
+    this.initFromCookie();
     // 1. Définition de l'observable à partir du signal (CONTEXTE OK ICI)
     // 2. On pipe directement pour gérer les appels API
     toObservable(this.requestParams).pipe(
@@ -96,8 +97,10 @@ export class FilmStore {
 
   // 🔹 Gestion des cookies
   private setCookie(name: string, value: string, days: number) {
-    const expires = new Date(Date.now() + days * 864e5).toUTCString();
-    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "; expires=" + date.toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value || "")}${expires}; path=/; SameSite=Lax`;
   }
 
   public getCookie(name: string): string | null {
