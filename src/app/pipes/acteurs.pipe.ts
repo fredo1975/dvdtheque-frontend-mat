@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Personne } from '../model/personne';
 
 @Pipe({
-  name: 'acteurs'
+    name: 'acteurs',
+    standalone: true
 })
 export class ActeursPipe implements PipeTransform {
   transform(acteurs: Personne[]): string {

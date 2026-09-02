@@ -1,12 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { FilmStore } from '../store/film.store';
 import { FilmFilterSort } from '../model/film-filter-sort';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgIf } from '@angular/common';
+import { FilmFilterSortComponent } from '../film-filter-sort/film-filter-sort.component';
 
 @Component({
-  selector: 'app-film-admin',
-  templateUrl: './film-admin.component.html',
-  styleUrls: ['./film-admin.component.css']
+    selector: 'app-film-admin',
+    templateUrl: './film-admin.component.html',
+    styleUrls: ['./film-admin.component.css'],
+    standalone: true,
+    imports: [FilmFilterSortComponent, NgIf, MatIcon, MatIconButton, MatProgressSpinner, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator]
 })
 export class FilmAdminComponent {
   store = inject(FilmStore);

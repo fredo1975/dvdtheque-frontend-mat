@@ -92,13 +92,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dvdtheque-frontend-mat:build:production"
+              "buildTarget": "dvdtheque-frontend-mat:build:production"
             },
             "local": {
-              "browserTarget": "dvdtheque-frontend-mat:build:local"
+              "buildTarget": "dvdtheque-frontend-mat:build:local"
             },
             "dev": {
-              "browserTarget": "dvdtheque-frontend-mat:build:dev"
+              "buildTarget": "dvdtheque-frontend-mat:build:dev"
             }
           },
           "defaultConfiguration": "development"
@@ -106,7 +106,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dvdtheque-frontend-mat:build"
+            "buildTarget": "dvdtheque-frontend-mat:build"
           }
         },
         "test": {
