@@ -6,11 +6,27 @@ import { Film } from '../model/film';
 import { Origine, OriginesWithoutTous } from '../model/origine';
 import { FilmService } from '../services/film.service';
 import { FilmStore } from '../store/film.store';
+import { RealisateursPipe } from '../pipes/realisateurs.pipe';
+import { GenresPipe } from '../pipes/genres.pipe';
+import { MatDivider } from '@angular/material/divider';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatOption } from '@angular/material/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgIf, NgFor, UpperCasePipe, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-film-detail',
-  templateUrl: './film-detail.component.html',
-  styleUrls: ['./film-detail.component.css']
+    selector: 'app-film-detail',
+    templateUrl: './film-detail.component.html',
+    styleUrls: ['./film-detail.component.css'],
+    standalone: true,
+    imports: [NgIf, MatProgressSpinner, MatButton, MatIcon, NgFor, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, MatOption, MatCheckbox, MatInput, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatDivider, UpperCasePipe, DatePipe, GenresPipe, RealisateursPipe]
 })
 export class FilmDetailComponent implements OnInit{
   private store = inject(FilmStore);

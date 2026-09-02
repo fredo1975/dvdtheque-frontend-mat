@@ -4,11 +4,15 @@ import { switchMap, map } from 'rxjs';
 import { FicheFilm } from '../model/fiche-film';
 import { Film } from '../model/film';
 import { FilmService } from '../services/film.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-film-update-critiquepresse',
-  templateUrl: './film-update-critiquepresse.component.html',
-  styleUrls: ['./film-update-critiquepresse.component.css']
+    selector: 'app-film-update-critiquepresse',
+    templateUrl: './film-update-critiquepresse.component.html',
+    styleUrls: ['./film-update-critiquepresse.component.css'],
+    standalone: true,
+    imports: [NgIf, MatProgressSpinner, NgFor]
 })
 export class FilmUpdateCritiquepresseComponent implements OnInit {
   ficheFilmTab: FicheFilm[];

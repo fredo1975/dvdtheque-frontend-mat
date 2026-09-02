@@ -4,11 +4,24 @@ import { Film } from '../model/film';
 import { Origine, OriginesWithoutTous } from '../model/origine';
 import { FilmService } from '../services/film.service';
 import { FilmStore } from '../store/film.store';
+import { ActeursPipe } from '../pipes/acteurs.pipe';
+import { RealisateursPipe } from '../pipes/realisateurs.pipe';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { NgIf, NgFor } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-film-add',
-  templateUrl: './film-add.component.html',
-  styleUrls: ['./film-add.component.css']
+    selector: 'app-film-add',
+    templateUrl: './film-add.component.html',
+    styleUrls: ['./film-add.component.css'],
+    standalone: true,
+    imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, NgIf, MatIconButton, MatSuffix, MatIcon, MatSelect, NgFor, MatOption, MatButton, MatProgressSpinner, RealisateursPipe, ActeursPipe]
 })
 export class FilmAddComponent implements OnInit {
   private store = inject(FilmStore);

@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Personne } from '../model/personne';
 
 @Pipe({
-  name: 'realisateurs'
+    name: 'realisateurs',
+    standalone: true
 })
 export class RealisateursPipe implements PipeTransform {
 

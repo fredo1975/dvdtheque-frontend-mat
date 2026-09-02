@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Origine } from '../model/origine';
 import { FilmService } from '../services/film.service';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import { NgFor, NgIf } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
 
 const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
-  selector: 'app-film-export',
-  templateUrl: './film-export.component.html',
-  styleUrls: ['./film-export.component.css']
+    selector: 'app-film-export',
+    templateUrl: './film-export.component.html',
+    styleUrls: ['./film-export.component.css'],
+    standalone: true,
+    imports: [MatIcon, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, NgFor, MatOption, MatHint, MatButton, NgIf, MatProgressSpinner]
 })
 export class FilmExportComponent implements OnInit {
   loading = false;

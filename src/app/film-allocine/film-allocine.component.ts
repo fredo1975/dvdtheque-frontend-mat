@@ -2,12 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { AllocineService } from '../services/allocine.service';
 import { FicheFilm } from '../model/fiche-film';
 import { FicheFilmPage } from '../model/fiche-film-page';
-import { PageEvent } from '@angular/material/paginator';
+import { PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { MatSelect } from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatInput } from '@angular/material/input';
+import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field';
 
 @Component({
-  selector: 'app-film-allocine',
-  templateUrl: './film-allocine.component.html',
-  styleUrls: ['./film-allocine.component.css']
+    selector: 'app-film-allocine',
+    templateUrl: './film-allocine.component.html',
+    styleUrls: ['./film-allocine.component.css'],
+    standalone: true,
+    imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatIcon, MatSuffix, MatSelect, NgFor, MatOption, MatButton, NgIf, MatProgressSpinner, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, DatePipe]
 })
 export class FilmAllocineComponent implements OnInit {
   loading: boolean = false;

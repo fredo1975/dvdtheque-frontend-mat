@@ -4,12 +4,21 @@ import { Origine } from '../model/origine';
 import { Genre } from '../model/genre';
 import { FilmStore } from '../store/film.store';
 import { FilmService } from '../services/film.service';
-import { Observable } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatOptionModule } from '@angular/material/core';
+import { NgFor } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-  selector: 'app-film-filter-sort',
-  templateUrl: './film-filter-sort.component.html',
-  styleUrls: ['./film-filter-sort.component.css']
+    selector: 'app-film-filter-sort',
+    templateUrl: './film-filter-sort.component.html',
+    styleUrls: ['./film-filter-sort.component.css'],
+    standalone: true,
+    imports: [MatFormFieldModule, // <-- Correct
+    MatInputModule, MatInputModule, ReactiveFormsModule, FormsModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule]
 })
 export class FilmFilterSortComponent implements OnInit {
 

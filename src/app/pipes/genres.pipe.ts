@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Genre } from '../model/genre';
 
 @Pipe({
-  name: 'genres'
+    name: 'genres',
+    standalone: true
 })
 export class GenresPipe implements PipeTransform {
 

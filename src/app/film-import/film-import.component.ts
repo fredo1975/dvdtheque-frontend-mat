@@ -5,11 +5,18 @@ import { JmsStatusMessage } from '../model/jms-status-message';
 import { FilmService } from '../services/film.service';
 import { Message } from '@stomp/stompjs';
 import { Subscription } from 'rxjs';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { NgIf, NgFor, DecimalPipe } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-film-import',
-  templateUrl: './film-import.component.html',
-  styleUrls: ['./film-import.component.css']
+    selector: 'app-film-import',
+    templateUrl: './film-import.component.html',
+    styleUrls: ['./film-import.component.css'],
+    standalone: true,
+    imports: [ReactiveFormsModule, FormsModule, MatIcon, MatButton, NgIf, MatProgressBar, NgFor, DecimalPipe]
 })
 export class FilmImportComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput', { static: true }) inputEl: ElementRef;
