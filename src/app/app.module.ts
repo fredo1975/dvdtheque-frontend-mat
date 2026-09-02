@@ -38,7 +38,6 @@ import { RxStompService } from './init/rx-stomp.service';
 import { initializeRxStompService } from './init/rx-stomp-init.factory';
 import { FilmAdminComponent } from './film-admin/film-admin.component';
 import { FilmUpdateCritiquepresseComponent } from './film-update-critiquepresse/film-update-critiquepresse.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatListModule } from '@angular/material/list';
 import { FilmAllocineComponent } from './film-allocine/film-allocine.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -86,7 +85,6 @@ registerLocaleData(localeFr, 'fr-FR', localeFrExtra);
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    FlexLayoutModule,
     MatListModule,
     MatCheckboxModule,
     MatProgressBarModule,
