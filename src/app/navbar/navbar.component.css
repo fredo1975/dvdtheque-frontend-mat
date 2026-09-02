@@ -6,9 +6,24 @@
     background-color: #343a40 !important;
 }
 
-spacer {
-    flex: 1 1 auto;
+
+/* Visibility Control */
+/*  */
+
+@media (min-width: 960px) {
+  .mobile-menu-btn {
+    display: none !important;
+  }
 }
-.mat-sidenav-content{
-    display: table;
+
+@media (max-width: 959.98px) {
+  .desktop-menu {
+    display: none !important;
+  }
+}
+
+
+.full-height {
+  height: 100%;
+  min-height: 100vh;
 }
