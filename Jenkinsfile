@@ -1,6 +1,6 @@
 pipeline {
 	environment {
-		HOST_ORIGIN = 'dvdtheque-frontend-mat'
+		HOST_ORIGIN = 'dvdtheque-frontend-mat/browser'
 		HOST = 'dvdtheque-frontend'
 		PROD_SERVER_IP = "192.168.1.106"
 		DEV_SERVER_IP = "192.168.1.107"
