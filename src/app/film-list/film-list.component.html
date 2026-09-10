@@ -1,12 +1,15 @@
-<div class="errorDiv" *ngIf="errorOccured()">
-  <strong>une erreur est survenue</strong>
-</div>
+@if (errorOccured()) {
+  <div class="errorDiv">
+    <strong>une erreur est survenue</strong>
+    <button mat-raised-button color="warn" (click)="retry()">Réessayer</button>
+  </div>
+}
 
 <app-film-filter-sort></app-film-filter-sort>
 
 <div class="myDiv">
-  <ng-container *ngIf="store.loading()">
-    <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+  @if (loading()) {
+    @for (item of skeletonItems; track $index) {
       <mat-card class="film-card">
         <div class="skeleton skeleton-image"></div>
         <mat-card-content>
@@ -14,11 +17,9 @@
           <div class="skeleton skeleton-text short"></div>
         </mat-card-content>
       </mat-card>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!store.loading()">
-    <div *ngFor="let film of store.films()">
+    }
+  } @else {
+    @for (film of films(); track film.id) {
       <mat-card class="film-card">
         <a [routerLink]="['/filmDetail', film.id]">
           <img mat-card-image [src]="film.posterPath" class="film-header-image" [alt]="film.titre" />
@@ -26,25 +27,34 @@
         <mat-card-content>
           <div class="film-title"><strong>{{film.titre}}</strong></div>
           <div class="status-row">
-            Durée : {{film.runtime}}
-          </div>
-          <div *ngIf="film.origine === dvdOrigineEnum && film.dvd">
-            {{film.dvd.format}} Rippé : &nbsp;
-            <img [src]="film.dvd.ripped ? 'assets/img/ok.png' : 'assets/img/ko.png'" class="img ripped" />
+            Durée : {{ formatRuntime(film.runtime) }}
           </div>
 
-          <div *ngIf="film.origine !== dvdOrigineEnum">{{film.origine}}</div>
+          @if (film.origine === dvdOrigineEnum && film.dvd) {
+            <div>
+              {{film.dvd.format}} Rippé : &nbsp;
+              <img [src]="film.dvd.ripped ? 'assets/img/ok.png' : 'assets/img/ko.png'"
+                [alt]="film.dvd.ripped ? 'Rippé' : 'Non rippé'" class="img ripped" />
+            </div>
+          }
+
+          @if (film.origine !== dvdOrigineEnum) {
+            <div>{{film.origine}}</div>
+          }
 
           <div class="status-row">
             <span>Vu :</span>
-            <img [src]="film.vu ? 'assets/img/ok.png' : 'assets/img/ko.png'" class="ripped" />
+            <img [src]="film.vu ? 'assets/img/ok.png' : 'assets/img/ko.png'"
+              [alt]="film.vu ? 'Vu' : 'Non vu'" class="ripped" />
           </div>
         </mat-card-content>
       </mat-card>
-    </div>
-  </ng-container>
+    } @empty {
+      <div class="empty-state">Aucun film ne correspond à votre recherche.</div>
+    }
+  }
 </div>
 
-<mat-paginator [length]="store.totalElements()" [pageSizeOptions]="[50, 100]" [pageSize]="store.pageSize()"
+<mat-paginator class="paginator" [length]="store.totalElements()" [pageSizeOptions]="[50, 100]" [pageSize]="store.pageSize()"
   (page)="handlePageEvent($event)">
 </mat-paginator>
