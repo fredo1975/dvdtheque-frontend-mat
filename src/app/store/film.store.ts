@@ -34,31 +34,42 @@ export class FilmStore {
 
   constructor() {
     this.initFromCookie();
-    // 1. Définition de l'observable à partir du signal (CONTEXTE OK ICI)
-    // 2. On pipe directement pour gérer les appels API
     toObservable(this.requestParams).pipe(
-      tap(() => this.loading.set(true)),
-      switchMap(req => {
-        let q = req.query;
-        if (q.includes(`origine:eq:${Origine.TOUS}:AND`)) q = '';
+      switchMap(req => this.loadFilms(req))
+    ).subscribe(data => this.applyResult(data));
+  }
 
-        return this.filmService.paginatedSarch(q, req.pageIndex, req.pageSize, req.sort).pipe(
-          catchError((err) => {
-            console.error('Erreur API:', err);
-            this.errorOccured.set(true);
-            this.loading.set(false);
-            return of(null);
-          })
-        );
+  private loadFilms(req: { query: string; pageIndex: number; pageSize: number; sort: string }) {
+    this.loading.set(true);
+
+    let q = req.query;
+    if (q.includes(`origine:eq:${Origine.TOUS}:AND`)) q = '';
+
+    return this.filmService.paginatedSarch(q, req.pageIndex, req.pageSize, req.sort).pipe(
+      catchError((err) => {
+        console.error('Erreur API:', err);
+        this.errorOccured.set(true);
+        this.loading.set(false);
+        return of(null);
       })
-    ).subscribe(data => {
-      if (data) {
-        this.films.set(data.content);
-        this.totalElements.set(data.page.totalElements);
-        this.errorOccured.set(false);
-      }
-      this.loading.set(false);
-    });
+    );
+  }
+
+  private applyResult(data: { content: Film[]; page: { totalElements: number } } | null) {
+    if (data) {
+      this.films.set(data.content);
+      this.totalElements.set(data.page.totalElements);
+      this.errorOccured.set(false);
+    }
+    this.loading.set(false);
+  }
+
+  /**
+   * Relance la dernière requête après une erreur
+   */
+  public retry() {
+    this.errorOccured.set(false);
+    this.loadFilms(this.requestParams()).subscribe(data => this.applyResult(data));
   }
 
   public initFromCookie() {

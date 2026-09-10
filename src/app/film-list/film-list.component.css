@@ -38,6 +38,27 @@
   background: transparent;
 }
 
+/* Message quand aucun film n'est trouvé */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #888;
+  padding: 2rem 0;
+}
+
+/* Message d'erreur */
+.errorDiv {
+  background: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* Alignement des icônes "vu/rippé" */
 .status-row {
   display: flex;
