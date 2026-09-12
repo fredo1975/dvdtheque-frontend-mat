@@ -23,13 +23,15 @@ export class FilmStore {
   sort = signal<string>('-dateInsertion,+titre');
   pageIndex = signal<number>(1);
   pageSize = signal<number>(50);
+  private refreshTrigger = signal<number>(0);
 
   // On combine les paramètres dans un computed pour réagir à n'importe quel changement
   private requestParams = computed(() => ({
     query: this.query(),
     pageIndex: this.pageIndex(),
     pageSize: this.pageSize(),
-    sort: this.sort()
+    sort: this.sort(),
+    refresh: this.refreshTrigger()
   }));
 
   constructor() {
@@ -200,14 +202,9 @@ export class FilmStore {
  * Force le rechargement complet de la liste à partir du serveur
  */
   refreshList() {
-    // On récupère la requête actuelle (stockée en cookie ou signal)
-    const currentQuery = this.query();
-
-    // On ré-applique la requête. 
-    // Si le signal ne change pas de valeur, Angular ne déclenchera rien.
-    // On peut donc "forcer" en repassant par le cookie.
-    this.initFromCookie();
-
+    // On incrémente le compteur pour forcer re-émission de requestParams
+    // et donc un rechargement serveur même si le signal query ne change pas.
+    this.refreshTrigger.update(v => v + 1);
     console.log('Liste synchronisée avec les dernières modifications.');
   }
 
