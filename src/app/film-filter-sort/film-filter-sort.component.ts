@@ -16,9 +16,8 @@ import { MatInputModule } from '@angular/material/input';
     selector: 'app-film-filter-sort',
     templateUrl: './film-filter-sort.component.html',
     styleUrls: ['./film-filter-sort.component.css'],
-    standalone: true,
     imports: [MatFormFieldModule, // <-- Correct
-    MatInputModule, MatInputModule, ReactiveFormsModule, FormsModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule]
+        MatInputModule, MatInputModule, ReactiveFormsModule, FormsModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule]
 })
 export class FilmFilterSortComponent implements OnInit {
 

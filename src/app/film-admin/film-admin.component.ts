@@ -13,7 +13,6 @@ import { FilmFilterSortComponent } from '../film-filter-sort/film-filter-sort.co
     selector: 'app-film-admin',
     templateUrl: './film-admin.component.html',
     styleUrls: ['./film-admin.component.css'],
-    standalone: true,
     imports: [FilmFilterSortComponent, NgIf, MatIcon, MatIconButton, MatProgressSpinner, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator]
 })
 export class FilmAdminComponent {

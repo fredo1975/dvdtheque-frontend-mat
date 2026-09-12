@@ -11,7 +11,6 @@ import { MatButtonModule } from '@angular/material/button';
     selector: 'app-film-list',
     templateUrl: './film-list.component.html',
     styleUrls: ['./film-list.component.css'],
-    standalone: true,
     imports: [FilmFilterSortComponent, MatCard, MatCardContent, RouterLink, MatCardImage, MatPaginator, MatButtonModule]
 })
 export class FilmListComponent {

@@ -25,7 +25,6 @@ import { NgIf, NgFor, UpperCasePipe, DatePipe } from '@angular/common';
     selector: 'app-film-detail',
     templateUrl: './film-detail.component.html',
     styleUrls: ['./film-detail.component.css'],
-    standalone: true,
     imports: [NgIf, MatProgressSpinner, MatButton, MatIcon, NgFor, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, MatOption, MatCheckbox, MatInput, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatDivider, UpperCasePipe, DatePipe, GenresPipe, RealisateursPipe]
 })
 export class FilmDetailComponent implements OnInit{

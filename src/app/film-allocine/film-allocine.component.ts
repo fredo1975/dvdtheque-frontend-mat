@@ -18,7 +18,6 @@ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field'
     selector: 'app-film-allocine',
     templateUrl: './film-allocine.component.html',
     styleUrls: ['./film-allocine.component.css'],
-    standalone: true,
     imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, MatIcon, MatSuffix, MatSelect, NgFor, MatOption, MatButton, NgIf, MatProgressSpinner, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, DatePipe]
 })
 export class FilmAllocineComponent implements OnInit {

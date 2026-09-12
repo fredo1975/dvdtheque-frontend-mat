@@ -11,7 +11,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'app-film-update-critiquepresse',
     templateUrl: './film-update-critiquepresse.component.html',
     styleUrls: ['./film-update-critiquepresse.component.css'],
-    standalone: true,
     imports: [NgIf, MatProgressSpinner, NgFor]
 })
 export class FilmUpdateCritiquepresseComponent implements OnInit {
