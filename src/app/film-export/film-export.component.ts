@@ -16,7 +16,6 @@ const EXCEL_EXTENSION = '.xlsx';
     selector: 'app-film-export',
     templateUrl: './film-export.component.html',
     styleUrls: ['./film-export.component.css'],
-    standalone: true,
     imports: [MatIcon, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, NgFor, MatOption, MatHint, MatButton, NgIf, MatProgressSpinner]
 })
 export class FilmExportComponent implements OnInit {

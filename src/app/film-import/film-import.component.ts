@@ -15,7 +15,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     selector: 'app-film-import',
     templateUrl: './film-import.component.html',
     styleUrls: ['./film-import.component.css'],
-    standalone: true,
     imports: [ReactiveFormsModule, FormsModule, MatIcon, MatButton, NgIf, MatProgressBar, NgFor, DecimalPipe]
 })
 export class FilmImportComponent implements OnInit, OnDestroy {

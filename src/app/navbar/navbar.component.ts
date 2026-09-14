@@ -11,7 +11,6 @@ import { MatToolbar, MatToolbarModule, MatToolbarRow } from '@angular/material/t
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css'],
-    standalone: true,
     imports: [MatToolbarModule, MatToolbarRow, MatIconButton, MatIconModule, MatAnchor, RouterLink, MatSidenavContainer, MatSidenav, MatNavList, MatListItem, MatSidenavContent, RouterOutlet]
 })
 export class NavbarComponent implements OnInit{

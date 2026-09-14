@@ -20,7 +20,6 @@ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field'
     selector: 'app-film-add',
     templateUrl: './film-add.component.html',
     styleUrls: ['./film-add.component.css'],
-    standalone: true,
     imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, NgIf, MatIconButton, MatSuffix, MatIcon, MatSelect, NgFor, MatOption, MatButton, MatProgressSpinner, RealisateursPipe, ActeursPipe]
 })
 export class FilmAddComponent implements OnInit {
