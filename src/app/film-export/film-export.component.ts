@@ -8,6 +8,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatFormField, MatLabel, MatHint } from '@angular/material/form-field';
+import { OrigineLabelPipe } from '../pipes/origine-label.pipe';
 import { MatIcon } from '@angular/material/icon';
 
 const EXCEL_EXTENSION = '.xlsx';
@@ -16,7 +17,7 @@ const EXCEL_EXTENSION = '.xlsx';
     selector: 'app-film-export',
     templateUrl: './film-export.component.html',
     styleUrls: ['./film-export.component.css'],
-    imports: [MatIcon, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, NgFor, MatOption, MatHint, MatButton, NgIf, MatProgressSpinner]
+    imports: [MatIcon, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, NgFor, MatOption, MatHint, MatButton, NgIf, MatProgressSpinner, OrigineLabelPipe]
 })
 export class FilmExportComponent implements OnInit {
   loading = false;

@@ -6,12 +6,13 @@ import { Origine } from '../model/origine';
 import { RouterLink } from '@angular/router';
 import { MatCard, MatCardContent, MatCardImage } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { OrigineLabelPipe } from '../pipes/origine-label.pipe';
 
 @Component({
     selector: 'app-film-list',
     templateUrl: './film-list.component.html',
     styleUrls: ['./film-list.component.css'],
-    imports: [FilmFilterSortComponent, MatCard, MatCardContent, RouterLink, MatCardImage, MatPaginator, MatButtonModule]
+    imports: [FilmFilterSortComponent, MatCard, MatCardContent, RouterLink, MatCardImage, MatPaginator, MatButtonModule, OrigineLabelPipe]
 })
 export class FilmListComponent {
   store = inject(FilmStore);

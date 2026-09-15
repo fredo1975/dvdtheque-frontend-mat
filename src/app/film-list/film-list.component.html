@@ -39,7 +39,7 @@
           }
 
           @if (film.origine !== dvdOrigineEnum) {
-            <div>{{film.origine}}</div>
+            <div>{{ film.origine | origineLabel }}</div>
           }
 
           <div class="status-row">

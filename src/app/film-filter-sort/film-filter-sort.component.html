@@ -30,7 +30,7 @@
     <mat-label>Origine</mat-label>
     <mat-select [ngModel]="filmFilterSort().origine" 
                 (ngModelChange)="updateField('origine', $event)">
-      <mat-option *ngFor="let origine of origines()" [value]="origine">{{ origine }}</mat-option>
+      <mat-option *ngFor="let origine of origines()" [value]="origine">{{ origine | origineLabel }}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>

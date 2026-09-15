@@ -76,10 +76,11 @@ export class FilmStore {
 
   public initFromCookie() {
     const origineCookie = this.getCookie('origine');
+    console.log('Cookie origine:', origineCookie);
     const origineValue = origineCookie && Object.values(Origine).includes(origineCookie as Origine)
       ? origineCookie
       : Origine.DVD;
-
+console.log('origineValue:', origineValue);
     const itemsPerPageCookie = this.getCookie('itemsPerPage');
     const pageSizeValue = itemsPerPageCookie ? parseInt(itemsPerPageCookie) : 50;
 

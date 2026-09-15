@@ -11,7 +11,7 @@
         <mat-form-field appearance="outline" class="origine-field">
             <mat-label>Destination (Origine)</mat-label>
             <mat-select [(ngModel)]="origine">
-                <mat-option *ngFor="let o of origines" [value]="o">{{o}}</mat-option>
+                <mat-option *ngFor="let o of origines" [value]="o">{{ o | origineLabel }}</mat-option>
             </mat-select>
         </mat-form-field>
 
