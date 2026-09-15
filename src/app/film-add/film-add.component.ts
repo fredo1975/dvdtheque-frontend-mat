@@ -6,6 +6,7 @@ import { FilmService } from '../services/film.service';
 import { FilmStore } from '../store/film.store';
 import { ActeursPipe } from '../pipes/acteurs.pipe';
 import { RealisateursPipe } from '../pipes/realisateurs.pipe';
+import { OrigineLabelPipe } from '../pipes/origine-label.pipe';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
@@ -20,7 +21,7 @@ import { MatFormField, MatLabel, MatSuffix } from '@angular/material/form-field'
     selector: 'app-film-add',
     templateUrl: './film-add.component.html',
     styleUrls: ['./film-add.component.css'],
-    imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, NgIf, MatIconButton, MatSuffix, MatIcon, MatSelect, NgFor, MatOption, MatButton, MatProgressSpinner, RealisateursPipe, ActeursPipe]
+    imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule, FormsModule, NgIf, MatIconButton, MatSuffix, MatIcon, MatSelect, NgFor, MatOption, MatButton, MatProgressSpinner, RealisateursPipe, ActeursPipe, OrigineLabelPipe]
 })
 export class FilmAddComponent implements OnInit {
   private store = inject(FilmStore);

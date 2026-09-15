@@ -11,13 +11,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { OrigineLabelPipe } from '../pipes/origine-label.pipe';
 
 @Component({
     selector: 'app-film-filter-sort',
     templateUrl: './film-filter-sort.component.html',
     styleUrls: ['./film-filter-sort.component.css'],
     imports: [MatFormFieldModule, // <-- Correct
-        MatInputModule, MatInputModule, ReactiveFormsModule, FormsModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule]
+        MatInputModule, MatInputModule, ReactiveFormsModule, FormsModule, MatSelectModule, NgFor, MatOptionModule, MatButtonModule, OrigineLabelPipe]
 })
 export class FilmFilterSortComponent implements OnInit {
 
@@ -40,6 +41,7 @@ export class FilmFilterSortComponent implements OnInit {
   updateField<K extends keyof FilmFilterSort>(key: K, value: FilmFilterSort[K]) {
     this.filmFilterSort.update(f => {
       const newState = { ...f, [key]: value, default: false };
+      console.log(`Mise à jour du filtre : ${key} = ${value}`, newState);
       // On informe le store immédiatement
       this.store.updateFromFilter(newState);
       return newState;

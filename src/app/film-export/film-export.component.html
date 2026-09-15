@@ -11,7 +11,7 @@
                 <mat-label>Quelle catégorie de films ?</mat-label>
                 <mat-select [(ngModel)]="origine" name="origine">
                     <mat-option *ngFor="let o of origines" [value]="o">
-                        {{o}}
+                        {{ o | origineLabel }}
                     </mat-option>
                 </mat-select>
                 <mat-hint>Sélectionnez "TOUS" pour un inventaire complet</mat-hint>

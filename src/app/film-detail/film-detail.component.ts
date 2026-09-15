@@ -8,6 +8,7 @@ import { FilmService } from '../services/film.service';
 import { FilmStore } from '../store/film.store';
 import { RealisateursPipe } from '../pipes/realisateurs.pipe';
 import { GenresPipe } from '../pipes/genres.pipe';
+import { OrigineLabelPipe } from '../pipes/origine-label.pipe';
 import { MatDivider } from '@angular/material/divider';
 import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
@@ -25,7 +26,7 @@ import { NgIf, NgFor, UpperCasePipe, DatePipe } from '@angular/common';
     selector: 'app-film-detail',
     templateUrl: './film-detail.component.html',
     styleUrls: ['./film-detail.component.css'],
-    imports: [NgIf, MatProgressSpinner, MatButton, MatIcon, NgFor, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, MatOption, MatCheckbox, MatInput, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatDivider, UpperCasePipe, DatePipe, GenresPipe, RealisateursPipe]
+    imports: [NgIf, MatProgressSpinner, MatButton, MatIcon, NgFor, MatFormField, MatLabel, MatSelect, ReactiveFormsModule, FormsModule, MatOption, MatCheckbox, MatInput, MatDatepickerInput, MatDatepickerToggle, MatSuffix, MatDatepicker, MatDivider, UpperCasePipe, DatePipe, GenresPipe, RealisateursPipe, OrigineLabelPipe]
 })
 export class FilmDetailComponent implements OnInit{
   private store = inject(FilmStore);
